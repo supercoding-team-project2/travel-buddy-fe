@@ -6,7 +6,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-  --font-family: "IBM Plex Sans", sans-serif;
+  --font-family: "IBM Plex Sans KR", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +19,9 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background-color: #fefefe;
   font-family: var(--font-family);
+  font-weight: 400;
+  font-style: normal;
 }
 
 @layer utilities {

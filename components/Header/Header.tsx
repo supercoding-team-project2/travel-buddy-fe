@@ -1,12 +1,6 @@
-import classNames from 'classnames/bind';
-import styles from './Header.module.css';
-
-const cx = classNames.bind(styles);
+"use client";
+import { HeaderClient } from "./HeaderClient";
 
 export function Header() {
-  return (
-    <>
-      <div className={cx('Header')}>Header</div>
-    </>
-  );
+  return <HeaderClient />;
 }
