@@ -26,6 +26,9 @@ export function Footer() {
               />
             </a>
           </div>
+          <div className={cx("copyright")}>
+            © Copyright 2024. All Rights Reserved.
+          </div>
         </div>
 
         <div className={cx("Footer-link-container")}>
@@ -33,11 +36,14 @@ export function Footer() {
             Home
           </Link>
           <Link href="/" className={cx("link-guide")}>
-            Explore
+            인기있는 코스
           </Link>
-          <div className={cx("copyright")}>
-            © Copyright 2024. All Rights Reserved.
-          </div>
+          <Link href="/" className={cx("link-guide")}>
+            패키지 여행
+          </Link>
+          <Link href="/" className={cx("link-guide")}>
+            동행자 찾기
+          </Link>
         </div>
       </div>
     </>
