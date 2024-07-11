@@ -1,12 +1,5 @@
-import classNames from 'classnames/bind';
-import styles from './SignUp.module.css';
+import { SignUpClient } from './clientComponent';
 
-const cx = classNames.bind(styles);
-
-export default function SignUp(){
-    return (
-        <>
-        <div>SignUpPage</div>
-        </>
-    )
+export default function SignUp() {
+  return <SignUpClient />;
 }

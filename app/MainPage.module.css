@@ -1,0 +1,33 @@
+.MainPage {
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+}
+
+.MainPage section {
+  padding: 0 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 650;
+}
+
+.container {
+  background: lightgray;
+  padding: 50px 45px 35px 45px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 10px;
+  column-gap: 20px;
+  position: relative;
+}
+
+.link {
+  position: absolute;
+  top: 10px;
+  right: 2%;
+}
