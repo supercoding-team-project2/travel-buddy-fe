@@ -1,8 +1,53 @@
-.Footer{
-    width: 100%;
-    background: #C2E6FF;
-    color: black;
-    font-size: 100px;
-    display: flex;
-    justify-content: center;
+.Footer {
+  width: 100%;
+  background: #c3d8e6;
+  display: flex;
+  padding: 30px 20px 20px 50px;
+  font-family: var(--font-family);
+}
+
+.Footer-name-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.Footer-name {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.Footer-github {
+  margin-top: 3rem;
+}
+
+.Footer-link-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  margin-left: 60%;
+}
+
+.link-home,
+.link-guide,
+.link-together {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: medium;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.link-home:hover,
+.link-guide:hover,
+.link-together:hover {
+  text-decoration: underline;
+}
+
+.copyright {
+  margin-top: 3rem;
+  color: #ffffff;
+  font-size: 14px;
 }
