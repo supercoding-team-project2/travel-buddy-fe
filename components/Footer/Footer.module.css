@@ -1,8 +1,42 @@
-.Footer{
-    width: 100%;
-    background: #C2E6FF;
-    color: black;
-    font-size: 100px;
-    display: flex;
-    justify-content: center;
+.Footer {
+  width: 100%;
+  background: #cdf5fd;
+  display: flex;
+  padding: 30px 20px 20px 30px;
+}
+
+.Footer-name {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #00a9ff;
+}
+
+.Footer-link-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  margin-left: 60%;
+}
+
+.link-home,
+.link-guide,
+.link-together {
+  color: #6d8098;
+  text-decoration: none;
+  font-size: medium;
+  font-weight: 600;
+}
+
+.link-home:hover,
+.link-guide:hover,
+.link-together:hover {
+  text-decoration: underline;
+}
+
+.copyright {
+  margin-top: 30px;
+  color: #424b57;
+  font-size: 12px;
 }
