@@ -1,8 +1,63 @@
-.Header{
-    width: 100%;
-    background: #C2E6FF;
-    color: black;
-    font-size: 100px;
-    display: flex;
-    justify-content: center;
+.Header {
+  width: 100%;
+  /* height: 100px; */
+  background-color: #86c8e6;
+  background-color: #a4d9f0;
+  background-color: #a9ddf4;
+  background-color: #e2f0f7;
+  background-color: rgb(139, 170, 229);
+  background-color: #c3d8e6;
+  color: rgb(48, 49, 48);
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.5%;
+}
+
+.company-logo {
+  color: white;
+  font-weight: 600;
+}
+
+.navigatation-user-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 30px;
+  width: 47%;
+}
+
+.login-button,
+.signup-button {
+  width: 23%;
+  height: 20%;
+  padding: 7px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.login-button:hover,
+.signup-button:hover {
+  background-color: #85b1cc;
+  color: white;
+}
+
+.header-nav {
+  color: white;
+  font-weight: 600;
+}
+
+.header-nav:hover {
+  color: #85b1cc;
+  cursor: pointer;
+}
+
+.account-icon,
+.chat-icon {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
 }
