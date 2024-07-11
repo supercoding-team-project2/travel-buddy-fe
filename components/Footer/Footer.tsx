@@ -10,7 +10,7 @@ export function Footer() {
     <>
       <div className={cx("Footer")}>
         <div className={cx("Footer-name-container")}>
-          <div className={cx("Footer-name")}>travelBuddy</div>
+          <div className={cx("Footer-name")}>Travel Buddy</div>
           <div className={cx("Footer-github")}>
             <a
               href="https://github.com/supercoding-team-project2/travel-buddy-fe"
