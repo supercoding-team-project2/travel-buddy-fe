@@ -59,9 +59,7 @@ export function HeaderClient() {
         />
         {isAccountDropOpen && (
           <div className={cx("account-dropbox")} ref={accountDropRef}>
-            <div className={cx("dropbox-div")}>내 경로 목록</div>
-            <div className={cx("dropbox-div")}>작성한 후기</div>
-            <div className={cx("dropbox-div")}>내 정보</div>
+            <div className={cx("dropbox-div")}>마이 페이지</div>
             <div className={cx("dropbox-div")}>로그아웃</div>
           </div>
         )}

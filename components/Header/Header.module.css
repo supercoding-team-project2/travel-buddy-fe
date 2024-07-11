@@ -59,11 +59,11 @@
 
 .account-dropbox {
   position: absolute;
-  top: 10%;
+  top: 9.5%;
   right: 0;
-  left: 82%;
-  width: 10%;
-  height: 20%;
+  left: 83%;
+  width: 8%;
+  height: 10%;
   background-color: white;
   border: 1px solid #ccc;
   padding: 10px;
@@ -74,7 +74,7 @@
   justify-content: center;
   flex-direction: column;
   border-radius: 5px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 500;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
 }
