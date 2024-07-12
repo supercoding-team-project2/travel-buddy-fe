@@ -21,7 +21,7 @@ const EachCourse: React.FC<Props> = ({ isCourseOpen, clickEachHandler }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   return (
     <>
-      <CourseDeleteModal isDeleteOpen={isDeleteModalOpen} />
+      <CourseDeleteModal isDeleteOpen={isDeleteModalOpen} setIsDeleteOpen={setIsDeleteModalOpen}/>
       <div className={cx("each-course-container")} onClick={clickEachHandler}>
         <div className={cx("show-course")}>
           <div className={cx("course-name")}>여행 이름</div>
@@ -34,7 +34,7 @@ const EachCourse: React.FC<Props> = ({ isCourseOpen, clickEachHandler }) => {
               <Image src={edit} alt="edit" className={cx("edit-icon")} />
             </div>
             <div className={cx("image-conatiner")}>
-              <Image src={bin} alt="bin" className={cx("bin-icon")} />
+              <Image src={bin} alt="bin" className={cx("bin-icon")} onClick={() => setIsDeleteModalOpen(true)}/>
             </div>
           </div>
         </div>

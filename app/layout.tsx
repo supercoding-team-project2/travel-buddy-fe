@@ -27,6 +27,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
+        <div id="overlays-modal"></div>
         <Header />
         {children}
         <Footer />

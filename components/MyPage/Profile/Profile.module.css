@@ -53,7 +53,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 3px;
 }
 
 .down-arrow {
@@ -69,8 +69,9 @@
 .underline-active {
   display: block;
   height: 3px;
-  width: 100%;
+  width: 110%;
   color: black;
   background-color: #85b1cc;
+  background-color: rgba(218, 218, 218, 0.774);
   border-radius: 20px;
 }
