@@ -7,15 +7,16 @@ import Image from "next/image";
 import account from "../../assets/account.png";
 import chat from "../../assets/chat.png";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
-//home&explore Link로 바꾸기 및 useRouter 사용해 현재 페이지의 nav 디자인 바꾸기
-// import Link from "next/link";
+//현재 페이지가 explore의 페이지일때 active classname 만들어서 색상 주기 
 
 const cx = classNames.bind(styles);
 
 const Header: React.FC = () => {
   const router = useRouter();
+  const pathname = usePathname();
+
   const [isAccountDropOpen, setIsAccountDropOpen] = useState<boolean>(false);
   const accountDropRef = useRef<HTMLDivElement>(null);
 
@@ -49,7 +50,12 @@ const Header: React.FC = () => {
         <div className={cx("company-logo")}>Travel Buddy</div>
       </div>
       <div className={cx("navigatation-user-container")}>
-        <div className={cx("header-nav")} onClick={() => router.push("/")}>
+        <div
+          className={cx("header-nav", {
+            "header-nav-active": pathname === "/"
+          })}
+          onClick={() => router.push("/")}
+        >
           Home
         </div>
         <div className={cx("header-nav")}>Explore</div>

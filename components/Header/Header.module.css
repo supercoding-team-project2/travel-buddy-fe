@@ -45,6 +45,10 @@
   font-weight: 600;
 }
 
+.header-nav-active {
+  color: #85b1cc;
+}
+
 .header-nav:hover {
   color: #85b1cc;
   cursor: pointer;

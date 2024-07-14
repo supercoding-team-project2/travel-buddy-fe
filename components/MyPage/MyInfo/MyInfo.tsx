@@ -27,7 +27,7 @@ const MyInfo: React.FC = () => {
         </div>
         <div className={cx("name-container")}>
           <label className={cx("name-label")}>Name</label>
-          <input className={cx("name-input")} value="test" />
+          <input className={cx("name-input")} value="유저 네임" />
         </div>
         <div className={cx("password-container")}>
           <label className={cx("password-label")}>Password</label>
@@ -85,7 +85,7 @@ const MyInfo: React.FC = () => {
           </div>
         </div>
         <div className={cx("modify-container")}>
-          <button className={cx("modify-button")}>수정</button>
+          <button className={cx("modify-button")}>수정하기</button>
         </div>
       </form>
     </div>
