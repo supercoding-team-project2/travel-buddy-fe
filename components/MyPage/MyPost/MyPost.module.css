@@ -9,3 +9,35 @@
   flex-direction: column;
   gap: 20px;
 }
+
+.upArrow-container {
+  position: fixed;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+  left: 93.5%;
+  top: 40%;
+  z-index: 1000;
+  background-color: white;
+}
+
+.upArrow-word {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.upArrow-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.upArrow-container:hover {
+  background-color: #e6ebf2;
+}

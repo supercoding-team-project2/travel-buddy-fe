@@ -5,6 +5,8 @@ import EachMyPost from "./EachMyPost";
 
 import classNames from "classnames/bind";
 import styles from "./MyPost.module.css";
+import Image from "next/image";
+import upArrow from "../../../assets/up-arrow.png";
 
 import { useState } from "react";
 
@@ -16,6 +18,13 @@ const MyPost: React.FC = () => {
 
   return (
     <div className={cx("myPost-container")}>
+      <div
+        className={cx("upArrow-container")}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
+        <div className={cx("upArrow-word")}>Top</div>
+        <Image src={upArrow} alt="up-arrow" className={cx("upArrow-icon")} />
+      </div>
       <MyPostSort
         isAccompanyClicked={isAccompanyClicked}
         isGuideClicked={isGuideClicked}
