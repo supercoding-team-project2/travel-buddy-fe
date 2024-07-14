@@ -26,7 +26,7 @@ const Header: React.FC = () => {
         isAccountDropOpen &&
         accountDropRef.current &&
         !accountDropRef.current.contains(event.target as Node) &&
-        !(event.target as HTMLElement).closest(".account-icon") 
+        !(event.target as HTMLElement).closest(".account-icon")
       ) {
         setIsAccountDropOpen(false);
       }
@@ -49,10 +49,22 @@ const Header: React.FC = () => {
         <div className={cx("company-logo")}>Travel Buddy</div>
       </div>
       <div className={cx("navigatation-user-container")}>
-        <div className={cx("header-nav")}>Home</div>
+        <div className={cx("header-nav")} onClick={() => router.push("/")}>
+          Home
+        </div>
         <div className={cx("header-nav")}>Explore</div>
-        <button className={cx("login-button")}>로그인</button>
-        <button className={cx("signup-button")}>회원 가입</button>
+        <button
+          className={cx("login-button")}
+          onClick={() => router.push("/LogIn")}
+        >
+          로그인
+        </button>
+        <button
+          className={cx("signup-button")}
+          onClick={() => router.push("/SignUp")}
+        >
+          회원 가입
+        </button>
         <Image
           className={cx("account-icon")}
           src={account}
@@ -63,12 +75,14 @@ const Header: React.FC = () => {
           <div className={cx("account-dropbox")} ref={accountDropRef}>
             <div
               className={cx("dropbox-div")}
-              onClick={() => {setIsAccountDropOpen((prev) => !prev); router.push("/MyPage");}}
+              onClick={() => {
+                setIsAccountDropOpen((prev) => !prev);
+                router.push("/MyPage");
+              }}
             >
               마이 페이지
             </div>
-            <div className={cx("dropbox-div")}    
-            onClick={() => {setIsAccountDropOpen((prev) => !prev); router.push("/MyPage");}}>로그아웃</div>
+            <div className={cx("dropbox-div")}>로그아웃</div>
           </div>
         )}
         <Image className={cx("chat-icon")} src={chat} alt="chat-icon" />
