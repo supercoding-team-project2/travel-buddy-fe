@@ -4,6 +4,7 @@ import React from "react";
 import Profile from "@/components/MyPage/Profile/Profile";
 import MyCourse from "@/components/MyPage/MyCourse/MyCourse";
 import MyPost from "@/components/MyPage/MyPost/MyPost";
+import MyInfo from "@/components/MyPage/MyInfo/MyInfo";
 
 import { useState } from "react";
 
@@ -11,7 +12,7 @@ const MyPageClient = () => {
   const [isMyCourseOpen, setIsMyCourseOpen] = useState<boolean>(true);
   const [isMyPostOpen, setIsMyPostOpen] = useState<boolean>(false);
   const [isMyInfoOpen, setIsMyInfoOpen] = useState<boolean>(false);
-  
+
   return (
     <>
       <Profile
@@ -24,6 +25,7 @@ const MyPageClient = () => {
       />
       {isMyCourseOpen && <MyCourse />}
       {isMyPostOpen && <MyPost />}
+      {isMyInfoOpen && <MyInfo />}
     </>
   );
 };

@@ -32,6 +32,7 @@ const Profile: React.FC<Props> = ({
     setIsMyCourseOpen(nav === "course");
     setIsMyPostOpen(nav === "post");
     setIsMyInfoOpen(nav === "info");
+    window.scrollTo({top: 0})
   };
 
   return (
