@@ -1,12 +1,12 @@
-"use Client";
+'use client';
 
-import classNames from "classnames/bind";
-import styles from "./Header.module.css";
+import classNames from 'classnames/bind';
+import styles from './Header.module.css';
 
-import Image from "next/image";
-import account from "../../assets/account.png";
-import chat from "../../assets/chat.png";
-import { useEffect, useRef, useState } from "react";
+import Image from 'next/image';
+import account from '../../assets/account.png';
+import chat from '../../assets/chat.png';
+import { useEffect, useRef, useState } from 'react';
 
 //home&explore Link로 바꾸기 및 useRouter 사용해 현재 페이지의 nav 디자인 바꾸기
 // import Link from "next/link";
@@ -24,46 +24,46 @@ export function HeaderClient() {
         isAccountDropOpen &&
         accountDropRef.current &&
         !accountDropRef.current.contains(event.target) &&
-        !event.target.closest(".account-icon")
+        !event.target.closest('.account-icon')
       ) {
         setIsAccountDropOpen(false);
       }
     };
 
     if (isAccountDropOpen) {
-      document.addEventListener("mousedown", hideDropWhenClickAnywhere);
+      document.addEventListener('mousedown', hideDropWhenClickAnywhere);
     } else {
-      document.removeEventListener("mousedown", hideDropWhenClickAnywhere);
+      document.removeEventListener('mousedown', hideDropWhenClickAnywhere);
     }
 
     return () => {
-      document.removeEventListener("mousedown", hideDropWhenClickAnywhere);
+      document.removeEventListener('mousedown', hideDropWhenClickAnywhere);
     };
   }, [isAccountDropOpen]);
 
   return (
-    <div className={cx("Header")}>
-      <div className={cx("company-container")}>
-        <div className={cx("company-logo")}>Travel Buddy</div>
+    <div className={cx('Header')}>
+      <div className={cx('company-container')}>
+        <div className={cx('company-logo')}>Travel Buddy</div>
       </div>
-      <div className={cx("navigatation-user-container")}>
-        <div className={cx("header-nav")}>Home</div>
-        <div className={cx("header-nav")}>Explore</div>
-        <button className={cx("login-button")}>로그인</button>
-        <button className={cx("signup-button")}>회원 가입</button>
+      <div className={cx('navigatation-user-container')}>
+        <div className={cx('header-nav')}>Home</div>
+        <div className={cx('header-nav')}>Explore</div>
+        <button className={cx('login-button')}>로그인</button>
+        <button className={cx('signup-button')}>회원 가입</button>
         <Image
-          className={cx("account-icon")}
+          className={cx('account-icon')}
           src={account}
           alt="account-icon"
           onClick={() => setIsAccountDropOpen((prev) => !prev)}
         />
         {isAccountDropOpen && (
-          <div className={cx("account-dropbox")} ref={accountDropRef}>
-            <div className={cx("dropbox-div")}>마이 페이지</div>
-            <div className={cx("dropbox-div")}>로그아웃</div>
+          <div className={cx('account-dropbox')} ref={accountDropRef}>
+            <div className={cx('dropbox-div')}>마이 페이지</div>
+            <div className={cx('dropbox-div')}>로그아웃</div>
           </div>
         )}
-        <Image className={cx("chat-icon")} src={chat} alt="chat-icon" />
+        <Image className={cx('chat-icon')} src={chat} alt="chat-icon" />
       </div>
     </div>
   );

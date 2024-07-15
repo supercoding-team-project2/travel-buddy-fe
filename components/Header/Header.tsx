@@ -1,5 +1,4 @@
-"use client";
-import { HeaderClient } from "./HeaderClient";
+import { HeaderClient } from './HeaderClient';
 
 export function Header() {
   return <HeaderClient />;

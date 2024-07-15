@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './MainPage.module.css';
 import { MainSlider } from '../components/Main/MainSlider/MainSlider';
-import { CourseSummaryUnit } from '../components/Main/CourseSummaryUnit';
+import { CourseSummaryUnit } from '../components/Main/CourseSummary/CourseSummary';
 import Link from 'next/link';
 
 const cx = classNames.bind(styles);

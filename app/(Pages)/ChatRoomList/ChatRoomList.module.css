@@ -1,0 +1,11 @@
+.ChatRoomList {
+  color: black;
+  padding: 30px 45px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.title {
+  font-size: 25px;
+}
