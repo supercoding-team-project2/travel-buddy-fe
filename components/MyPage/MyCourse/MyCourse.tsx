@@ -14,7 +14,7 @@ const cx = classNames.bind(styles);
 
 const MyCourse = () => {
   //테스트 데이터 배열
-  const testData: any = [];
+  const testData: any = [0, 1, 2];
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   //하나의 여행 경로 컴포넌트가 클릭 되었을 때, 나머지는 다 닫아놓기
