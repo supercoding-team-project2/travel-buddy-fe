@@ -12,13 +12,13 @@ import { useState } from "react";
 const cx = classNames.bind(styles);
 
 const MyInfo: React.FC = () => {
-  const [isPasswordViewed, setIsPasswordViewed] = useState<boolean>(false);
+  const [isPasswordViewed, setIsPasswordViewed] = useState(false);
   const [isPasswordCheckViewed, setIsPasswordCheckViewed] =
-    useState<boolean>(false);
+    useState(false);
 
   const [secondSocialNumber, setSecondSocialNumber] =
-    useState<string>("2345678"); //마스킹 되기 전 주민등록번호 뒷자리
-  const [maskedSocialNumber, setMaskedSocialNumber] = useState<string>(""); //마스킹 된 후의 주민등록번호 뒷자리
+    useState("2345678"); //마스킹 되기 전 주민등록번호 뒷자리
+  const [maskedSocialNumber, setMaskedSocialNumber] = useState(""); //마스킹 된 후의 주민등록번호 뒷자리
 
   // 주민등록번호 뒷자리 마스킹하는 함수
   const hideSecondSocial = (value: string) => {

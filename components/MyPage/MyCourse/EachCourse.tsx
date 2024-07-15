@@ -18,8 +18,8 @@ interface Props {
 }
 
 const EachCourse: React.FC<Props> = ({ isCourseOpen, clickEachHandler }) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <>

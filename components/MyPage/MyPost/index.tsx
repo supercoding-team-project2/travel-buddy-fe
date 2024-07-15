@@ -16,8 +16,8 @@ const cx = classNames.bind(styles);
 const MyPost: React.FC = () => {
   const testData: any = [0, 1, 2];
 
-  const [isAccompanyClicked, setIsAccompanyClicked] = useState<boolean>(true);
-  const [isGuideClicked, setIsGuideClicked] = useState<boolean>(false);
+  const [isAccompanyClicked, setIsAccompanyClicked] = useState(true);
+  const [isGuideClicked, setIsGuideClicked] = useState(false);
 
   return (
     <>

@@ -45,7 +45,7 @@ const MyCourse = () => {
           <div className={cx("course-button-container")}>
             <button
               className={cx("course-button")}
-              onClick={() => router.push("/Course")}
+              onClick={() => router.push("/course")}
             >
               내 경로 생성하기
             </button>

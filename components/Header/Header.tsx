@@ -83,7 +83,7 @@ const Header: React.FC = () => {
               className={cx("dropbox-div")}
               onClick={() => {
                 setIsAccountDropOpen((prev) => !prev);
-                router.push("/MyPage");
+                router.push("/my-page");
               }}
             >
               마이 페이지
