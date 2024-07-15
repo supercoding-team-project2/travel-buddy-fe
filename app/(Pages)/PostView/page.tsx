@@ -3,6 +3,7 @@ import {
   SelectPost,
   ButtonOutline,
   WriteButton,
+  DatePickerWithRange,
 } from "./clientComponent";
 import styles from "./PostView.module.css";
 import classNames from "classnames/bind";
@@ -28,7 +29,9 @@ const page = () => {
         <div className={cx("select-write-group")}>
           <div className={cx("select-container")}>
             <SelectPost />
+            <DatePickerWithRange />
           </div>
+
           <div className={cx("write-icon-container")}>
             <WriteButton />
           </div>

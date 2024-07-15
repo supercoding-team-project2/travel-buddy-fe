@@ -36,6 +36,7 @@
 
 .select-container {
   display: flex;
+  gap: 2%;
 }
 
 .writebutton {

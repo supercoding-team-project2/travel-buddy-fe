@@ -12,6 +12,18 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
+import * as React from "react";
+import { addDays, format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { DateRange } from "react-day-picker";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
 const cx = classNames.bind(styles);
 
 export const WriteButton = () => {
@@ -50,6 +62,85 @@ export const SelectPost = () => {
   );
 };
 
+export function DatePickerWithRange({
+  className,
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: new Date(2022, 0, 20),
+    to: addDays(new Date(2022, 0, 20), 20),
+  });
+  return (
+    <div className={cn("grid gap-2", className)}>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="date"
+            variant={"outline"}
+            className={cn(
+              "w-[300px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {format(date.from, "LLL dd, y")} -{" "}
+                  {format(date.to, "LLL dd, y")}
+                </>
+              ) : (
+                format(date.from, "LLL dd, y")
+              )
+            ) : (
+              <span>Pick a date</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={setDate}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
+
+/* 좋아요 클릭 버튼에 대한 */
+const ButtonWithHoverImage = () => {
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [isClicked, setIsClicked] = React.useState(false);
+
+  const handleClick = () => {
+    setIsClicked((prev) => !prev);
+  };
+
+  return (
+    <button
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleClick}
+    >
+      <Image
+        src={
+          isClicked || isHovered
+            ? "./svg/thumbs-up-fill.svg"
+            : "./svg/thumbs-up.svg"
+        }
+        width={30}
+        height={30}
+        alt="좋아요"
+      />
+    </button>
+  );
+};
+
+/* 카드 하나로 묶어서 만들기 */
 export const PostCard = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 p-10 md:px-20">
@@ -64,7 +155,7 @@ export const PostCard = () => {
           {/* <div className="absolute top-0 right-0 bg-indigo-500 text-white font-bold px-2 py-1 m-2 rounded-md">
             New
           </div> */}
-          <div className="absolute bottom-0 right-0 bg-gray-800 text-white px-2 py-1 m-2 rounded-md text-xs">
+          <div className="absolute bottom-0 right-0 bg-gray-800 text-white px-3 py-1 m-2 rounded-md text-xs">
             후기
           </div>
         </div>
@@ -74,18 +165,16 @@ export const PostCard = () => {
               남해관광재단 워케이션 프로젝트
             </div>
             <div className="flex">
-              <Image
-                src="./svg/thumbs-up.svg"
-                width={30}
-                height={30}
-                alt="좋아요"
-              />
-              <div className="text-sm font-medium text-gray-800 mb-2">100</div>
+              {ButtonWithHoverImage()}
+              <div className="text-lg font-medium text-gray-800">100</div>
             </div>
           </div>
-
-          <div className="text-sm font-medium text-gray-800 mb-2">홍길동</div>
-
+          <div className="flex">
+            <div className="text-sm font-medium text-gray-800 mb-2">홍길동</div>
+            <div className="text-sm font-medium text-gray-800 mb-2">
+              /여행 기간: 2024.07.13
+            </div>
+          </div>
           <p className="text-gray-500 text-sm">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor,
             mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam
@@ -112,13 +201,8 @@ export const PostCard = () => {
               {`일본정부관광국 <Zoom in Japan>`}
             </div>
             <div className="flex">
-              <Image
-                src="./svg/thumbs-up.svg"
-                width={30}
-                height={30}
-                alt="좋아요"
-              />
-              <div className="text-sm font-medium text-gray-800 mb-2">100</div>
+              {ButtonWithHoverImage()}
+              <div className="text-lg font-medium text-gray-800">100</div>
             </div>
           </div>
           <div className="text-sm font-medium text-gray-800 mb-2">홍길동</div>
@@ -138,10 +222,7 @@ export const PostCard = () => {
             src="https://via.placeholder.com/600x360"
             alt="Placeholder"
           />
-          {/* <div className="absolute top-0 right-0 bg-indigo-500 text-white font-bold px-2 py-1 m-2 rounded-md">
-            New
-          </div> */}
-          <div className="absolute bottom-0 right-0 bg-gray-800 text-white px-2 py-1 m-2 rounded-md text-xs">
+          <div className="absolute bottom-0 right-0 bg-gray-800 text-white px-3 py-1 m-2 rounded-md text-xs">
             가이드
           </div>
         </div>
@@ -164,7 +245,7 @@ export const PostCard = () => {
             src="https://via.placeholder.com/600x360"
             alt="Placeholder"
           />
-          <div className="absolute bottom-0 right-0 bg-gray-800 text-white px-2 py-1 m-2 rounded-md text-xs">
+          <div className="absolute bottom-0 right-0 bg-gray-800 text-white px-3 py-1 m-2 rounded-md text-xs">
             가이드
           </div>
         </div>
@@ -187,7 +268,7 @@ export const PostCard = () => {
             src="https://via.placeholder.com/600x360"
             alt="Placeholder"
           />
-          <div className="absolute bottom-0 right-0 bg-gray-800 text-white px-2 py-1 m-2 rounded-md text-xs">
+          <div className="absolute bottom-0 right-0 bg-gray-800 text-white px-3 py-1 m-2 rounded-md text-xs">
             후기
           </div>
         </div>
@@ -212,7 +293,7 @@ export const PostCard = () => {
             src="https://via.placeholder.com/600x360"
             alt="Placeholder"
           />
-          <div className="absolute bottom-0 right-0 bg-gray-800 text-white px-2 py-1 m-2 rounded-md text-xs">
+          <div className="absolute bottom-0 right-0 bg-gray-800 text-white px-3 py-1 m-2 rounded-md text-xs">
             동행
           </div>
         </div>
@@ -230,4 +311,10 @@ export const PostCard = () => {
   );
 };
 
-export default { PostCard, SelectPost, ButtonOutline, WriteButton };
+export default {
+  PostCard,
+  SelectPost,
+  ButtonOutline,
+  WriteButton,
+  DatePickerWithRange,
+};
