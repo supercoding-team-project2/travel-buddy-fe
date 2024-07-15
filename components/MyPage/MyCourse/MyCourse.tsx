@@ -10,9 +10,12 @@ import EachCourse from "./EachCourse";
 import EmptyMyCourse from "./EmptyMyCourse";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 const cx = classNames.bind(styles);
 
 const MyCourse = () => {
+  const router = useRouter();
+  
   //테스트 데이터 배열
   const testData: any = [0, 1, 2];
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -40,7 +43,12 @@ const MyCourse = () => {
             />
           </div>
           <div className={cx("course-button-container")}>
-            <button className={cx("course-button")}>내 경로 생성하기</button>
+            <button
+              className={cx("course-button")}
+              onClick={() => router.push("/Course")}
+            >
+              내 경로 생성하기
+            </button>
           </div>
           <div className={cx("courses-container")}>
             {testData.map((element: any, index: number) => {
