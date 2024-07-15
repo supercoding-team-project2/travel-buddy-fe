@@ -13,9 +13,12 @@
     "@types/googlemaps": "^3.43.3",
     "@types/socket.io": "^3.0.2",
     "classnames": "^2.5.1",
+    "date-fns": "^3.6.0",
     "next": "14.2.5",
     "next-compose-plugins": "^2.2.1",
     "react": "^18.3.1",
+    "react-calendar": "^5.0.0",
+    "react-date-range": "^2.0.1",
     "react-dom": "^18.3.1",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5"
@@ -23,6 +26,7 @@
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
+    "@types/react-date-range": "^1.4.9",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
