@@ -12,6 +12,8 @@ import { useState } from "react";
 const cx = classNames.bind(styles);
 
 const MyCourse = () => {
+  //테스트 데이터 배열
+  const testData = [0, 1, 2];
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   //하나의 여행 경로 컴포넌트가 클릭 되었을 때, 나머지는 다 닫아놓기
@@ -32,7 +34,7 @@ const MyCourse = () => {
         <button className={cx("course-button")}>내 경로 생성하기</button>
       </div>
       <div className={cx("courses-container")}>
-        {[0, 1, 2].map((element, index) => {
+        {testData.map((element, index) => {
           return (
             <EachCourse
               key={index}

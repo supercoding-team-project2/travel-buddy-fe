@@ -41,7 +41,7 @@
 }
 
 .check-deletion {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 7%;
 }
@@ -56,7 +56,7 @@
 
 .cancel-button,
 .delete-button {
-  width: 30%;
+  width: 27%;
   border: 1px solid black;
   padding: 2%;
   border-radius: 10px;
