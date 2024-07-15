@@ -8,6 +8,7 @@
 .title {
   font-size: 36px;
   font-weight: 600;
+  color: black;
 }
 
 .container {
@@ -33,6 +34,7 @@
 
 .inputTitle {
   font-size: 20px;
+  color: black;
 }
 
 .inputContent {
@@ -57,6 +59,7 @@
 }
 
 .text {
+  color: black;
 }
 
 .line {

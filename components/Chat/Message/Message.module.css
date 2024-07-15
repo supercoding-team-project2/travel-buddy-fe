@@ -1,0 +1,36 @@
+.message {
+  display: flex;
+  gap: 5px;
+}
+
+.message img {
+  border-radius: 100%;
+  width: 35px;
+  height: 35px;
+}
+
+.myMessage {
+  display: flex;
+  gap: 5px;
+  justify-content: end;
+  flex-direction: row-reverse;
+}
+
+.myMessage img {
+  display: none;
+}
+
+.content {
+  font-size: 16px;
+  font-weight: 450;
+  color: #333;
+  border-radius: 10px;
+  width: fit-content;
+  padding: 5px 10px;
+  background-color: #c3d8e6;
+}
+
+.timestamp {
+  align-self: flex-end;
+  color: darkgray;
+}
