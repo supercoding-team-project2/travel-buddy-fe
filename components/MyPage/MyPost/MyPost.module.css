@@ -1,0 +1,43 @@
+.myPost-container {
+  font-family: var(--font-family);
+}
+
+.myPost-list-container {
+  width: 100%;
+  padding: 1% 10%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.upArrow-container {
+  position: fixed;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid rgb(104, 104, 104);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+  left: 93.5%;
+  top: 40%;
+  z-index: 1000;
+  background-color: white;
+}
+
+.upArrow-word {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.upArrow-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.upArrow-container:hover {
+  background-color: rgb(249, 249, 249);
+}
