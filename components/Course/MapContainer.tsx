@@ -17,7 +17,7 @@ const MapContainer = () => {
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <div className={cx("entire-map-container")}>
-      <input className={cx("course-title")} placeholder="제목" required/>
+      <input className={cx("course-title")} placeholder="제목" required />
       <div className={cx("place-map-container")}>
         <Places />
         <Map />
