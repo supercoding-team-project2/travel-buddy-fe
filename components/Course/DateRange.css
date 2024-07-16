@@ -1,0 +1,22 @@
+.rdrCalendarWrapper {
+  color: #000000;
+  width: 25rem;
+  /* border: 1px solid black; */
+}
+
+.rdrDateDisplayItem input {
+  font-size: 0.9rem;
+}
+
+.rdrMonthAndYearPickers select {
+  font-size: 1rem;
+}
+
+.rdrMonthsVertical {
+  justify-content: center;
+  align-items: center;
+}
+
+.rdrDayNumber {
+  font-size: 1.1rem;
+}
