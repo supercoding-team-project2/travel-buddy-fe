@@ -1,8 +1,36 @@
-.SignUp {
+.LogIn {
+  background: #c3d8e6;
+  display: flex;
+  width: 100%;
+  max-height: 100vh;
+}
+
+.leftWrapper {
+  position: relative;
+  width: 41.5%;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.airBalloon {
+  width: 80%;
+  z-index: 5;
+  margin-left: 10%;
+}
+
+.rightWrapper {
+  width: 58.5%;
+  background: white;
+  border-radius: 25px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 60px 80px;
+  align-items: center;
+  gap: 50px;
+  padding: 100px;
+  position: relative;
+  z-index: 10;
+  max-height: 100%;
 }
 
 .title {
@@ -12,24 +40,28 @@
 }
 
 .container {
-  border: solid 1.5px black;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 25px;
-  padding: 40px 60px;
+  width: 100%;
 }
 
 .formContainer {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  gap: 20px;
 }
 
 .inputUnit {
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 5px;
+  position: relative;
 }
 
 .inputTitle {
@@ -38,16 +70,29 @@
 }
 
 .inputContent {
-  border: solid 1px black;
-  border-radius: 5px;
+  border-radius: 10px;
+  border: none;
+  padding: 10px 25px;
+  background: #e2e2e2;
+  color: black;
+  font-size: 20px;
+}
+
+.showPasswordButton {
+  position: absolute;
+  width: 30px;
+  top: 47.5px;
+  right: 2%;
 }
 
 .submitButton {
-  background: black;
+  background: #85b1cc;
   color: white;
   border-radius: 6px;
-  line-height: 40px;
+  line-height: 50px;
   margin-top: 15px;
+  width: 45%;
+  font-size: 25px;
 }
 
 .middleWrapper {
@@ -62,21 +107,25 @@
   color: black;
 }
 
+.text a {
+  color: #006677;
+}
+
 .line {
   width: 50%;
   border: solid 0.5px lightgrey;
 }
 
-.kakaoLogin {
-  background: #f9e000;
-  color: white;
-  border-radius: 6px;
-  line-height: 40px;
+.socialWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  width: 60%;
 }
 
-.naverLogin {
-  background: #03c75b;
-  color: white;
-  border-radius: 6px;
-  line-height: 40px;
+.socialWrapper img {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  filter: brightness(96%);
 }
