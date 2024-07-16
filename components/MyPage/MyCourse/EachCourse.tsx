@@ -18,13 +18,15 @@ interface Props {
 }
 
 const EachCourse: React.FC<Props> = ({ isCourseOpen, clickEachHandler }) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <>
       <CourseDeleteModal isDeleteOpen={isDeleteModalOpen} setIsDeleteOpen={setIsDeleteModalOpen}/>
-      <div className={cx("each-course-container")} onClick={clickEachHandler}>
+      <div className={cx("each-course-container", {"each-course-container-active": isHovered})} onClick={clickEachHandler}>
         <div className={cx("show-course")}>
-          <div className={cx("course-name")}>여행 이름</div>
+          <div className={cx("course-name")} onMouseEnter={()=>setIsHovered(true)} onMouseLeave={()=>setIsHovered(false)}>여행 이름</div>
           <div className={cx("course-period")}>
             2024년 7월 10일 ~ 2024년 7월 15일
           </div>

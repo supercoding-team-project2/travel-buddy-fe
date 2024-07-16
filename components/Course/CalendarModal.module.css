@@ -1,0 +1,55 @@
+.calendar-overlays {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.calendar-modal-container {
+  position: fixed;
+  background-color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 42%;
+  padding: 3%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+.calendar-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2%;
+}
+
+.calendar-subtitle {
+  margin-bottom: 5%;
+}
+
+.calendar-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.rdrNextPrevButton {
+  width: 50px;
+  height: 50px;
+  font-size: 1rem;
+}
+
+/* 이 부분 적용 안 됨 */
+span.rdrWeekDay {
+  font-weight: 400;
+  line-height: 2.667em;
+  color: red;
+}

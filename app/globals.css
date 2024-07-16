@@ -29,3 +29,8 @@ body {
     text-wrap: balance;
   }
 }
+
+.map-container {
+  width: 40%;
+  height: 50vh;
+}

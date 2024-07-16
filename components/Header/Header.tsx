@@ -9,7 +9,7 @@ import chat from "../../assets/chat.png";
 import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
-//현재 페이지가 explore의 페이지일때 active classname 만들어서 색상 주기 
+//현재 페이지가 explore의 페이지일때 active classname 만들어서 색상 주기
 
 const cx = classNames.bind(styles);
 
@@ -52,7 +52,7 @@ const Header: React.FC = () => {
       <div className={cx("navigatation-user-container")}>
         <div
           className={cx("header-nav", {
-            "header-nav-active": pathname === "/"
+            "header-nav-active": pathname === "/",
           })}
           onClick={() => router.push("/")}
         >
@@ -83,7 +83,7 @@ const Header: React.FC = () => {
               className={cx("dropbox-div")}
               onClick={() => {
                 setIsAccountDropOpen((prev) => !prev);
-                router.push("/MyPage");
+                router.push("/my-page");
               }}
             >
               마이 페이지

@@ -1,10 +1,13 @@
 "use client";
 
 import React from "react";
-import Profile from "@/components/MyPage/Profile/Profile";
-import MyCourse from "@/components/MyPage/MyCourse/MyCourse";
-import MyPost from "@/components/MyPage/MyPost/MyPost";
-import MyInfo from "@/components/MyPage/MyInfo/MyInfo";
+import Profile from "@/components/MyPage/Profile";
+import MyCourse from "@/components/MyPage/MyCourse";
+import MyPost from "@/components/MyPage/MyPost";
+import MyInfo from "@/components/MyPage/MyInfo";
+
+// 이렇게하면 왜 에러가 뜰까?
+// import { Profile, MyCourse, MyPost, MyInfo } from "@/components/MyPage";
 
 import { useState } from "react";
 
