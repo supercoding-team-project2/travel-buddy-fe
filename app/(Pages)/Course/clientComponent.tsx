@@ -10,15 +10,13 @@ import DateCourse from "@/components/Course/DateCourse";
 const CourseClient = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   //date range state
-  const [dateRange, setDateRange] = useState<DateRangePickerProps["ranges"]>(
-    [
-      {
-        startDate: new Date(),
-        endDate: new Date(),
-        key: "selection",
-      },
-    ] ?? []
-  );
+  const [dateRange, setDateRange] = useState<DateRangePickerProps["ranges"]>([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
 
   return (
     <>
@@ -29,7 +27,7 @@ const CourseClient = () => {
         setDateRange={setDateRange}
       />
       <MapContainer />
-      <DateCourse />
+      <DateCourse dateRange={dateRange} />
     </>
   );
 };

@@ -30,8 +30,23 @@ const CalendarModal = ({
 
   //set calendar modal state to true when rendered
   useEffect(() => {
-    setIsCalendarOpen(false);
+    setIsCalendarOpen(true);
   }, []);
+
+  //if this modal is open, disable body overflow
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+
+    if (isCalendarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = originalOverflow;
+    }
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isCalendarOpen]);
 
   //modal selection handler
   const selectionClickHandler = () => {
