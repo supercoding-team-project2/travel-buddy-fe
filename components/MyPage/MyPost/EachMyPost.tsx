@@ -15,6 +15,17 @@ const cx = classNames.bind(styles);
 const EachMyPost: React.FC = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
+  //소개글이 정해진 글자수 150보다 넘으면 ... 띄우기
+  const truncateIntroduction = (introduction: string) => {
+    const MAX_INTRODUCTION_LENGTH = 150;
+
+    if (introduction.length > MAX_INTRODUCTION_LENGTH) {
+      return introduction.substring(0, MAX_INTRODUCTION_LENGTH) + " ...";
+    }
+
+    return introduction;
+  };
+
   return (
     <>
       <MyPostDeleteModal
@@ -30,14 +41,19 @@ const EachMyPost: React.FC = () => {
             <div className={cx("icon-container")}>
               <Image src={edit} alt="edit" className={cx("edit-icon")} />
             </div>
-            <div className={cx("icon-container")} onClick={()=>setIsDeleteModalOpen(true)}>
+            <div
+              className={cx("icon-container")}
+              onClick={() => setIsDeleteModalOpen(true)}
+            >
               <Image src={bin} alt="bin" className={cx("bin-icon")} />
             </div>
           </div>
           <div className={cx("post-detail-container")}>
             <div className={cx("post-tilte")}>글제목입니당</div>
-            <div className={cx("post-introduction")}>간략한 소개글 데이터를 두는 곳</div>
-            <div className={cx("post-date")}>작성일: 2024/07/21</div>
+            <div className={cx("post-introduction")}>
+              {truncateIntroduction("'워케이션 최적지'로서의 남해 이미지를 구축하고 체류형 관광지로서 자리매김하기 위해 여행에미치다 유저들을 대상으로 '남해 워케이션 프로그램'를 운영하였습니다. 참가자를 모집하고, 워케이션 프로그램을 운영하며, 이를 소셜 콘텐츠로 만들어 송출하였습니다.'워케이션 최적지'로서의 남해 이미지를 구축하고 체류형 관광지로서 자리매김하기 위해 여행에미치다 유저들을 대상으로 '남해 워케이션 프로그램'를 운영하였습니다. 참가자를 모집하고, 워케이션 프로그램을 운영하며, 이를 소셜 콘텐츠로 만들어 송출하였습니다.")}
+            </div>
+            <div className={cx("post-date")}>2024/07/21</div>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@
 }
 
 .myinfo-statement {
-  font-size: 1.75rem;
+  font-size: 1.65rem;
   font-weight: 700;
   padding: 1%;
   margin-left: 15%;
@@ -137,13 +137,17 @@
   justify-content: center;
 }
 
-.modify-button,
-.verification-button {
+.modify-button, .verification-button {
   width: 20%;
   height: 2.5rem;
   border: 1px solid #bbbdbe;
   border-radius: 5px;
   font-size: 1rem;
+}
+
+.verification-button {
+  width: 18%;
+  font-size: 0.9rem;
 }
 
 .modify-button:hover,
