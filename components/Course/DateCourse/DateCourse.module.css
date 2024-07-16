@@ -6,7 +6,6 @@
   margin: auto;
   margin-bottom: 3%;
   padding: 2%;
-  /* border: 1px solid black; */
 }
 
 .memo-button-container {
@@ -18,7 +17,7 @@
 }
 
 .memo-container {
-  width: 80%;
+  width: 90%;
   height: 20rem;
   background-color: rgb(249, 249, 249);
   padding: 2%;

@@ -1,3 +1,12 @@
+.each-date-container {
+  margin-bottom: 3%;
+}
+.date {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 1%;
+}
+
 .prev-container,
 .next-container {
   width: 40px;
@@ -5,19 +14,45 @@
   cursor: pointer;
 }
 
+.prev-container {
+  margin-right: 2%;
+}
 
 .place-container {
-  display: flex;
+  display: flex !important;
   flex-direction: row !important;
-  width: 35%;
+  justify-content: center;
+  width: 95% !important;
+  height: 150px;
+  border: 1px solid rgb(158, 158, 158);
+  border-radius: 5px;
+  padding: 3%;
 }
 
 .place-image {
   width: 50%;
-  height: 50px;
+  height: 100%;
   object-fit: cover;
 }
 
 .place-detail-container {
   width: 50%;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px;
+  margin-left: 4%;
+}
+
+.place-name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.place-category {
+  font-size: 0.8rem;
+  color: rgb(94, 94, 92);
+}
+
+.place-intro {
+  font-size: 0.9rem;
 }

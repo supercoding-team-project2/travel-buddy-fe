@@ -38,6 +38,9 @@ interface Props {
 }
 
 const EachDate = ({ date }: Props) => {
+  const places = [{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"},{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"},{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"},{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"},{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"},{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"}]
+  // const places = [{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"}, {name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"}]
+
   //format date
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
@@ -48,57 +51,33 @@ const EachDate = ({ date }: Props) => {
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: Math.min(3, places.length),
     slidesToScroll: 3,
     initialSlide: 0,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
+    prevArrow: places.length >= 3 ? <PrevArrow /> : undefined,
+    nextArrow: places.length >= 3 ? <NextArrow /> : undefined,
   };
 
   return (
-    <>
-      <div>{formattedDate}</div>
+    <div className={cx("each-date-container")}>
+      <div className={cx("date")}>{formattedDate}</div>
       <div className={cx("slider-container")}>
         <Slider {...settings}>
-          <div className={cx("place-container")}>
-            <Image src={cafe} alt="place" className={cx("place-image")} />
-            <div className={cx("place-detail-container")}></div>
-            <div>좋은 카페</div>
-            <div>카페</div>
-          </div>
-          <div className={cx("place-container")}>
-            <Image src={cafe} alt="place" className={cx("place-image")} />
-            <div className={cx("place-detail-container")}></div>
-            <div>좋은 카페</div>
-            <div>카페</div>
-          </div>
-          <div className={cx("place-container")}>
-            <Image src={cafe} alt="place" className={cx("place-image")} />
-            <div className={cx("place-detail-container")}></div>
-            <div>좋은 카페</div>
-            <div>카페</div>
-          </div>
-          <div className={cx("place-container")}>
-            <Image src={cafe} alt="place" className={cx("place-image")} />
-            <div className={cx("place-detail-container")}></div>
-            <div>좋은 카페</div>
-            <div>카페</div>
-          </div>
-          <div className={cx("place-container")}>
-            <Image src={cafe} alt="place" className={cx("place-image")} />
-            <div className={cx("place-detail-container")}></div>
-            <div>좋은 카페</div>
-            <div>카페</div>
-          </div>
-          <div className={cx("place-container")}>
-            <Image src={cafe} alt="place" className={cx("place-image")} />
-            <div className={cx("place-detail-container")}></div>
-            <div>좋은 카페</div>
-            <div>카페</div>
-          </div>
+          {places.map((place) => {
+            return (
+              <div className={cx("place-container")}>
+                <Image src={cafe} alt="place" className={cx("place-image")} />
+                <div className={cx("place-detail-container")}>
+                  <div className={cx("place-name")}>{place.name}</div>
+                  <div className={cx("place-category")}>{place.category}</div>
+                  <div className={cx("place-intro")}>{place.intro}</div>
+                </div>
+              </div>
+            );
+          })}
         </Slider>
       </div>
-    </>
+    </div>
   );
 };
 
