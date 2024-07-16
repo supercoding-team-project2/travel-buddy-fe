@@ -19,7 +19,7 @@ export function Footer() {
               className={cx("Footer-github")}
             >
               <Image
-                src="/github.svg"
+                src="./svg/github.svg"
                 alt="GitHub Logo"
                 width={30}
                 height={30}

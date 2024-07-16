@@ -9,19 +9,29 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-popover": "^1.1.1",
+    "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-slot": "^1.1.0",
     "@react-google-maps/api": "^2.19.3",
     "@types/googlemaps": "^3.43.3",
     "@types/socket.io": "^3.0.2",
+    "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
+    "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "lucide-react": "^0.407.0",
     "next": "14.2.5",
     "next-compose-plugins": "^2.2.1",
     "react": "^18.3.1",
     "react-calendar": "^5.0.0",
     "react-date-range": "^2.0.1",
+    "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
+    "run-parallel": "^1.2.0",
     "socket.io": "^4.7.5",
-    "socket.io-client": "^4.7.5"
+    "socket.io-client": "^4.7.5",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",

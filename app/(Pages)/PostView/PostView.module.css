@@ -1,0 +1,47 @@
+.post-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.post-top-container {
+  width: 89%;
+  margin-top: 2rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.category-button-group {
+  display: flex;
+  gap: 3%;
+}
+
+.view-button-group {
+  display: flex;
+  gap: 3%;
+}
+
+.select-write-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.write-icon-container {
+  display: flex;
+}
+
+.select-container {
+  display: flex;
+  gap: 2%;
+}
+
+.writebutton {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
