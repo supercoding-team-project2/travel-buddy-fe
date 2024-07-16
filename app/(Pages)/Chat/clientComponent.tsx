@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 import { Message } from '../../../components/Chat/Message/Message';
 import styles from './Chat.module.css';
@@ -11,12 +11,29 @@ const socket = io('/api/socket');
 
 const mockChatData = [
   { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
   { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
 ];
 
 export function ChatClient({ opponentId }: { opponentId: number }) {
-  const [messages, setMessages] = useState<MessageProps[]>(mockChatData);
+  const [messages, setMessages] = useState(mockChatData);
   const [input, setInput] = useState('');
+  const [isLoaded, setIsLoaded] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     socket.on('message', (msg) => {
@@ -28,9 +45,23 @@ export function ChatClient({ opponentId }: { opponentId: number }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+      setIsLoaded(true);
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+      setIsLoaded(true);
+    }
+  }, []);
+
   const sendMessage = () => {
     const message = {
-      author: 'User',
+      isMine: true,
       content: input,
       timestamp: new Date().toLocaleTimeString(),
     };
@@ -42,16 +73,14 @@ export function ChatClient({ opponentId }: { opponentId: number }) {
     <div className={cx('Chat')}>
       <div className={cx('messageHeader')}>
         <img src="/png/hamster2.png" alt="" className={cx('opponentProfile')} />
-        {/* <img src=opponentId의 사진 alt="" className={cx('contactProfile')} /> */}
         <div className={cx('opponentName')}>Hamster</div>
-        {/* <div className={cx('opponentName')}>opponentId의 이름</div> */}
         <div className={cx('menu')}>
           <div className={cx('dot')}></div>
           <div className={cx('dot')}></div>
           <div className={cx('dot')}></div>
         </div>
       </div>
-      <div className={cx('messages')}>
+      <div className={cx('messages')} ref={messagesEndRef} style={{ visibility: isLoaded ? 'visible' : 'hidden' }}>
         {messages.map((msg, index) => (
           <Message
             key={index}

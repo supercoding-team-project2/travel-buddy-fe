@@ -1,9 +1,37 @@
 .SignUp {
+  background: #c3d8e6;
+  display: flex;
+  width: 100%;
+  max-height: 100vh;
+  color: black;
+}
+
+.leftWrapper {
+  position: relative;
+  width: 41.5%;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.airBalloon {
+  width: 80%;
+  z-index: 5;
+  margin-left: 10%;
+}
+
+.rightWrapper {
+  width: 58.5%;
+  background: white;
+  border-radius: 25px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 60px 80px;
-  width: 100%;
+  align-items: center;
+  gap: 25px;
+  padding: 50px 100px;
+  position: relative;
+  z-index: 10;
+  max-height: 100%;
 }
 
 .title {
@@ -13,18 +41,20 @@
 }
 
 .container {
-  border: solid 1.5px black;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  gap: 25px;
-  padding: 40px 60px;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
   position: relative;
 }
 
 .inputUnit {
+  position: relative;
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 5px;
 }
 
@@ -34,8 +64,33 @@
 }
 
 .inputContent {
-  border: solid 1px black;
-  border-radius: 5px;
+  border-radius: 10px;
+  border: none;
+  padding: 10px 25px;
+  background: #e2e2e2;
+  color: black;
+  font-size: 20px;
+}
+
+.idNumberInput {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: black;
+  font-size: 25px;
+}
+
+.showPasswordButton {
+  position: absolute;
+  width: 30px;
+  top: 47.5px;
+  right: 2%;
+}
+
+.idNumberBack {
+  width: 40px;
 }
 
 .inputImageContent {
@@ -43,8 +98,11 @@
 }
 
 .submitButton {
-  background: black;
+  background: #006677;
   color: white;
   border-radius: 6px;
-  line-height: 40px;
+  line-height: 50px;
+  margin-top: 15px;
+  width: 45%;
+  font-size: 25px;
 }
