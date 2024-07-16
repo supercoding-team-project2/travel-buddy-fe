@@ -38,7 +38,38 @@ interface Props {
 }
 
 const EachDate = ({ date }: Props) => {
-  const places = [{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"},{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"},{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"},{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"},{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"},{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"}]
+  const places = [
+    {
+      name: "평온한 카페",
+      category: "카페",
+      intro: "그렇다고 누워자면 싸대기 맞아요",
+    },
+    {
+      name: "평온한 카페",
+      category: "카페",
+      intro: "그렇다고 누워자면 싸대기 맞아요",
+    },
+    {
+      name: "평온한 카페",
+      category: "카페",
+      intro: "그렇다고 누워자면 싸대기 맞아요",
+    },
+    {
+      name: "평온한 카페",
+      category: "카페",
+      intro: "그렇다고 누워자면 싸대기 맞아요",
+    },
+    {
+      name: "평온한 카페",
+      category: "카페",
+      intro: "그렇다고 누워자면 싸대기 맞아요",
+    },
+    {
+      name: "평온한 카페",
+      category: "카페",
+      intro: "그렇다고 누워자면 싸대기 맞아요",
+    },
+  ];
   // const places = [{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"}, {name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"}]
 
   //format date
@@ -76,6 +107,9 @@ const EachDate = ({ date }: Props) => {
             );
           })}
         </Slider>
+      </div>
+      <div className={cx("confirm-container")}>
+        <button className={cx("confirm-button")}>확인</button>
       </div>
     </div>
   );
