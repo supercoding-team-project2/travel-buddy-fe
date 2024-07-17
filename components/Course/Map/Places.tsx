@@ -19,7 +19,16 @@ const Places = ({ setSelected, placeDetails }: Props) => {
       <div className={cx("place-list-container")}>
         {placeDetails?.length > 0 &&
           placeDetails.map((place) => {
-            return <EachPlace name={place.name} address={place.address} types={place.types} photo={photo}/>;
+            return (
+              <EachPlace
+                key={place.placeId}
+                placeId={place.placeId}
+                name={place.name}
+                address={place.address}
+                type={place.type}
+                photo={place.photo}
+              />
+            );
           })}
       </div>
     </div>

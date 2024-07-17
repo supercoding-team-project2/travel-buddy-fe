@@ -15,16 +15,16 @@
 }
 
 .prev-container {
-  margin-right: 2%;
+  margin-right: 3.5%;
 }
 
 .place-container {
   display: flex !important;
   flex-direction: row !important;
   justify-content: center;
-  width: 95% !important;
+  width: 90% !important;
   height: 150px;
-  border: 1px solid rgb(158, 158, 158);
+  border: 1px solid #e6ebf2;
   border-radius: 5px;
   padding: 3%;
 }
@@ -57,13 +57,14 @@
   font-size: 0.9rem;
 }
 
-.confirm-container {
+.button-container {
   display: flex;
   justify-content: flex-end;
   margin-right: 5%;
 }
 
-.confirm-button {
+.confirm-button,
+.confirmed-button {
   width: 7%;
   height: 0%;
   border: 1px solid #e6ebf2;
@@ -72,9 +73,16 @@
   padding: 0.5%;
   font-weight: 700;
   font-size: 0.8rem;
+  background-color: #c3d8e6;
+  color: white;
 }
 
 .confirm-button:hover {
-  background-color: #c3d8e6;
-  color: white;
+  border: 1px solid #698da4;
+}
+
+.confirmed-button {
+  border: 1px solid #e6ebf2;
+  background-color: white;
+  color: black;
 }

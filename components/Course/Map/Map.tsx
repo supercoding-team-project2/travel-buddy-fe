@@ -43,9 +43,12 @@ const Map = ({ selected, placeDetails, setPlaceDetails }: Props) => {
                   placeDetails
                 ) {
                   const selectedPlace = {
+                    placeId: placeDetails.place_id,
                     name: placeDetails.name,
                     address: placeDetails.formatted_address,
-                    types: placeDetails.types,
+                    type: placeDetails.types && placeDetails.types[0],
+                    photo:
+                      placeDetails.photos && placeDetails.photos[0].getUrl(),
                     distance: 0,
                   };
 
@@ -53,7 +56,7 @@ const Map = ({ selected, placeDetails, setPlaceDetails }: Props) => {
                   service.nearbySearch(
                     {
                       location,
-                      radius: 3000,
+                      radius: 5000,
                       types: [
                         "restaurant",
                         "cafe",
@@ -96,11 +99,12 @@ const Map = ({ selected, placeDetails, setPlaceDetails }: Props) => {
                               );
 
                             return {
+                              placeId: place.place_id,
                               name: place.name,
                               address:
                                 place.formatted_address || place.vicinity,
-                              types: place.types,
-                              photo: place.photos,
+                              type: place.types && place.types[0],
+                              photo: place.photos && place.photos[0].getUrl(),
                               distance,
                             };
                           })
@@ -139,7 +143,7 @@ const Map = ({ selected, placeDetails, setPlaceDetails }: Props) => {
 
   return (
     <GoogleMap
-      zoom={12}
+      zoom={15}
       center={selected || center}
       mapContainerClassName="map-container"
     >

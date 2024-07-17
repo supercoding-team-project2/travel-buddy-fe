@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import usePlacesAutoComplete, {
   getGeocode,
@@ -22,13 +22,14 @@ interface Props {
 }
 
 const PlacesAutoComplete = ({ setSelected }: Props) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const {
     ready,
     value,
     setValue,
     suggestions: { status, data },
     clearSuggestions,
-  } = usePlacesAutoComplete({requestOptions: {language: "ko"}});
+  } = usePlacesAutoComplete({ requestOptions: { language: "ko" } });
 
   //when choose one of the places from the combobox list
   const handleSelect = async (address: string) => {
@@ -54,6 +55,7 @@ const PlacesAutoComplete = ({ setSelected }: Props) => {
   return (
     <Combobox onSelect={handleSelect}>
       <ComboboxInput
+        ref={inputRef}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleInputEnter}
@@ -61,7 +63,16 @@ const PlacesAutoComplete = ({ setSelected }: Props) => {
         placeholder="여행지 검색 / 주변 장소 탐색"
         className="combobox-input"
       />
-      <Image src={search} alt="search" className="search-icon" />
+      <Image
+        src={search}
+        alt="search"
+        className="search-icon"
+        onClick={() => {
+          if (inputRef.current) {
+            inputRef.current.focus();
+          }
+        }}
+      />
       <ComboboxPopover>
         <ComboboxList>
           {status === "OK" &&

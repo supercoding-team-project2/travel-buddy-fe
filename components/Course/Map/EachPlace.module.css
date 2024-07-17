@@ -1,0 +1,56 @@
+.each-place-container {
+  width: 100%;
+  padding: 1.5%;
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+}
+
+.place-photo {
+  width: 100px;
+  min-width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: start;
+  gap: 10px;
+  margin-left: 2%;
+  width: 75%;
+}
+
+.name {
+  font-weight: 700;
+}
+
+.address {
+}
+
+.type {
+  text-transform: capitalize;
+  font-size: 0.9rem;
+  color: rgb(94, 94, 92);
+}
+
+.button-container {
+  width: 10%;
+}
+
+.save-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.check-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.save-icon:hover {
+  background-color: rgb(241, 241, 241);
+}

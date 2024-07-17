@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import "./Slick.css";
 import "slick-carousel/slick/slick.css";
@@ -72,6 +72,8 @@ const EachDate = ({ date }: Props) => {
   ];
   // const places = [{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"}, {name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"}]
 
+  const [isConfirmed, setIsConfirmed] = useState(false);
+
   //format date
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
@@ -108,8 +110,17 @@ const EachDate = ({ date }: Props) => {
           })}
         </Slider>
       </div>
-      <div className={cx("confirm-container")}>
-        <button className={cx("confirm-button")}>확인</button>
+      <div className={cx("button-container")}>
+        {isConfirmed ? (
+          <button className={cx("confirmed-button")} disabled>완료</button>
+        ) : (
+          <button
+            className={cx("confirm-button")}
+            onClick={() => setIsConfirmed(true)}
+          >
+            확인
+          </button>
+        )}
       </div>
     </div>
   );
