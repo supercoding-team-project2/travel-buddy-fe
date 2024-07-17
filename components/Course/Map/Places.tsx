@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 
 import classnames from "classnames/bind";
 import styles from "./Places.module.css";
 
-import Image from "next/image"
-import search from "@/assets/search.png"
+import PlacesAutoComplete from "./PlacesAutoComplete";
+import EachPlace from "./EachPlace";
 
 const cx = classnames.bind(styles);
 
-const Places = () => {
-  return <div className={cx("places-container")}>
-    <div className={cx("search-container")}>
-    <input className={cx("search-input")} placeholder="여행 장소 검색하기"/>
-    <Image src={search} alt="search" className={cx("search-icon")}/>
+interface Props {
+  setSelected: React.Dispatch<React.SetStateAction<any>>;
+  placeDetails: any[];
+}
+const Places = ({ setSelected, placeDetails }: Props) => {
+  return (
+    <div className={cx("places-container")}>
+      <PlacesAutoComplete setSelected={setSelected} />
+      <div className={cx("place-list-container")}>
+        {placeDetails?.length > 0 &&
+          placeDetails.map((place) => {
+            return <EachPlace name={place.name} address={place.address} types={place.types} photo={photo}/>;
+          })}
+      </div>
     </div>
-    <div>places를 두는 공간</div></div>;
+  );
 };
 
 export default Places;
