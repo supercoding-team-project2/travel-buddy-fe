@@ -7,6 +7,8 @@ const cx = classNames.bind(styles);
 import ImgSlider from "@/components/PostDetail/ImgSlider";
 import { useState } from "react";
 import useModal from "@/components/PostDetail/modal/modal";
+import { useRouter, usePathname } from "next/navigation";
+import TravelBar from "@/components/PostDetail/TravelBar";
 
 //any말고 inteface로 타입 정해서 하기...
 const IconButton = ({
@@ -132,7 +134,7 @@ const MycommentSection: React.FC<MycommentSectionProps> = ({ onSubmit }) => {
     };
 
     onSubmit(newComment);
-    setCommentBody(""); // 댓글 입력 후 폼을 초기화합니다.
+    setCommentBody("");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -193,8 +195,10 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
 
 /*   clientComponent    */
 const ClientComponent = () => {
+  const router = useRouter();
+  const pathname = usePathname();
   const { openModal, ModalWrapper } = useModal();
-  const [showComments, setShowComments] = useState(false);
+  const [showComments, setShowComments] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]); // 댓글 상태 관리
 
   const toggleComments = () => {
@@ -203,7 +207,21 @@ const ClientComponent = () => {
 
   const handleCommentSubmit = (newComment: Comment) => {
     setComments((prevComments) => [newComment, ...prevComments]);
+    setShowComments(true);
   };
+
+  const locations = [
+    { name: "용용선생", description: "식당" },
+    { name: "스타벅스", description: "카페" },
+    { name: "대박장소", description: "명소" },
+    { name: "레전드맛집", description: "식당" },
+    { name: "신라호텔", description: "숙소" },
+    { name: "아이콘은", description: "바꾸면됨" },
+    { name: "선굵기도", description: "바꾸면됨" },
+    { name: "하루일정이", description: "너무많음어캄" },
+    { name: "날짜도", description: "넣으면댐" },
+  ];
+
   return (
     <>
       <div className="flex flex-col space-y-4 m-6">
@@ -219,7 +237,11 @@ const ClientComponent = () => {
             </div>
           </div>
           <div className="flex">
-            <IconButton src="/svg/write-icon.svg" alt="글쓰기버튼" />
+            <IconButton
+              src="/svg/write-icon.svg"
+              alt="글쓰기버튼"
+              onClick={() => router.push("/post-edit")}
+            />
             <IconButton src="/svg/trash.svg" alt="삭제버튼" />
           </div>
         </div>
@@ -234,7 +256,8 @@ const ClientComponent = () => {
           </div>
         </div>
 
-        <div className="border">여행경로 들어갈 자리</div>
+        <TravelBar locations={locations} />
+
         <div className="text-sm leading-6">
           <figure className="relative flex flex-col bg-slate-100 rounded-lg p-6 dark:bg-slate-800 dark:highlight-white/5">
             <figcaption className="flex items-center space-x-4 ml-6 mb-3">
@@ -301,12 +324,6 @@ const ClientComponent = () => {
                       노쇼 방지를 위한 보증금을 받을 예정입니다.
                     </div>
                     <div className="flex my-5">
-                      {/* <IconButton
-                      src="/svg/thumbs-up.svg"
-                      alt="하트-버튼"
-                      width={30}
-                      height={30}
-                    /> */}
                       <ButtonWithHoverImage />
                       <div className="flex items-center">100</div>
                       <IconButton
@@ -317,6 +334,7 @@ const ClientComponent = () => {
                         width={25}
                         height={25}
                       />
+                      <div className="flex items-center ml-1">100</div>
                     </div>
                     <MycommentSection onSubmit={handleCommentSubmit} />
                     {showComments && <CommentSection comments={comments} />}

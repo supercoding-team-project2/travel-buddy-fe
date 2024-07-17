@@ -23,10 +23,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useRouter, usePathname } from "next/navigation";
 
 const cx = classNames.bind(styles);
 
 export const WriteButton = () => {
+  const router = useRouter();
+  const pathname = usePathname();
   return (
     <button className={cx("writebutton")}>
       <Image
@@ -34,6 +37,7 @@ export const WriteButton = () => {
         alt="글쓰기버튼"
         width={30}
         height={30}
+        onClick={() => router.push("/post-edit")}
       />
     </button>
   );
@@ -66,8 +70,8 @@ export function DatePickerWithRange({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(),
+    to: addDays(new Date(), 3),
   });
   return (
     <div className={cn("grid gap-2", className)}>
@@ -103,7 +107,7 @@ export function DatePickerWithRange({
             defaultMonth={date?.from}
             selected={date}
             onSelect={setDate}
-            numberOfMonths={2}
+            numberOfMonths={1}
           />
         </PopoverContent>
       </Popover>
