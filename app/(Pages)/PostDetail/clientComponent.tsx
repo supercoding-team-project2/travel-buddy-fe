@@ -58,7 +58,7 @@ const ButtonWithHoverImage = () => {
 const InfoTable = () => {
   return (
     <section className="text-gray-600 body-font">
-      <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+      <div className="container mx-auto flex px-5 pt-24 pb-10 md:flex-row flex-col items-center">
         <div className="lg:flex-grow md:w-1/2 lg:pr-16 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
           <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
             남해관광재단 워케이션 프로젝트
@@ -211,15 +211,64 @@ const ClientComponent = () => {
   };
 
   const locations = [
-    { name: "용용선생", description: "식당" },
-    { name: "스타벅스", description: "카페" },
-    { name: "대박장소", description: "명소" },
-    { name: "레전드맛집", description: "식당" },
-    { name: "신라호텔", description: "숙소" },
-    { name: "아이콘은", description: "바꾸면됨" },
-    { name: "선굵기도", description: "바꾸면됨" },
-    { name: "하루일정이", description: "너무많음어캄" },
-    { name: "날짜도", description: "넣으면댐" },
+    {
+      date: "2024년 7월 18일",
+      location: [
+        {
+          name: "용용선생",
+          description: "restaurant",
+        },
+        {
+          name: "스타벅스",
+          description: "cafe",
+        },
+        { name: "대박장소", description: "locality" },
+        {
+          name: "레전드맛집",
+          description: "restaurant",
+        },
+        { name: "신라호텔", description: "hotel" },
+      ],
+    },
+    {
+      date: "2024년 7월 18일",
+      location: [
+        {
+          name: "용용선생",
+          description: "restaurant",
+        },
+        {
+          name: "스타벅스",
+          description: "cafe",
+        },
+        { name: "대박장소", description: "locality" },
+        {
+          name: "레전드맛집",
+          description: "restaurant",
+        },
+        {
+          name: "레전드맛집",
+          description: "restaurant",
+        },
+        {
+          name: "레전드맛집",
+          description: "restaurant",
+        },
+        {
+          name: "레전드맛집",
+          description: "restaurant",
+        },
+        {
+          name: "레전드맛집",
+          description: "restaurant",
+        },
+        {
+          name: "레전드맛집",
+          description: "restaurant",
+        },
+        { name: "신라호텔", description: "hotel" },
+      ],
+    },
   ];
 
   return (
@@ -256,6 +305,7 @@ const ClientComponent = () => {
           </div>
         </div>
 
+        {/* 여행경로바 */}
         <TravelBar locations={locations} />
 
         <div className="text-sm leading-6">

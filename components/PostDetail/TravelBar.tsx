@@ -1,30 +1,40 @@
+import Image from "next/image";
 import React from "react";
 
-const LocationItem = ({ name, description }: any) => {
+const translationMap: any = {
+  restaurant: "/png/restaurant-pin.png",
+  cafe: "/png/cafe.png",
+  locality: "/png/map-pin.png",
+  hotel: "/png/hotel-pin.png",
+};
+
+const translateDescription = (description: any) => {
+  return translationMap[description] || description;
+};
+
+const LocationItem = ({ name, description, isLast, src }: any) => {
   return (
     <div className="flex flex-col">
-      <div className="flex items-center">
+      <div className="flex flex-col">
         <div>
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-blue-900">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-6 w-6 text-blue-800 dark:text-slate-200"
-            >
-              <path d="M12 5v14"></path>
-              <path d="M18 13l-6 6"></path>
-              <path d="M6 13l6 6"></path>
-            </svg>
+          <div className="flex mb-2" style={{ marginLeft: "-20px" }}>
+            <Image
+              src={translateDescription(description)}
+              alt={description}
+              width={50}
+              height={50}
+            />
           </div>
         </div>
-        <div className="w-[5rem] h-1 bg-gray-300 dark:bg-slate-500"></div>
+        {isLast ? (
+          <div className="relative w-[9rem]  h-[3px]">
+            <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-[10px] h-[10px] bg-blue-900 rounded-full"></div>
+          </div>
+        ) : (
+          <div className="relative w-[9rem] h-[3px] bg-gray-300 dark:bg-slate-500">
+            <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-[10px] h-[10px] bg-blue-900 rounded-full"></div>
+          </div>
+        )}
       </div>
       <div className="pt-1 pb-8">
         <p className="text-base font-bold text-gray-900 dark:text-slate-300">
@@ -40,13 +50,22 @@ const LocationItem = ({ name, description }: any) => {
 
 const TravelBar = ({ locations }: any) => {
   return (
-    <div className="flex p-4 w-full mx-auto dark:bg-gray-800">
-      {locations.map((location: any, index: any) => (
-        <LocationItem
-          key={index}
-          name={location.name}
-          description={location.description}
-        />
+    <div className="flex flex-col p-4 ml-8 w-full mx-auto dark:bg-gray-800">
+      {locations.map((location: any, index: number) => (
+        <div key={index} className="flex flex-col mr-8 my-3">
+          <div className="text-lg mb-3">{location.date}</div>
+          <div className="flex ml-3">
+            {location.location.map((loca: any, locIndex: number) => (
+              <LocationItem
+                key={locIndex}
+                name={loca.name}
+                description={loca.description}
+                isLast={locIndex === location.location.length - 1}
+                src={loca.src}
+              />
+            ))}
+          </div>
+        </div>
       ))}
     </div>
   );
