@@ -1,0 +1,29 @@
+.combobox-input {
+  width: 100%;
+  height: 10%;
+  height: 3rem;
+  position: relative;
+  padding: 2%;
+  outline: none;
+  cursor: pointer;
+  border-radius: 5px;
+  position: relative;
+}
+
+.combobox-input:focus {
+  outline: 2px solid #c3d8e6;
+}
+
+.combobox-list-container {
+  border-radius: 5px;
+  border: 1px solid #c3d8e6;
+}
+
+.search-icon {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 32%;
+  left: 38.5%;
+  cursor: pointer;
+}
