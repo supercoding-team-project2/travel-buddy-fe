@@ -1,0 +1,88 @@
+.each-date-container {
+  margin-bottom: 2%;
+}
+.date {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 1%;
+}
+
+.prev-container,
+.next-container {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.prev-container {
+  margin-right: 3.5%;
+}
+
+.place-container {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center;
+  width: 90% !important;
+  height: 150px;
+  border: 1px solid #e6ebf2;
+  border-radius: 5px;
+  padding: 3%;
+}
+
+.place-image {
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.place-detail-container {
+  width: 50%;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px;
+  margin-left: 4%;
+}
+
+.place-name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.place-category {
+  font-size: 0.8rem;
+  color: rgb(94, 94, 92);
+}
+
+.place-intro {
+  font-size: 0.9rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 5%;
+}
+
+.confirm-button,
+.confirmed-button {
+  width: 7%;
+  height: 0%;
+  border: 1px solid #e6ebf2;
+  border-radius: 5px;
+  margin-top: 1.25%;
+  padding: 0.5%;
+  font-weight: 700;
+  font-size: 0.8rem;
+  background-color: #c3d8e6;
+  color: white;
+}
+
+.confirm-button:hover {
+  border: 1px solid #698da4;
+}
+
+.confirmed-button {
+  border: 1px solid #e6ebf2;
+  background-color: white;
+  color: black;
+}

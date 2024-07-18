@@ -1,0 +1,58 @@
+.date-course-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 95%;
+  margin: auto;
+  margin-bottom: 3%;
+  padding: 2%;
+}
+
+.memo-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.memo-container {
+  width: 90%;
+  height: 20rem;
+  background-color: rgb(249, 249, 249);
+  padding: 2%;
+  resize: none;
+  outline: none;
+  overflow-y: auto;
+  border-radius: 5px;
+}
+
+.button-container {
+  display: flex;
+  gap: 30px;
+  width: 25%;
+}
+
+.cancel-button,
+.save-button {
+  width: 50%;
+  height: 2.5rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.cancel-button:hover,
+.save-button:hover {
+  border: 2px solid #698da4;
+}
+
+.cancel-button {
+  border: 1px solid rgb(145, 145, 145);
+}
+
+.save-button {
+  border: none;
+  background-color: #c3d8e6;
+  color: white;
+}

@@ -14,9 +14,18 @@ const cx = classnames.bind(styles);
 interface Props {
   isCalendarOpen: boolean;
   setIsCalendarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  dateRange: DateRangePickerProps["ranges"];
+  setDateRange: React.Dispatch<
+    React.SetStateAction<DateRangePickerProps["ranges"]>
+  >;
 }
 
-const CalendarModal = ({ isCalendarOpen, setIsCalendarOpen }: Props) => {
+const CalendarModal = ({
+  isCalendarOpen,
+  setIsCalendarOpen,
+  dateRange,
+  setDateRange,
+}: Props) => {
   const modalRoot: HTMLElement = document.getElementById("overlays-modal")!;
 
   //set calendar modal state to true when rendered
@@ -24,14 +33,34 @@ const CalendarModal = ({ isCalendarOpen, setIsCalendarOpen }: Props) => {
     setIsCalendarOpen(true);
   }, []);
 
-  //date range state
-  const [dateRange, setDateRange] = useState<DateRangePickerProps["ranges"]>([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
+  //if this modal is open, disable body overflow
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+
+    if (isCalendarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = originalOverflow;
+    }
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isCalendarOpen]);
+
+  //modal selection handler
+  const selectionClickHandler = () => {
+    if (dateRange) {
+      if (
+        dateRange.length > 0 &&
+        dateRange[0].startDate !== dateRange[0].endDate
+      ) {
+        setIsCalendarOpen(false);
+      } else {
+        alert("여행 기간을 설정해주세요.");
+      }
+    }
+  };
 
   if (!isCalendarOpen) return null;
 
@@ -48,6 +77,12 @@ const CalendarModal = ({ isCalendarOpen, setIsCalendarOpen }: Props) => {
             onChange={(ranges) => setDateRange([ranges.selection])}
           />
         </div>
+        <button
+          className={cx("selection-button")}
+          onClick={selectionClickHandler}
+        >
+          선택
+        </button>
       </div>
     </div>,
     modalRoot
