@@ -59,6 +59,58 @@ const posts = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
     likes: 100,
   },
+  {
+    image: "/png/travel1.png",
+    label: "가이드",
+    title: "남해관광재단 워케이션 프로젝트",
+    author: "홍길동",
+    date: {
+      from: "2024.07.13",
+      to: "2024.07.15",
+    },
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
+    likes: 100,
+  },
+  {
+    image: "/png/travel1.png",
+    label: "가이드",
+    title: "남해관광재단 워케이션 프로젝트",
+    author: "홍길동",
+    date: {
+      from: "2024.07.13",
+      to: "2024.07.15",
+    },
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
+    likes: 100,
+  },
+  {
+    image: "/png/travel1.png",
+    label: "후기",
+    title: "남해관광재단 워케이션 프로젝트",
+    author: "홍길동",
+    date: {
+      from: "2024.07.13",
+      to: "2024.07.15",
+    },
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
+    likes: 100,
+  },
+  {
+    image: "/png/travel1.png",
+    label: "후기",
+    title: "남해관광재단 워케이션 프로젝트",
+    author: "홍길동",
+    date: {
+      from: "2024.07.13",
+      to: "2024.07.15",
+    },
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
+    likes: 100,
+  },
 ];
 
 export const WriteButton = () => {
