@@ -168,6 +168,7 @@ const Map = ({
     fetchNearbyPlaces();
   }, [selected, center, setPlaceDetails]);
 
+
   // for text search based on searchKeyword
   useEffect(() => {
     if (typeof selected === "string") {

@@ -12,6 +12,7 @@ import MyInfo from "@/components/MyPage/MyInfo";
 import { useState } from "react";
 
 const MyPageClient = () => {
+
   const [isMyCourseOpen, setIsMyCourseOpen] = useState<boolean>(true);
   const [isMyPostOpen, setIsMyPostOpen] = useState<boolean>(false);
   const [isMyInfoOpen, setIsMyInfoOpen] = useState<boolean>(false);
