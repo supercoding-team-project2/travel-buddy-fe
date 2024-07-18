@@ -8,8 +8,9 @@
 
 .place-photo {
   width: 100px;
-  min-width: 100px;
   height: 100px;
+  min-width: 100px;
+  max-height: 100px;
   object-fit: cover;
 }
 

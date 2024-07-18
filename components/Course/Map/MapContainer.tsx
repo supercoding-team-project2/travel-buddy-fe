@@ -24,7 +24,10 @@ const MapContainer = () => {
     <div className={cx("entire-map-container")}>
       <input className={cx("course-title")} placeholder="제목" required />
       <div className={cx("place-map-container")}>
-        <Places setSelected={setSelected} placeDetails={placeDetails} />
+        <Places
+          setSelected={setSelected}
+          placeDetails={placeDetails}
+        />
         <Map
           selected={selected}
           setPlaceDetails={setPlaceDetails}

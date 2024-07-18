@@ -28,7 +28,7 @@ const EachPlace = ({ placeId, name, address, type, photo }: Props) => {
         src={photoSrc}
         alt="place-photo"
         className={cx("place-photo")}
-        width={200}
+        width={100}
         height={100}
       />
       <div className={cx("info-container")}>

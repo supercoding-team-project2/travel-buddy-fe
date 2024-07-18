@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 
 import classnames from "classnames/bind";
 import styles from "./Places.module.css";
@@ -13,10 +13,18 @@ interface Props {
   placeDetails: any[];
 }
 const Places = ({ setSelected, placeDetails }: Props) => {
+  const placeListRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (placeListRef.current) {
+      placeListRef.current.scrollTop = 0;
+    }
+  }, [placeDetails]);
+
   return (
     <div className={cx("places-container")}>
       <PlacesAutoComplete setSelected={setSelected} />
-      <div className={cx("place-list-container")}>
+      <div className={cx("place-list-container")} ref={placeListRef}>
         {placeDetails?.length > 0 &&
           placeDetails.map((place) => {
             return (

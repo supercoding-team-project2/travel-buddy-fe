@@ -47,9 +47,10 @@ const PlacesAutoComplete = ({ setSelected }: Props) => {
     if (e.key === "Enter") {
       e.preventDefault();
       if (value) {
-        await handleSelect(value);
+        setSelected(value);
       }
     }
+    clearSuggestions();
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import classnames from "classnames/bind";
 import styles from "./Map.module.css";
@@ -14,9 +14,32 @@ interface Props {
 const Map = ({ selected, placeDetails, setPlaceDetails }: Props) => {
   const center = useMemo(() => ({ lat: 37.56667, lng: 126.97806 }), []);
 
+  const types: string[] = [
+    "restaurant",
+    "cafe",
+    "bar",
+    "park",
+    "museum",
+    "amusement_park",
+    "shopping_mall",
+    "locality",
+    "hotel",
+  ];
+
   useEffect(() => {
     const fetchNearbyPlaces = () => {
-      const location = selected || center;
+      let location;
+
+      if (
+        selected &&
+        typeof selected === "object" &&
+        "lat" in selected &&
+        "lng" in selected
+      ) {
+        location = selected;
+      } else {
+        location = center;
+      }
 
       if (location) {
         const geocoder = new window.google.maps.Geocoder();
@@ -45,7 +68,8 @@ const Map = ({ selected, placeDetails, setPlaceDetails }: Props) => {
                   const selectedPlace = {
                     placeId: placeDetails.place_id,
                     name: placeDetails.name,
-                    address: placeDetails.formatted_address,
+                    address:
+                      placeDetails.formatted_address || placeDetails.vicinity,
                     type: placeDetails.types && placeDetails.types[0],
                     photo:
                       placeDetails.photos && placeDetails.photos[0].getUrl(),
@@ -53,21 +77,12 @@ const Map = ({ selected, placeDetails, setPlaceDetails }: Props) => {
                   };
 
                   // 검색한 장소의 주변 장소 데이터 가져오기
+
                   service.nearbySearch(
                     {
                       location,
                       radius: 5000,
-                      types: [
-                        "restaurant",
-                        "cafe",
-                        "bar",
-                        "park",
-                        "museum",
-                        "amusement_park",
-                        "shopping_mall",
-                        "locality",
-                        "hotel",
-                      ],
+                      types: types,
                       language: "ko",
                     },
                     (results, status) => {
@@ -139,6 +154,44 @@ const Map = ({ selected, placeDetails, setPlaceDetails }: Props) => {
 
     fetchNearbyPlaces();
   }, [selected, center, setPlaceDetails]);
+
+  // for text search based on searchKeyword / run this even if selected is same 
+  if (typeof selected === "string") {
+    const service = new window.google.maps.places.PlacesService(
+      document.createElement("div")
+    );
+
+    service.textSearch(
+      {
+        query: selected,
+        location: center,
+        radius: 5000,
+        types: types,
+        language: "ko",
+      },
+      (results, status) => {
+        if (
+          results &&
+          status === window.google.maps.places.PlacesServiceStatus.OK
+        ) {
+          const placesByKeyword = results
+            .map((place) => ({
+              placeId: place.place_id,
+              name: place.name,
+              address: place.formatted_address || place.vicinity,
+              type: place.types && place.types[0],
+              photo: place.photos && place.photos[0]?.getUrl(),
+            }))
+            .filter(Boolean);
+
+          setPlaceDetails(placesByKeyword);
+        } else {
+          console.error("구글 텍스트 검색 오류:", status);
+        }
+      }
+    );
+  }
+
   console.log("셋 플레이스 디테일 정보", placeDetails);
 
   return (
@@ -147,11 +200,12 @@ const Map = ({ selected, placeDetails, setPlaceDetails }: Props) => {
       center={selected || center}
       mapContainerClassName="map-container"
     >
-      {selected ? (
+      {/* {typeof selected === "object" ? (
         <MarkerF position={selected} />
       ) : (
         <MarkerF position={center} />
-      )}
+      )} */}
+      <MarkerF position={center} />
     </GoogleMap>
   );
 };

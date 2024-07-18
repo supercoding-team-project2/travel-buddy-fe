@@ -40,31 +40,37 @@ interface Props {
 const EachDate = ({ date }: Props) => {
   const places = [
     {
+      id: 1,
       name: "평온한 카페",
       category: "카페",
       intro: "그렇다고 누워자면 싸대기 맞아요",
     },
     {
+      id: 2,
       name: "평온한 카페",
       category: "카페",
       intro: "그렇다고 누워자면 싸대기 맞아요",
     },
     {
+      id: 3,
       name: "평온한 카페",
       category: "카페",
       intro: "그렇다고 누워자면 싸대기 맞아요",
     },
     {
+      id: 4,
       name: "평온한 카페",
       category: "카페",
       intro: "그렇다고 누워자면 싸대기 맞아요",
     },
     {
+      id: 5,
       name: "평온한 카페",
       category: "카페",
       intro: "그렇다고 누워자면 싸대기 맞아요",
     },
     {
+      id: 6,
       name: "평온한 카페",
       category: "카페",
       intro: "그렇다고 누워자면 싸대기 맞아요",
@@ -98,7 +104,7 @@ const EachDate = ({ date }: Props) => {
         <Slider {...settings}>
           {places.map((place) => {
             return (
-              <div className={cx("place-container")}>
+              <div className={cx("place-container")} key={place.id}>
                 <Image src={cafe} alt="place" className={cx("place-image")} />
                 <div className={cx("place-detail-container")}>
                   <div className={cx("place-name")}>{place.name}</div>

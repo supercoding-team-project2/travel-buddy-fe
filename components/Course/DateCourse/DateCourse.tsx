@@ -11,7 +11,7 @@ interface Props {
 }
 
 const DateCourse = ({ dateRange }: Props) => {
-  const [dates, setDates] =  useState<Date[]>([])
+  const [dates, setDates] = useState<Date[]>([]);
 
   const getDatesBetween = (startDate: Date, endDate: Date): Date[] => {
     const dates: any = [];
@@ -34,17 +34,16 @@ const DateCourse = ({ dateRange }: Props) => {
 
       if (startDate && endDate) {
         const getDates = getDatesBetween(startDate, endDate);
-        setDates(getDates)
+        setDates(getDates);
       }
     }
   }, [dateRange]);
 
-
   return (
     <div className={cx("date-course-container")}>
       {dates.length > 0 &&
-        dates.map((date: Date) => {
-          return <EachDate date={date} />;
+        dates.map((date: Date, index: number) => {
+          return <EachDate key={index} date={date} />;
         })}
       <div className={cx("memo-button-container")}>
         <textarea
