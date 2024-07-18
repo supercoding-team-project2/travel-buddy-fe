@@ -1,7 +1,8 @@
+'use client';
 import classNames from 'classnames/bind';
 import styles from './MainPage.module.css';
 import { MainSlider } from '../components/Main/MainSlider/MainSlider';
-import { CourseSummaryUnit } from '../components/Main/CourseSummary/CourseSummary';
+import { CourseCard } from '../components/Main/CourseCard/CourseCard';
 import Link from 'next/link';
 
 const cx = classNames.bind(styles);
@@ -10,41 +11,50 @@ export default function MainPage() {
   const sample1 = { url: '/png/hamster.png', title: 'hamster1' };
   const sample2 = { url: '/png/hamster2.png', title: 'hamster2' };
   const sample3 = { url: '/png/hemsworth.png', title: 'hemsworth' };
-  const mockCourses = [sample1, sample1, sample1, sample1, sample1, sample1];
+  const mockCourses = ['', '', '', ''];
 
   return (
     <div className={cx('MainPage')}>
       <MainSlider />
       <section>
-        <div className={cx('title')}>인기있는 코스</div>
-        <div className={cx('container')}>
+        <div className={cx('topWrapper')}>
+          <img src="/svg/airplane.svg" alt="" />
+          <div className={cx('title')}>Popular course</div>
           <Link href={'/'} className={cx('link')}>
-            더보기
+            View All
           </Link>
+        </div>
+        <div className={cx('container')}>
           {mockCourses.map(() => (
-            <CourseSummaryUnit url={sample1.url} title={sample1.title} />
+            <CourseCard url={sample1.url} title={sample1.title} />
           ))}
         </div>
       </section>
       <section>
-        <div className={cx('title')}>가이드와 함께하는 패키지 여행!</div>
-        <div className={cx('container')}>
-          <Link href={'/'} className={cx('link')}>
-            더보기
+        <div className={cx('topWrapperReverse')}>
+          <Link href={'/'} className={cx('linkReverse')}>
+            View All
           </Link>
+          <div className={cx('titleReverse')}>Tour with a guide</div>
+          <img src="/svg/airplane.svg" alt="" />
+        </div>
+        <div className={cx('container')}>
           {mockCourses.map(() => (
-            <CourseSummaryUnit url={sample2.url} title={sample2.title} />
+            <CourseCard url={sample2.url} title={sample2.title} />
           ))}
         </div>
       </section>
       <section>
-        <div className={cx('title')}>함께 하는 여행(동행자)</div>
-        <div className={cx('container')}>
+        <div className={cx('topWrapper')}>
+          <img src="/svg/airplane.svg" alt="" />
+          <div className={cx('title')}>Travel together(companion)</div>
           <Link href={'/'} className={cx('link')}>
-            더보기
+            View All
           </Link>
+        </div>
+        <div className={cx('container')}>
           {mockCourses.map(() => (
-            <CourseSummaryUnit url={sample3.url} title={sample3.title} />
+            <CourseCard url={sample3.url} title={sample3.title} />
           ))}
         </div>
       </section>

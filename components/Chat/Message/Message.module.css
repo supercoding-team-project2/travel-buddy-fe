@@ -1,33 +1,33 @@
 .message {
   display: flex;
-  gap: 5px;
+  gap: 0.6vh;
 }
 
 .message img {
   border-radius: 100%;
-  width: 35px;
-  height: 35px;
+  width: 4.5vh;
+  height: 4.5vh;
 }
 
 .myMessage {
   display: flex;
-  gap: 5px;
+  gap: 0.6vh;
   justify-content: end;
   flex-direction: row-reverse;
 }
 
 .content {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 450;
   color: #333;
   border-radius: 10px;
   width: fit-content;
-  padding: 5px 10px;
+  padding: 0.5vh 1.2vh;
   background-color: #c3d8e6;
 }
 
 .timestamp {
-  font-size: 12px;
+  font-size: 0.8rem;
   align-self: flex-end;
   color: darkgray;
 }

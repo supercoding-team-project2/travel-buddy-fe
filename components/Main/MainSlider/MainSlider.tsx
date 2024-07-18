@@ -6,7 +6,17 @@ import Link from 'next/link';
 
 const cx = classNames.bind(styles);
 
-const images = ['/png/travel1.png', '/png/travel2.png', '/png/travel3.png'];
+const images = [
+  '/png/travel1.png',
+  '/png/travel2.png',
+  '/png/travel3.png',
+  '/png/travel4.png',
+  '/png/travel5.png',
+  '/png/travel6.png',
+  '/png/travel7.png',
+  '/png/travel8.png',
+  '/png/travel9.png',
+];
 
 export function MainSlider() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -14,7 +24,7 @@ export function MainSlider() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
@@ -26,9 +36,9 @@ export function MainSlider() {
           Create Your Perfect <br />
           Travel Itinerary
         </div>
-        <Link className={cx('createCourse')} href={'/'}>
+        {/* <Link className={cx('createCourse')} href={'/'}>
           여행지 짜기
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
