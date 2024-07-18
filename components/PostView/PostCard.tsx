@@ -8,7 +8,7 @@ export const PostCard = ({ posts }: any) => {
       {posts.map((post: any, index: any) => (
         <div
           key={index}
-          className="bg-white rounded-xl shadow-md overflow-hidden"
+          className="bg-white rounded-xl shadow-md overflow-hidden min-h-[22rem] min-w-[40rem]"
         >
           <div className="relative">
             <img
