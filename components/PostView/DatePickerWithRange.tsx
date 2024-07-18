@@ -18,6 +18,8 @@ export function DatePickerWithRange({
     from: new Date(),
     to: addDays(new Date(), 3),
   });
+
+  console.log("이건 날짜컴포넌트에서 가져온 데이터", date?.from);
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>

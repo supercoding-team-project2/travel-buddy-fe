@@ -12,12 +12,54 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DatePickerWithRange } from "@/components/PostView/DatePickerWithRange";
 import { PostCard } from "@/components/PostView/PostCard";
 
 const cx = classNames.bind(styles);
+
+const posts = [
+  {
+    image: "/png/travel1.png",
+    label: "동행",
+    title: "남해관광재단 워케이션 프로젝트",
+    author: "홍길동",
+    date: {
+      from: "2024.07.13",
+      to: "2024.07.15",
+    },
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
+    likes: 100,
+  },
+  {
+    image: "/png/travel1.png",
+    label: "동행",
+    title: "남해관광재단 워케이션 프로젝트",
+    author: "홍길동",
+    date: {
+      from: "2024.07.13",
+      to: "2024.07.15",
+    },
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
+    likes: 100,
+  },
+  {
+    image: "/png/travel1.png",
+    label: "동행",
+    title: "남해관광재단 워케이션 프로젝트",
+    author: "홍길동",
+    date: {
+      from: "2024.07.13",
+      to: "2024.07.15",
+    },
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
+    likes: 100,
+  },
+];
 
 export const WriteButton = () => {
   const router = useRouter();
@@ -36,10 +78,15 @@ export const WriteButton = () => {
 
 interface ButtonOutlineProps {
   text: string;
+  onClick: any;
 }
 
-export function ButtonOutline({ text }: ButtonOutlineProps) {
-  return <Button variant="outline">{text}</Button>;
+export function ButtonOutline({ text, onClick }: ButtonOutlineProps) {
+  return (
+    <Button onClick={onClick} variant="outline">
+      {text}
+    </Button>
+  );
 }
 
 export const SelectPost = () => {
@@ -58,19 +105,42 @@ export const SelectPost = () => {
 };
 
 export const ClientComponent = () => {
+  const [filter, setFilter] = useState("전체");
+  const [filteredPosts, setFilteredPosts] = useState(posts);
+
+  useEffect(() => {
+    console.log("Current filter:", filter);
+    if (filter === "전체") {
+      setFilteredPosts(posts);
+    } else {
+      const filtered = posts.filter((post) => {
+        console.log(`Post label: ${post.label}, Filter: ${filter}`);
+        return post.label === filter;
+      });
+      console.log("filtered-posts:", filtered);
+      setFilteredPosts(filtered);
+    }
+  }, [filter]);
+
   return (
     <div className={cx("post-container")}>
       <div className={cx("post-top-container")}>
         <div className={cx("button-container")}>
           <div className={cx("category-button-group")}>
-            <ButtonOutline text="전체" />
-            <ButtonOutline text="후기" />
-            <ButtonOutline text="동행" />
-            <ButtonOutline text="가이드" />
+            <ButtonOutline text="전체" onClick={() => setFilter("전체")} />
+            <ButtonOutline text="후기" onClick={() => setFilter("후기")} />
+            <ButtonOutline text="동행" onClick={() => setFilter("동행")} />
+            <ButtonOutline text="가이드" onClick={() => setFilter("가이드")} />
           </div>
           <div className={cx("view-button-group")}>
-            <ButtonOutline text="추천한 게시물" />
-            <ButtonOutline text="참여한 여행" />
+            <ButtonOutline
+              text="추천한 게시물"
+              onClick={() => setFilter("전체")}
+            />
+            <ButtonOutline
+              text="참여한 여행"
+              onClick={() => setFilter("전체")}
+            />
           </div>
         </div>
 
@@ -85,7 +155,7 @@ export const ClientComponent = () => {
           </div>
         </div>
       </div>
-      <PostCard />
+      <PostCard posts={filteredPosts} />
     </div>
   );
 };
