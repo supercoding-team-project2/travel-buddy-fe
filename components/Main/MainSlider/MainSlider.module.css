@@ -1,7 +1,7 @@
 .background {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 85vh;
   background-size: cover;
   background-position: center;
   transition: background-image 1s ease-in-out;
@@ -15,22 +15,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 5vh;
 }
 
 .text {
   text-align: center;
   color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  font-size: 50px;
+  text-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.5);
+  font-size: 4.5rem;
 }
 
 .createCourse {
-  width: 30%;
-  background: black;
+  width: 25%;
+  background: #85b1cc;
   border-radius: 5px;
   color: white;
-  font-size: 16px;
-  line-height: 36px;
+  font-size: 1.4rem;
+  line-height: 6vh;
   text-align: center;
 }
