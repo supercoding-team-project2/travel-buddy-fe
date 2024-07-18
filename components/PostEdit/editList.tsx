@@ -17,9 +17,9 @@ const EditList = () => {
               <SelectValue placeholder="내 경로 리스트" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="동행">동행</SelectItem>
-              <SelectItem value="후기">후기</SelectItem>
-              <SelectItem value="가이드">가이드</SelectItem>
+              <SelectItem value="동행">여행제목A</SelectItem>
+              <SelectItem value="후기">여행제목B</SelectItem>
+              <SelectItem value="가이드">여행제목C</SelectItem>
             </SelectContent>
           </Select>
         </div>

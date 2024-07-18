@@ -300,6 +300,7 @@ const ClientComponent = () => {
           <div className="flex flex-col pt-24  ">
             <DetailsTable />
             <div className="flex items-center justify-center mt-4">
+              {/* 현재 참여인원받아서 뿌려주는걸로 */}
               <TogetherBtn onClick={openModal} />
             </div>
           </div>
@@ -311,6 +312,7 @@ const ClientComponent = () => {
         <div className="text-sm leading-6">
           <figure className="relative flex flex-col bg-slate-100 rounded-lg p-6 dark:bg-slate-800 dark:highlight-white/5">
             <figcaption className="flex items-center space-x-4 ml-6 mb-3">
+              {/* 프로필사진 <<--- 데이터화시키기 */}
               <Image
                 src="/png/hamster2.png"
                 alt="image"
@@ -321,6 +323,7 @@ const ClientComponent = () => {
                 decoding="async"
               />
               <div className="flex">
+                {/* 프로필 이름 */}
                 <div className="text-base text-slate-900 font-semibold dark:text-slate-200 mr-2">
                   John Doe
                 </div>
@@ -334,11 +337,13 @@ const ClientComponent = () => {
             </figcaption>
             <div className="flex">
               <div className="w-1/2">
+                {/* 여행사진들 받는 거 구현 */}
                 <ImgSlider />
               </div>
               <div className=" w-1/2 flex-col">
                 <div>
                   <div className=" bg-white rounded-lg border p-5 ">
+                    {/* 본문내용 구현 */}
                     <div className="border rounded-lg h-96 overflow-y-auto p-4">
                       여미랑 같이 남해로 워케이션 가실 분? (ꔷ̥̑.̮ꔷ̥̑) 어차피 일해야
                       한다면 #남해로출근 👥👤👥👤(무료래 웅성웅성) 추석 연휴
@@ -375,6 +380,7 @@ const ClientComponent = () => {
                     </div>
                     <div className="flex my-5">
                       <ButtonWithHoverImage />
+                      {/* 좋아요 갯수 */}
                       <div className="flex items-center">100</div>
                       <IconButton
                         src="/svg/chat.svg"
@@ -384,8 +390,10 @@ const ClientComponent = () => {
                         width={25}
                         height={25}
                       />
+                      {/* 댓글갯수 */}
                       <div className="flex items-center ml-1">100</div>
                     </div>
+                    {/* 댓글 관리하기 */}
                     <MycommentSection onSubmit={handleCommentSubmit} />
                     {showComments && <CommentSection comments={comments} />}
                   </div>
