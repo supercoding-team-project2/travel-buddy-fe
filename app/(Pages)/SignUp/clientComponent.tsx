@@ -2,34 +2,39 @@
 import classNames from 'classnames/bind';
 import styles from './SignUp.module.css';
 import { useRef, useState } from 'react';
+import Link from 'next/link';
 
 const cx = classNames.bind(styles);
 
 export function SignUpClient() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [imageSrc, setImageSrc] = useState<string>('/svg/add-profile-image.svg');
-  const [idNum1, setIdNum1] = useState<string>('OOOOOO'); // 주민등록번호 앞자리 초기값
-  const [idNum2, setIdNum2] = useState<string>('Oㅁㅁㅁㅁㅁㅁ'); // 주민등록번호 뒷자리 초기값
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [part1, setPart1] = useState('');
+  const [part2, setPart2] = useState('');
 
-  // 주민등록번호 앞자리 입력 핸들러
-  const handleIdNum1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value
-      .replace(/[^0-9]/g, '')
-      .substring(0, 6)
-      .padEnd(6, 'O');
-    setIdNum1(value);
+  const handlePart1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value) && value.length <= 6) {
+      setPart1(value);
+      if (value.length === 6) {
+        (document.getElementById('part2') as HTMLInputElement).focus();
+      }
+    }
   };
 
-  // 주민등록번호 뒷자리 입력 핸들러
-  const handleIdNum2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value
-      .replace(/[^0-9]/g, '')
-      .substring(0, 6)
-      .replace(/^([0-9])([0-9]{5})$/, 'O$2')
-      .padEnd(7, 'ㅁ');
-    setIdNum2(value);
+  const handlePart2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value) && value.length <= 1) {
+      setPart2(value);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!/[\d\b]/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+      e.preventDefault();
+    }
   };
 
   const handleImageClick = (event: React.MouseEvent<HTMLInputElement>) => {
@@ -91,40 +96,29 @@ export function SignUpClient() {
               <img src="/svg/eye-close.svg" onClick={togglePasswordVisibility} className={cx('showPasswordButton')} />
             )}
           </div>
-          {/* <div className={cx('inputUnit')}>
+          <div className={cx('inputUnit')}>
             <div className={cx('inputTitle')}>주민등록번호</div>
-            <div className={cx('idNumberInput')}>
-              <div className={cx('idNumberFront')}>
-                {idNum1.split('').map((char, index) => (
-                  <div key={index} className={cx('circle', { filled: char !== 'O' })}>
-                    {char}
-                  </div>
-                ))}
-              </div>
+            <div className={cx('idNumInput')}>
+              <input
+                type="text"
+                className={cx('inputContent', 'part1')}
+                value={part1}
+                onChange={handlePart1Change}
+                onKeyDown={handleKeyDown}
+                maxLength={6}
+              />
               -
-              <div className={cx('idNumberBack')}>
-                {idNum2.split('').map((char, index) => (
-                  <div key={index} className={cx('circle', { filled: char !== 'O' && char !== 'ㅁ' })}>
-                    {char}
-                  </div>
-                ))}
-              </div>
+              <input
+                type="text"
+                id="part2"
+                className={cx('inputContent', 'part2')}
+                value={part2}
+                onChange={handlePart2Change}
+                onKeyDown={handleKeyDown}
+                maxLength={1}
+              />
             </div>
-            <input
-              className={cx('inputContent', 'idNumberFrontInput')}
-              type="text"
-              maxLength={6}
-              value={idNum1.replace(/O/g, '')}
-              onChange={handleIdNum1Change}
-            />
-            <input
-              className={cx('inputContent', 'idNumberBackInput')}
-              type="text"
-              maxLength={7}
-              value={idNum2.replace(/O|ㅁ/g, '')}
-              onChange={handleIdNum2Change}
-            />
-          </div> */}
+          </div>
           <div className={cx('inputUnit')}>
             <div className={cx('inputTitle')}>프로필 사진</div>
             <input
@@ -142,9 +136,13 @@ export function SignUpClient() {
               onClick={handleImageClick}
             />
           </div>
-          <button className={cx('submitButton')} type="submit">
-            Sign Up
-          </button>
+          <div className={cx('bottomWrapper')}>
+            <button className={cx('submitButton')} type="submit">
+              Sign Up
+            </button>
+            <div className={cx('text')}>이미 계정이 있으세요?</div>
+            <Link href={'/login'}>로그인하기</Link>
+          </div>
         </form>
       </div>
     </div>

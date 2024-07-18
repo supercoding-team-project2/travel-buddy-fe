@@ -3,8 +3,6 @@
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
   border: 1px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
@@ -14,21 +12,24 @@
 .messageHeader {
   display: flex;
   align-items: center;
-  padding: 15px;
+  padding: 1.4vh;
   font-size: 0.8em;
   color: #555;
-  gap: 10px;
+  gap: 1vw;
+  background: #c3d8e6;
 }
 
 .opponentProfile {
-  width: 65px;
-  height: 65px;
+  width: 8vh;
+  height: 8vh;
+  border-radius: 10px;
 }
 
 .opponentName {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 1.2rem;
+  font-weight: 550;
   width: 100%;
+  color: white;
 }
 
 .menu {
@@ -36,22 +37,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  width: 50px;
-  height: 35px;
+  gap: 0.8vh;
+  width: 5vw;
+  height: 5vh;
   cursor: pointer;
 }
 
 .dot {
-  width: 6px;
-  height: 6px;
+  width: 0.8vh;
+  height: 0.8vh;
   border-radius: 100%;
   background: #c3d8e6;
 }
 
 .messages {
   flex: 1;
-  padding: 10px;
+  padding: 1vh;
   overflow-y: auto;
   background-color: #f9f9f9;
   display: flex;
@@ -60,19 +61,21 @@
 }
 
 .messageFooter {
-  padding: 10px 15px;
+  padding: 1.2vh 1vw;
   display: flex;
   justify-content: space-between;
-  gap: 15px;
+  gap: 1vw;
 }
 
 .messageFooter input {
+  border-radius: 10px;
+  padding: 0 1vw;
   width: 100%;
 }
 
 .messageFooter button {
-  width: 60px;
-  padding: 10px;
+  width: 11vw;
+  padding: 0.8vw;
   border: none;
   border-radius: 10px;
   background-color: #c3d8e6;
@@ -82,5 +85,5 @@
 }
 
 .messageFooter button:hover {
-  background-color: #8edada;
+  background-color: #85b1cc;
 }
