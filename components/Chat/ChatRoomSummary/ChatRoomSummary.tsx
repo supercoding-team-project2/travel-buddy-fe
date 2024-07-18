@@ -3,9 +3,9 @@ import styles from './ChatRoomSummary.module.css';
 
 const cx = classNames.bind(styles);
 
-export function ChatRoomSummary({ opponentName, lastMessage, lastTime }: ChatRoomSummaryProps) {
+export function ChatRoomSummary({ roomId, opponentName, lastMessage, lastTime, setChatIndex }: ChatRoomSummaryProps) {
   return (
-    <div className={cx('ChatRoomSummary')}>
+    <div className={cx('ChatRoomSummary')} onClick={() => setChatIndex(roomId)}>
       <div className={cx('opponentName')}>{opponentName}</div>
       <div className={cx('bottomWrapper')}>
         <div className={cx('lastMessage')}>{lastMessage}</div>

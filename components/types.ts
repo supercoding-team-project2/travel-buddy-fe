@@ -5,7 +5,9 @@ type MessageProps = {
 };
 
 type ChatRoomSummaryProps = {
+  roomId: number;
   opponentName: string;
   lastMessage: string;
   lastTime: string;
+  setChatIndex: (arg0: number) => void;
 };
