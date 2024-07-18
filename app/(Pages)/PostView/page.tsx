@@ -1,9 +1,9 @@
 import {
-  PostCard,
   SelectPost,
   ButtonOutline,
   WriteButton,
   ClientComponent,
+  PostComponent,
 } from "./clientComponent";
 import styles from "./PostView.module.css";
 import classNames from "classnames/bind";
@@ -37,7 +37,7 @@ const page = () => {
           </div>
         </div>
       </div>
-      <PostCard />
+      <PostComponent />
     </div>
   );
 };
