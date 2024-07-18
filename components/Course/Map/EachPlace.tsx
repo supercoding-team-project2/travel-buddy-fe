@@ -16,14 +16,32 @@ interface Props {
   address: string;
   type: string;
   photo: string;
+  location: {};
+  setSelected: React.Dispatch<React.SetStateAction<any>>;
+  setIsNewSelection: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const EachPlace = ({ placeId, name, address, type, photo }: Props) => {
+const EachPlace = ({
+  placeId,
+  name,
+  address,
+  type,
+  photo,
+  location,
+  setSelected,
+  setIsNewSelection,
+}: Props) => {
   const [isSaved, setIsSaved] = useState(false);
 
   const photoSrc = photo ? photo : noImage;
   const showType = type === "street_address" ? "" : type;
   return (
-    <div className={cx("each-place-container")}>
+    <div
+      className={cx("each-place-container")}
+      onClick={() => {
+        setIsNewSelection(false);
+        setSelected(location);
+      }}
+    >
       <Image
         src={photoSrc}
         alt="place-photo"

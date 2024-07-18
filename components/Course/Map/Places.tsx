@@ -11,8 +11,9 @@ const cx = classnames.bind(styles);
 interface Props {
   setSelected: React.Dispatch<React.SetStateAction<any>>;
   placeDetails: any[];
+  setIsNewSelection: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const Places = ({ setSelected, placeDetails }: Props) => {
+const Places = ({ setSelected, placeDetails, setIsNewSelection }: Props) => {
   const placeListRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -23,18 +24,21 @@ const Places = ({ setSelected, placeDetails }: Props) => {
 
   return (
     <div className={cx("places-container")}>
-      <PlacesAutoComplete setSelected={setSelected} />
+      <PlacesAutoComplete setSelected={setSelected}  setIsNewSelection={setIsNewSelection}/>
       <div className={cx("place-list-container")} ref={placeListRef}>
         {placeDetails?.length > 0 &&
           placeDetails.map((place) => {
             return (
               <EachPlace
+                setSelected={setSelected}
+                setIsNewSelection={setIsNewSelection}
                 key={place.placeId}
                 placeId={place.placeId}
                 name={place.name}
                 address={place.address}
                 type={place.type}
                 photo={place.photo}
+                location={place.location}
               />
             );
           })}

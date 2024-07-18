@@ -19,9 +19,10 @@ import search from "@/assets/search.png";
 
 interface Props {
   setSelected: React.Dispatch<React.SetStateAction<any>>;
+  setIsNewSelection: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PlacesAutoComplete = ({ setSelected }: Props) => {
+const PlacesAutoComplete = ({ setSelected, setIsNewSelection }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const {
     ready,
@@ -29,7 +30,12 @@ const PlacesAutoComplete = ({ setSelected }: Props) => {
     setValue,
     suggestions: { status, data },
     clearSuggestions,
-  } = usePlacesAutoComplete({ requestOptions: { language: "ko" } });
+  } = usePlacesAutoComplete({
+    requestOptions: {
+      language: "ko",
+      componentRestrictions: { country: "KR" },
+    },
+  });
 
   //when choose one of the places from the combobox list
   const handleSelect = async (address: string) => {
@@ -40,6 +46,7 @@ const PlacesAutoComplete = ({ setSelected }: Props) => {
     const { lat, lng } = await getLatLng(results[0]);
 
     setSelected({ lat, lng });
+    setIsNewSelection(true);
   };
 
   //when press enter on input

@@ -18,6 +18,7 @@ const MapContainer = () => {
 
   const [selected, setSelected] = useState<any>(null);
   const [placeDetails, setPlaceDetails] = useState<any[]>([]);
+  const [isNewSelection, setIsNewSelection] = useState(true);
 
   if (!isLoaded) return <div>Loading...</div>;
   return (
@@ -27,11 +28,13 @@ const MapContainer = () => {
         <Places
           setSelected={setSelected}
           placeDetails={placeDetails}
+          setIsNewSelection={setIsNewSelection}
         />
         <Map
           selected={selected}
           setPlaceDetails={setPlaceDetails}
           placeDetails={placeDetails}
+          isNewSelection={isNewSelection}
         />
       </div>
     </div>
