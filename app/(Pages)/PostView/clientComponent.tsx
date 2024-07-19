@@ -22,134 +22,37 @@ const cx = classNames.bind(styles);
 
 const posts = [
   {
-    image: "/png/travel2.png",
-    label: "후기",
-    title: "서울 워케이션 체험기",
-    author: "이순신",
-    date: {
-      from: "2024.03.10",
-      to: "2024.03.20",
-    },
-    content:
-      "서울에서의 워케이션 경험을 공유합니다. 다양한 카페와 편리한 교통 덕분에 업무 효율이 높았습니다.",
-    likes: 150,
+    id: 2,
+    categoryEnum: "GUIDE",
+    title: "가이드와 함께하는 짧은 부산여행",
+    summary: "mbti j인 가이드와 함께 떠나는 부산여행은 취향?",
+    author: "Jane Smith",
+    startAt: "2024-07-26",
+    endAt: "2024-07-28",
+    representativeImage: "/png/travel2.png",
+    likeCount: 0,
   },
   {
-    image: "/png/travel3.png",
-    label: "동행",
-    title: "제주도 함께 여행해요",
-    author: "김유신",
-    date: {
-      from: "2024.06.01",
-      to: "2024.06.10",
-    },
-    content:
-      "제주도로 함께 여행 갈 동행을 구합니다. 함께 즐거운 추억을 만들어요!",
-    likes: 120,
+    id: 1,
+    categoryEnum: "COMPANION",
+    title: "짧은 경주여행",
+    summary: "낯선사람과 떠나는 경주 여행은 어떠세요?",
+    author: "John Doe",
+    startAt: "2024-07-24",
+    endAt: "2024-07-26",
+    representativeImage: "/png/travel2.png",
+    likeCount: 10,
   },
   {
-    image: "/png/travel4.png",
-    label: "가이드",
-    title: "부산 가이드 투어",
-    author: "신사임당",
-    date: {
-      from: "2024.07.05",
-      to: "2024.07.15",
-    },
-    content:
-      "부산의 숨은 명소를 소개합니다. 현지인만 아는 맛집과 명소를 함께 탐방해요.",
-    likes: 200,
-  },
-  {
-    image: "/png/travel5.png",
-    label: "후기",
-    title: "강릉 워케이션 후기",
-    author: "장보고",
-    date: {
-      from: "2024.02.15",
-      to: "2024.02.25",
-    },
-    content:
-      "강릉에서의 워케이션은 정말 멋졌습니다. 바다를 보며 일할 수 있는 최고의 장소였습니다.",
-    likes: 180,
-  },
-  {
-    image: "/png/travel6.png",
-    label: "동행",
-    title: "경주 문화 탐방",
-    author: "정약용",
-    date: {
-      from: "2024.05.20",
-      to: "2024.05.30",
-    },
-    content:
-      "경주의 역사와 문화를 함께 탐방할 동행을 구합니다. 많은 배움을 함께 나눠요.",
-    likes: 130,
-  },
-  {
-    image: "/png/travel7.png",
-    label: "가이드",
-    title: "대구 숨은 맛집 투어",
-    author: "허균",
-    date: {
-      from: "2024.04.05",
-      to: "2024.04.10",
-    },
-    content:
-      "대구의 숨은 맛집을 소개합니다. 현지인만 아는 진짜 맛집을 함께 탐방해요.",
-    likes: 210,
-  },
-  {
-    image: "/png/travel8.png",
-    label: "후기",
-    title: "전주 한옥마을 워케이션 후기",
-    author: "김정희",
-    date: {
-      from: "2024.01.10",
-      to: "2024.01.20",
-    },
-    content:
-      "전주 한옥마을에서의 워케이션 경험을 공유합니다. 전통과 현대가 어우러진 멋진 장소였습니다.",
-    likes: 140,
-  },
-  {
-    image: "/png/travel9.png",
-    label: "동행",
-    title: "속초 바다 여행",
-    author: "최영",
-    date: {
-      from: "2024.03.20",
-      to: "2024.03.30",
-    },
-    content:
-      "속초 바다로 함께 여행 갈 동행을 구합니다. 바다를 보며 힐링할 수 있는 시간을 가져요.",
-    likes: 110,
-  },
-  {
-    image: "/png/travel2.png",
-    label: "가이드",
-    title: "광주 예술 투어",
-    author: "박지원",
-    date: {
-      from: "2024.06.10",
-      to: "2024.06.20",
-    },
-    content:
-      "광주의 예술과 문화를 소개합니다. 다양한 예술 작품과 전시회를 함께 감상해요.",
-    likes: 160,
-  },
-  {
-    image: "/png/travel1.png",
-    label: "후기",
-    title: "울산 워케이션 체험기",
-    author: "이황",
-    date: {
-      from: "2024.05.01",
-      to: "2024.05.10",
-    },
-    content:
-      "울산에서의 워케이션 체험기를 공유합니다. 공업 도시의 매력을 새롭게 발견했습니다.",
-    likes: 190,
+    id: 3,
+    categoryEnum: "GUIDE",
+    title: "부산여행",
+    summary: "가위바위보라돌이뚜비나나",
+    author: "랄랄",
+    startAt: "2024-07-26",
+    endAt: "2024-07-28",
+    representativeImage: "/png/travel2.png",
+    likeCount: 44,
   },
 ];
 
@@ -196,16 +99,15 @@ export const SelectPost = ({ onSortChange }: any) => {
 };
 
 interface Post {
-  image: string;
-  label: string;
+  id: number;
+  categoryEnum: string;
   title: string;
+  summary: string;
   author: string;
-  date: {
-    from: string;
-    to: string;
-  };
-  content: string;
-  likes: number;
+  startAt: string;
+  endAt: string;
+  representativeImage: string;
+  likeCount: number;
 }
 
 export const ClientComponent = () => {
@@ -215,49 +117,6 @@ export const ClientComponent = () => {
     DateRange | undefined
   >(undefined);
   const [sortOrder, setSortOrder] = useState("최신순");
-
-  useEffect(() => {
-    console.log("Current filter:", filter);
-    let filtered = posts;
-
-    if (filter !== "전체") {
-      filtered = filtered.filter((post) => {
-        console.log(`Post label: ${post.label}, Filter: ${filter}`);
-        return post.label === filter;
-      });
-    }
-
-    if (selectedDateRange) {
-      filtered = filtered.filter((post) => {
-        const postDateFrom = new Date(post.date.from);
-        const postDateTo = new Date(post.date.to);
-        const selectedFrom = selectedDateRange.from || new Date();
-        const selectedTo = selectedDateRange.to || new Date();
-
-        return (
-          (postDateFrom >= selectedFrom && postDateFrom <= selectedTo) ||
-          (postDateTo >= selectedFrom && postDateTo <= selectedTo) ||
-          (postDateFrom <= selectedFrom && postDateTo >= selectedTo)
-        );
-      });
-    }
-
-    const sortPosts = (posts: Post[]) => {
-      if (sortOrder === "최신순") {
-        return [...posts].sort(
-          (a, b) =>
-            new Date(b.date.from).getTime() - new Date(a.date.from).getTime()
-        );
-      } else if (sortOrder === "추천순") {
-        return [...posts].sort((a, b) => b.likes - a.likes);
-      }
-      return posts;
-    };
-
-    const sortedAndFilteredPosts = sortPosts(filtered);
-
-    setFilteredPosts(sortedAndFilteredPosts);
-  }, [filter, selectedDateRange, sortOrder]);
 
   return (
     <div className={cx("post-container")}>
