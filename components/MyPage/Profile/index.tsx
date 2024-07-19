@@ -76,7 +76,7 @@ const Profile: React.FC<Props> = ({
                 "down-arrow-active": isMyPostOpen,
               })}
             />
-            내가 작성한 후기
+            내가 작성한 게시글
           </div>
           <div
             className={cx("underline", { "underline-active": isMyPostOpen })}

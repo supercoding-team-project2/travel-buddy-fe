@@ -17,6 +17,8 @@ const CourseClient = () => {
       key: "selection",
     },
   ]);
+  const [dateData, setDateData] = useState<{ [date: string]: any[] }>({});
+  const [isDateConfirmed, setIsDateConfirmed] = useState({});
 
   return (
     <>
@@ -26,8 +28,17 @@ const CourseClient = () => {
         dateRange={dateRange}
         setDateRange={setDateRange}
       />
-      <MapContainer />
-      <DateCourse dateRange={dateRange} />
+      <MapContainer
+        dateData={dateData}
+        setDateData={setDateData}
+        dateRange={dateRange}
+        isDateConfirmed={isDateConfirmed}
+      />
+      <DateCourse
+        dateRange={dateRange}
+        dateData={dateData}
+        setIsDateConfirmed={setIsDateConfirmed}
+      />
     </>
   );
 };

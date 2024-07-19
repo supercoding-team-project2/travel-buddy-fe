@@ -14,7 +14,7 @@ import cafe from "@/assets/cafe.png";
 
 const cx = classnames.bind(styles);
 
-//slider prev, next arrow component
+// Slider prev, next arrow components
 function PrevArrow(props: { onClick?: () => void }) {
   const { onClick } = props;
   return (
@@ -35,52 +35,17 @@ function NextArrow(props: { onClick?: () => void }) {
 
 interface Props {
   date: Date;
+  dateData: { [date: string]: any[] };
+  setIsDateConfirmed: React.Dispatch<React.SetStateAction<{}>>;
 }
 
-const EachDate = ({ date }: Props) => {
-  const places = [
-    {
-      id: 1,
-      name: "평온한 카페",
-      category: "카페",
-      intro: "그렇다고 누워자면 싸대기 맞아요",
-    },
-    {
-      id: 2,
-      name: "평온한 카페",
-      category: "카페",
-      intro: "그렇다고 누워자면 싸대기 맞아요",
-    },
-    {
-      id: 3,
-      name: "평온한 카페",
-      category: "카페",
-      intro: "그렇다고 누워자면 싸대기 맞아요",
-    },
-    {
-      id: 4,
-      name: "평온한 카페",
-      category: "카페",
-      intro: "그렇다고 누워자면 싸대기 맞아요",
-    },
-    {
-      id: 5,
-      name: "평온한 카페",
-      category: "카페",
-      intro: "그렇다고 누워자면 싸대기 맞아요",
-    },
-    {
-      id: 6,
-      name: "평온한 카페",
-      category: "카페",
-      intro: "그렇다고 누워자면 싸대기 맞아요",
-    },
-  ];
-  // const places = [{name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"}, {name: "평온한 카페", category: "카페", intro: "그렇다고 누워자면 싸대기 맞아요"}]
+const EachDate = ({ date, dateData, setIsDateConfirmed }: Props) => {
+  const isoDate = date.toISOString().split("T")[0];
+  const places = dateData[isoDate] || [];
 
   const [isConfirmed, setIsConfirmed] = useState(false);
 
-  //format date
+  // Format date
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const dateFormatted = date.getDate();
@@ -97,33 +62,44 @@ const EachDate = ({ date }: Props) => {
     nextArrow: places.length >= 3 ? <NextArrow /> : undefined,
   };
 
+  // Confirm date
+  const handleConfirm = () => {
+    const formattedDate = date.toISOString().split("T")[0];
+    setIsDateConfirmed((prev) => ({
+      ...prev,
+      [formattedDate]: true,
+    }));
+    setIsConfirmed(true);
+  };
+
+  console.log(places, "장소");
+
+  if (places.length === 0) return null;
+
   return (
     <div className={cx("each-date-container")}>
       <div className={cx("date")}>{formattedDate}</div>
       <div className={cx("slider-container")}>
         <Slider {...settings}>
-          {places.map((place) => {
-            return (
-              <div className={cx("place-container")} key={place.id}>
-                <Image src={cafe} alt="place" className={cx("place-image")} />
-                <div className={cx("place-detail-container")}>
-                  <div className={cx("place-name")}>{place.name}</div>
-                  <div className={cx("place-category")}>{place.category}</div>
-                  <div className={cx("place-intro")}>{place.intro}</div>
-                </div>
+          {places.map((place) => (
+            <div className={cx("place-container")} key={place.id}>
+              <Image src={cafe} alt="place" className={cx("place-image")} />
+              <div className={cx("place-detail-container")}>
+                <div className={cx("place-name")}>{place.name}</div>
+                <div className={cx("place-category")}>{place.category}</div>
+                <div className={cx("place-intro")}>{place.intro}</div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </Slider>
       </div>
       <div className={cx("button-container")}>
         {isConfirmed ? (
-          <button className={cx("confirmed-button")} disabled>완료</button>
+          <button className={cx("confirmed-button")} disabled>
+            완료
+          </button>
         ) : (
-          <button
-            className={cx("confirm-button")}
-            onClick={() => setIsConfirmed(true)}
-          >
+          <button className={cx("confirm-button")} onClick={handleConfirm}>
             확인
           </button>
         )}
