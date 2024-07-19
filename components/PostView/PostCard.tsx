@@ -1,18 +1,7 @@
 import { ButtonWithHoverImage } from "./buttonClick";
-
-const category: any = {
-  GUIDE: "가이드",
-  REVIEW: "후기",
-  COMPANION: "동행",
-};
-
-const translateCategory = (categoryEnum: string) => {
-  return category[categoryEnum] || categoryEnum;
-};
+import { translateCategory } from "./translateCategory";
 
 export const PostCard = ({ posts }: any) => {
-  //console.log(JSON.stringify(posts), "이건 포스트카드에서 입력한 posts임");
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 p-10 md:px-20">
       {posts.map((post: any, id: any) => (

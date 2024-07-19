@@ -1,15 +1,10 @@
 import Image from "next/image";
 import { useState } from "react";
 
-const ImgSlider = () => {
+const ImgSlider = ({ img }: any) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const slides = [
-    "/png/hamster.png",
-    "/png/hamster2.png",
-    "/png/hemsworth.png",
-  ];
-
+  const slides = img;
   const totalSlides = slides.length;
 
   const nextSlide = () => {
@@ -25,7 +20,7 @@ const ImgSlider = () => {
       <div className="relative rounded-lg overflow-hidden shadow-lg">
         {/* Carousel wrapper */}
         <div className="relative h-[400px] md:h-[600px]">
-          {slides.map((slide, index) => (
+          {slides.map((slide: any, index: any) => (
             <div
               key={index}
               className={`carousel-item ${
@@ -45,7 +40,7 @@ const ImgSlider = () => {
         </div>
         {/* Slider indicators */}
         <div className="flex absolute bottom-5 left-1/2 z-30 -translate-x-1/2 space-x-2">
-          {slides.map((_, index) => (
+          {slides.map((_: any, index: any) => (
             <button
               key={index}
               type="button"
