@@ -9,10 +9,20 @@ const cx = classnames.bind(styles);
 interface Props {
   dateRange: DateRangePickerProps["ranges"];
   dateData: { [date: string]: any[] };
+  setDateData: React.Dispatch<React.SetStateAction<{ [date: string]: any[] }>>;
   setIsDateConfirmed: React.Dispatch<React.SetStateAction<{}>>;
+  setIsSaved: React.Dispatch<
+    React.SetStateAction<{ [placeId: string]: boolean }>
+  >;
 }
 
-const DateCourse = ({ dateRange, dateData, setIsDateConfirmed }: Props) => {
+const DateCourse = ({
+  dateRange,
+  dateData,
+  setDateData,
+  setIsDateConfirmed,
+  setIsSaved,
+}: Props) => {
   const [dates, setDates] = useState<Date[]>([]);
 
   const getDatesBetween = (startDate: Date, endDate: Date): Date[] => {
@@ -50,7 +60,9 @@ const DateCourse = ({ dateRange, dateData, setIsDateConfirmed }: Props) => {
               key={index}
               date={date}
               dateData={dateData}
+              setDateData={setDateData}
               setIsDateConfirmed={setIsDateConfirmed}
+              setIsSaved={setIsSaved}
             />
           );
         })}

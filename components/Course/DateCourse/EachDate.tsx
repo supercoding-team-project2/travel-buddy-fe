@@ -8,13 +8,14 @@ import classnames from "classnames/bind";
 import styles from "./EachDate.module.css";
 
 import Image from "next/image";
+import noImage from "@/assets/noPhoto.png";
+import cancel from "@/assets/exit.png";
 import prev from "@/assets/prev.png";
 import next from "@/assets/next.png";
-import cafe from "@/assets/cafe.png";
 
 const cx = classnames.bind(styles);
 
-// Slider prev, next arrow components
+//slider prev, next arrow components
 function PrevArrow(props: { onClick?: () => void }) {
   const { onClick } = props;
   return (
@@ -36,16 +37,26 @@ function NextArrow(props: { onClick?: () => void }) {
 interface Props {
   date: Date;
   dateData: { [date: string]: any[] };
+  setDateData: React.Dispatch<React.SetStateAction<{ [date: string]: any[] }>>;
   setIsDateConfirmed: React.Dispatch<React.SetStateAction<{}>>;
+  setIsSaved: React.Dispatch<
+    React.SetStateAction<{ [placeId: string]: boolean }>
+  >;
 }
 
-const EachDate = ({ date, dateData, setIsDateConfirmed }: Props) => {
+const EachDate = ({
+  date,
+  dateData,
+  setDateData,
+  setIsDateConfirmed,
+  setIsSaved,
+}: Props) => {
   const isoDate = date.toISOString().split("T")[0];
   const places = dateData[isoDate] || [];
 
   const [isConfirmed, setIsConfirmed] = useState(false);
 
-  // Format date
+  //format date
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const dateFormatted = date.getDate();
@@ -62,7 +73,7 @@ const EachDate = ({ date, dateData, setIsDateConfirmed }: Props) => {
     nextArrow: places.length >= 3 ? <NextArrow /> : undefined,
   };
 
-  // Confirm date
+  //confirm date
   const handleConfirm = () => {
     const formattedDate = date.toISOString().split("T")[0];
     setIsDateConfirmed((prev) => ({
@@ -72,7 +83,19 @@ const EachDate = ({ date, dateData, setIsDateConfirmed }: Props) => {
     setIsConfirmed(true);
   };
 
-  console.log(places, "장소");
+  //remove a place from the date
+  const handleCancel = (id: string) => {
+    const updatedDateData: { [date: string]: any[] } = {};
+
+    Object.keys(dateData).forEach((date) => {
+      updatedDateData[date] = dateData[date].filter(
+        (place) => place.placeId !== id
+      );
+    });
+
+    setDateData(updatedDateData);
+    setIsSaved((prev) => ({ ...prev, [id]: false }));
+  };
 
   if (places.length === 0) return null;
 
@@ -82,12 +105,24 @@ const EachDate = ({ date, dateData, setIsDateConfirmed }: Props) => {
       <div className={cx("slider-container")}>
         <Slider {...settings}>
           {places.map((place) => (
-            <div className={cx("place-container")} key={place.id}>
-              <Image src={cafe} alt="place" className={cx("place-image")} />
+            <div className={cx("place-container")} key={place.placeId}>
+              <Image
+                src={cancel}
+                alt="cancel"
+                className={cx("cancel-icon")}
+                onClick={() => handleCancel(place.placeId)}
+              />
+              <Image
+                src={place.photo ? place.photo : noImage}
+                alt="place"
+                className={cx("place-image")}
+                width={180.82}
+                height={122.55}
+              />
               <div className={cx("place-detail-container")}>
                 <div className={cx("place-name")}>{place.name}</div>
                 <div className={cx("place-category")}>{place.category}</div>
-                <div className={cx("place-intro")}>{place.intro}</div>
+                <div className={cx("place-intro")}>{place.address}</div>
               </div>
             </div>
           ))}

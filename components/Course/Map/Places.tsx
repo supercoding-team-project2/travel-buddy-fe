@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { DateRangePickerProps } from "react-date-range";
 
 import classnames from "classnames/bind";
@@ -14,6 +14,10 @@ interface Props {
   dateRange: DateRangePickerProps["ranges"];
   isDateConfirmed: {};
   placeDetails: any[];
+  isSaved: { [placeId: string]: boolean };
+  setIsSaved: React.Dispatch<
+    React.SetStateAction<{ [placeId: string]: boolean }>
+  >;
   setDateData: React.Dispatch<React.SetStateAction<{ [date: string]: any[] }>>;
   setSelected: React.Dispatch<React.SetStateAction<any>>;
   setIsNewSelection: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,6 +27,8 @@ const Places = ({
   dateRange,
   isDateConfirmed,
   placeDetails,
+  isSaved,
+  setIsSaved,
   setDateData,
   setSelected,
   setIsNewSelection,
@@ -49,6 +55,8 @@ const Places = ({
                 dateData={dateData}
                 dateRange={dateRange}
                 isDateConfirmed={isDateConfirmed}
+                isSaved={isSaved}
+                setIsSaved={setIsSaved}
                 setDateData={setDateData}
                 setSelected={setSelected}
                 setIsNewSelection={setIsNewSelection}

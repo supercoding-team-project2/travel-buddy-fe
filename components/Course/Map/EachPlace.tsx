@@ -8,10 +8,8 @@ import Image from "next/image";
 import noImage from "@/assets/noPhoto.png";
 import save from "@/assets/save.png";
 import check from "@/assets/check.png";
-import { previousDay } from "date-fns";
 
 const cx = classnames.bind(styles);
-
 interface Props {
   placeId: string;
   name: string;
@@ -21,7 +19,11 @@ interface Props {
   location: {};
   dateData: { [date: string]: any[] };
   dateRange: DateRangePickerProps["ranges"];
-  isDateConfirmed: { [date: string]: boolean }; // 날짜와 확인 여부를 저장하는 객체
+  isDateConfirmed: { [date: string]: boolean };
+  isSaved: { [placeId: string]: boolean };
+  setIsSaved: React.Dispatch<
+    React.SetStateAction<{ [placeId: string]: boolean }>
+  >;
   setDateData: React.Dispatch<React.SetStateAction<{ [date: string]: any[] }>>;
   setSelected: React.Dispatch<React.SetStateAction<any>>;
   setIsNewSelection: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,11 +39,12 @@ const EachPlace = ({
   dateData,
   dateRange,
   isDateConfirmed,
+  isSaved,
+  setIsSaved,
   setDateData,
   setSelected,
   setIsNewSelection,
 }: Props) => {
-  const [isSaved, setIsSaved] = useState(false);
   const [category, setCategory] = useState("");
 
   const photoSrc = photo ? photo : noImage;
@@ -81,7 +84,7 @@ const EachPlace = ({
     getPlaceCategory(types);
   }, [types]);
 
-  //장소를 저장했을 때 실행하는 로직
+  //+버튼을 눌렀을 때, 장소를 날짜별로 저장하는 로직
   const handleSave = () => {
     if (!dateRange || dateRange.length === 0) return;
 
@@ -90,51 +93,40 @@ const EachPlace = ({
 
     if (!startDate || !endDate) return;
 
-    const formattedStartDate = startDate.toISOString().split("T")[0];
+    let currentDate = new Date(startDate);
     const newDateData = { ...dateData };
 
-    let currentDate = new Date(startDate);
-
-    console.log("Initial Date Data:", newDateData);
-
-    if (!newDateData[formattedStartDate]) {
-      newDateData[formattedStartDate] = [];
-    }
-
-    if (!isDateConfirmed[formattedStartDate]) {
-      newDateData[formattedStartDate].push({
-        placeId,
-        name,
-        address,
-        category,
-        photo,
-      });
-    }
-
     while (currentDate <= endDate) {
-      const dateKey = currentDate.toISOString().split("T")[0];
+      const formattedCurrentDate = currentDate.toISOString().split("T")[0];
 
-      if (!newDateData[dateKey]) {
-        newDateData[dateKey] = [];
+      if (!newDateData[formattedCurrentDate]) {
+        newDateData[formattedCurrentDate] = [];
       }
 
-      if (!isDateConfirmed[dateKey]) {
-        newDateData[dateKey].push({
+      if (!isDateConfirmed[formattedCurrentDate]) {
+        newDateData[formattedCurrentDate].push({
           placeId,
           name,
           address,
           category,
           photo,
         });
+        break;
       }
 
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
-    console.log("Updated Date Data:", newDateData);
+    //모든 일자의 완료 버튼을 눌렀을시, 추가 저장 막기
+    let lastDate = new Date(endDate as Date);
+    const formattedEndDate = lastDate.toISOString().split("T")[0];
+    if (isDateConfirmed[formattedEndDate]) {
+      alert("이미 모든 경로 저장을 완료했습니다.");
+      return;
+    }
 
     setDateData(newDateData);
-    setIsSaved(true);
+    setIsSaved((prev) => ({ ...prev, [placeId]: true }));
   };
 
   return (
@@ -158,7 +150,7 @@ const EachPlace = ({
         <div className={cx("type")}>{category}</div>
       </div>
       <button className={cx("button-container")}>
-        {isSaved ? (
+        {isSaved[placeId] ? (
           <Image src={check} alt="check-icon" className={cx("check-icon")} />
         ) : (
           <Image

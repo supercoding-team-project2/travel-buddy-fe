@@ -2,4 +2,28 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  width: 100%;
 }
+
+.slick-track {
+  /* min-width: 100vw !important; */
+  /* width: 1225px !important; */
+  /* width: calc(300px * 3 + 40px) !important;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0; */
+}
+
+/* .slick-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 1300px !important;
+  padding: 0;
+  margin: 0;
+}
+
+.slick-slide {
+  margin-right: 10px;
+  width: 300px !important;
+} */

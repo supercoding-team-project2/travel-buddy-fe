@@ -15,12 +15,18 @@ interface Props {
   dateData: { [date: string]: any[] };
   dateRange: DateRangePickerProps["ranges"];
   isDateConfirmed: {};
+  isSaved: { [placeId: string]: boolean };
+  setIsSaved: React.Dispatch<
+    React.SetStateAction<{ [placeId: string]: boolean }>
+  >;
   setDateData: React.Dispatch<React.SetStateAction<{ [date: string]: any[] }>>;
 }
 const MapContainer = ({
   dateData,
   dateRange,
   isDateConfirmed,
+  isSaved,
+  setIsSaved,
   setDateData,
 }: Props) => {
   const { isLoaded } = useLoadScript({
@@ -45,6 +51,8 @@ const MapContainer = ({
           setSelected={setSelected}
           placeDetails={placeDetails}
           setIsNewSelection={setIsNewSelection}
+          isSaved={isSaved}
+          setIsSaved={setIsSaved}
         />
         <Map
           selected={selected}
