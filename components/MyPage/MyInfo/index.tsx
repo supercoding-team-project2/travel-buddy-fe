@@ -4,13 +4,18 @@ import classNames from "classnames/bind";
 import styles from "./MyInfo.module.css";
 
 import Image from "next/image";
-import userImage from "../../../assets/userEx.png";
+import { StaticImageData } from "next/image";
 
 import { useState } from "react";
 
 const cx = classNames.bind(styles);
 
-const MyInfo: React.FC = () => {
+interface Props {
+  profilePic: string | StaticImageData;
+  setProfilePic: React.Dispatch<React.SetStateAction<string | StaticImageData>>;
+}
+
+const MyInfo = ({ profilePic, setProfilePic }: Props) => {
   const [secondSocialNumber, setSecondSocialNumber] = useState("2"); //마스킹 전 주민등록번호 뒷자리
   const [maskedSocialNumber, setMaskedSocialNumber] = useState(""); //마스킹이 더해진 후의 주민등록번호 뒷자리
 
@@ -37,6 +42,21 @@ const MyInfo: React.FC = () => {
     }
   };
 
+  const pictureChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        if (e.target && e.target.result) {
+          setProfilePic(e.target.result as string);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <div className={cx("myinfo-container")}>
       <div className={cx("myinfo-statement")}>회원 정보</div>
@@ -62,21 +82,31 @@ const MyInfo: React.FC = () => {
           </div>
         </div>
         <div className={cx("picture-container")}>
-          <input
-            id="image-change-input"
-            style={{ display: "none" }}
-            type="file"
-            accept="image/*"
-          />
           <div className={cx("image-container")}>
             <Image
-              src={userImage}
+              src={profilePic}
               alt="user-image"
               className={cx("user-image")}
+              width={120}
+              height={120}
             />
           </div>
           <div className={cx("modify-container")}>
-            <button className={cx("modify-button")}>프로필 사진 수정</button>
+            <button className={cx("modify-button")}>
+              <label
+                htmlFor="image-change-input"
+                className={cx("modify-label")}
+              >
+                프로필 사진 수정
+              </label>
+              <input
+                id="image-change-input"
+                style={{ display: "none" }}
+                type="file"
+                accept="image/*"
+                onChange={pictureChangeHandler}
+              />
+            </button>
           </div>
         </div>
       </div>

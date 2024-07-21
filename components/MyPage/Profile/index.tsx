@@ -3,17 +3,16 @@ import React from "react";
 import classNames from "classnames/bind";
 import styles from "./Profile.module.css";
 import Image from "next/image";
+import { StaticImageData } from "next/image";
 import downArrow from "../../../assets/down-arrow.png";
 
-import userExample from "../../../assets/userEx.png";
-
-import { useState } from "react";
 const cx = classNames.bind(styles);
 
 interface Props {
   isMyCourseOpen: boolean;
   isMyPostOpen: boolean;
   isMyInfoOpen: boolean;
+  profilePic: string | StaticImageData;
   setIsMyCourseOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsMyPostOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsMyInfoOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,6 +22,7 @@ const Profile: React.FC<Props> = ({
   isMyCourseOpen,
   isMyPostOpen,
   isMyInfoOpen,
+  profilePic,
   setIsMyCourseOpen,
   setIsMyPostOpen,
   setIsMyInfoOpen,
@@ -39,9 +39,11 @@ const Profile: React.FC<Props> = ({
     <div className={cx("profile-container")}>
       <div className={cx("name-photo-container")}>
         <Image
-          src={userExample}
+          src={profilePic}
           alt="user photo"
           className={cx("user-photo")}
+          width={90}
+          height={90}
         />
         <div className={cx("name")}>유저 네임</div>
       </div>

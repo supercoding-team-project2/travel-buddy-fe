@@ -107,24 +107,23 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  cursor: pointer;
 }
 
-.modify-button,
-.verification-button {
+.modify-button {
   width: 50%;
   height: 2.5rem;
   border: 1px solid #bbbdbe;
   border-radius: 5px;
   font-size: 1rem;
+  cursor: pointer;
 }
 
-.verification-button {
-  width: 18%;
-  font-size: 0.9rem;
-}
-
-.modify-button:hover,
-.verification-button:hover {
+.modify-button:hover {
   background-color: #85b1cc;
   color: white;
+}
+
+.modify-label {
+  cursor: pointer;
 }

@@ -106,12 +106,14 @@ const EachDate = ({
         <Slider {...settings}>
           {places.map((place) => (
             <div className={cx("place-container")} key={place.placeId}>
-              <Image
-                src={cancel}
-                alt="cancel"
-                className={cx("cancel-icon")}
-                onClick={() => handleCancel(place.placeId)}
-              />
+              {!isConfirmed && (
+                <Image
+                  src={cancel}
+                  alt="cancel"
+                  className={cx("cancel-icon")}
+                  onClick={() => handleCancel(place.placeId)}
+                />
+              )}
               <Image
                 src={place.photo ? place.photo : noImage}
                 alt="place"
