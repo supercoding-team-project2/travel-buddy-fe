@@ -64,11 +64,11 @@ const EachPlace = ({
   ];
 
   const getPlaceCategory = (types: string[]) => {
-    if (types.some((type) => cafe.includes(type))) {
-      return setCategory("카페");
-    }
     if (types.some((type) => accommodation.includes(type))) {
       return setCategory("숙소");
+    }
+    if (types.some((type) => cafe.includes(type))) {
+      return setCategory("카페");
     }
     if (types.some((type) => restaurant.includes(type))) {
       return setCategory("음식점");

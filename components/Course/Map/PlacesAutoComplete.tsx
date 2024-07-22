@@ -1,21 +1,13 @@
-import React, { useRef } from "react";
-
+import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 import usePlacesAutoComplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-} from "@reach/combobox";
+import Image from "next/image";
 
 import "./PlacesAutoComplete.css";
-import "@reach/combobox/styles.css";
-import Image from "next/image";
-import search from "@/assets/search.png";
 
 interface Props {
   setSelected: React.Dispatch<React.SetStateAction<any>>;
@@ -23,7 +15,6 @@ interface Props {
 }
 
 const PlacesAutoComplete = ({ setSelected, setIsNewSelection }: Props) => {
-  const inputRef = useRef<HTMLInputElement>(null);
   const {
     ready,
     value,
@@ -37,19 +28,23 @@ const PlacesAutoComplete = ({ setSelected, setIsNewSelection }: Props) => {
     },
   });
 
-  //when choose one of the places from the combobox list
-  const handleSelect = async (address: string) => {
-    setValue(address, false);
+  const handleSelect = async (
+    event: React.ChangeEvent<{}>,
+    address: string | null
+  ) => {
+    if (address) {
+      setValue(address, false);
+      clearSuggestions();
+
+      const results = await getGeocode({ address: address });
+      const { lat, lng } = await getLatLng(results[0]);
+
+      setSelected({ lat, lng });
+      setIsNewSelection(true);
+    }
     clearSuggestions();
-
-    const results = await getGeocode({ address });
-    const { lat, lng } = await getLatLng(results[0]);
-
-    setSelected({ lat, lng });
-    setIsNewSelection(true);
   };
 
-  //when press enter on input
   const handleInputEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -61,35 +56,37 @@ const PlacesAutoComplete = ({ setSelected, setIsNewSelection }: Props) => {
   };
 
   return (
-    <Combobox onSelect={handleSelect}>
-      <ComboboxInput
-        ref={inputRef}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onKeyDown={handleInputEnter}
-        disabled={!ready}
-        placeholder="여행지 검색 / 주변 장소 탐색"
-        className="combobox-input"
-      />
-      <Image
-        src={search}
-        alt="search"
-        className="search-icon"
-        onClick={() => {
-          if (inputRef.current) {
-            inputRef.current.focus();
-          }
-        }}
-      />
-      <ComboboxPopover>
-        <ComboboxList>
-          {status === "OK" &&
-            data.map(({ place_id, description }) => (
-              <ComboboxOption key={place_id} value={description} />
-            ))}
-        </ComboboxList>
-      </ComboboxPopover>
-    </Combobox>
+    <div className="autocomplete-container">
+    <Autocomplete
+      freeSolo
+      disableClearable
+       className="combobox-input-container"
+      value={value}
+      onInputChange={(event, newInputValue) => {
+        setValue(newInputValue);
+      }}
+      options={
+        status === "OK" ? data.map(({ description }) => description) : []
+      }
+      onChange={handleSelect}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label="여행지 검색 / 주변 장소 탐색"
+          variant="outlined"
+          InputProps={{
+            ...params.InputProps,
+            type: "search",
+          }}
+          fullWidth
+          disabled={!ready}
+          onKeyDown={handleInputEnter}
+          className="combobox-input"
+        />
+      )}
+      style={{ flexGrow: 1 }}
+    />
+    </div>
   );
 };
 

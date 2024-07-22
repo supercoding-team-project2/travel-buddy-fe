@@ -27,6 +27,8 @@
   gap: 10px;
   margin-left: 2%;
   width: 75%;
+  height: 100px;
+  max-height: 100px;
 }
 
 .name {
