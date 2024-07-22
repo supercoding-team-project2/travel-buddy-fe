@@ -22,7 +22,6 @@ const MyPostDeleteModal = ({
   setIsDeleteModalOpen,
   fetchPostData,
 }: Props) => {
-
   const handleDelete = (id: number) => {
     //게시글 axios delete 요청 & url에 id 넣어서 요청보내기
     const accessToken = localStorage.getItem("accessToken");
@@ -32,6 +31,7 @@ const MyPostDeleteModal = ({
       })
       .then((response) => {
         console.log("해당 게시글 삭제 성공", response.data.message);
+        setIsDeleteModalOpen(false);
         fetchPostData();
       })
       .catch((error) => {
