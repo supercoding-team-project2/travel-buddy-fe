@@ -89,15 +89,7 @@ const Header: React.FC = () => {
             <div className={cx('dropbox-div')}>로그아웃</div>
           </div>
         )}
-        <Image
-          className={cx('chat-icon')}
-          src={chat}
-          alt="chat-icon"
-          onClick={() => router.push('/chat-room-list')}
-          // onClick={() => {
-          //   window.open('/chat', '_blank', 'noopener,noreferrer,width=540,height=640');
-          // }}
-        />
+        <Image className={cx('chat-icon')} src={chat} alt="chat-icon" onClick={() => router.push('/chat-room-list')} />
       </div>
     </div>
   );

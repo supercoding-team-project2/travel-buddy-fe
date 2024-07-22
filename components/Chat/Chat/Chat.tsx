@@ -1,14 +1,31 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import io from 'socket.io-client';
 import { Message } from '../../../components/Chat/Message/Message';
 import styles from './Chat.module.css';
 import classNames from 'classnames/bind';
+import useInfiniteScroll from '../../../hooks/useInfiniteScroll';
 
 const cx = classNames.bind(styles);
-
 const socket = io('/api/socket');
 
 const mockChatData = [
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: true, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
+  { isMine: false, content: 'content', timestamp: 'time' },
   { isMine: false, content: 'content', timestamp: 'time' },
   { isMine: false, content: 'content', timestamp: 'time' },
   { isMine: true, content: 'content', timestamp: 'time' },
@@ -34,6 +51,16 @@ export function Chat({ chatIndex }: { chatIndex: number }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const loadMoreMessages = useCallback(() => {
+    const newMessages = [
+      { isMine: false, content: 'new content', timestamp: 'new time' },
+      { isMine: true, content: 'new content', timestamp: 'new time' },
+    ];
+    setMessages((prevMessages) => [...newMessages, ...prevMessages]);
+  }, []);
+
+  const { scrollRef, isFetching, setIsFetching } = useInfiniteScroll(loadMoreMessages);
+
   useEffect(() => {
     socket.on('message', (msg) => {
       setMessages((prevMessages) => [...prevMessages, msg]);
@@ -51,13 +78,6 @@ export function Chat({ chatIndex }: { chatIndex: number }) {
     }
   }, [messages]);
 
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
-      setIsLoaded(true);
-    }
-  }, []);
-
   const sendMessage = () => {
     const message = {
       isMine: true,
@@ -67,6 +87,7 @@ export function Chat({ chatIndex }: { chatIndex: number }) {
     socket.emit('message', message);
     setInput('');
   };
+
   return (
     <div className={cx('Chat')}>
       <div className={cx('messageHeader')}>
@@ -78,7 +99,11 @@ export function Chat({ chatIndex }: { chatIndex: number }) {
           <div className={cx('dot')}></div>
         </div>
       </div>
-      <div className={cx('messages')} ref={messagesEndRef} style={{ visibility: isLoaded ? 'visible' : 'hidden' }}>
+      <div
+        className={cx('messages')}
+        ref={scrollRef} // useInfiniteScroll의 scrollRef 설정
+        style={{ overflowY: 'auto', maxHeight: '500px', visibility: isLoaded ? 'visible' : 'hidden' }}
+      >
         {messages.map((msg, index) => (
           <Message
             key={index}
@@ -88,6 +113,7 @@ export function Chat({ chatIndex }: { chatIndex: number }) {
             opponentProfile="/png/hamster2.png"
           />
         ))}
+        <div ref={messagesEndRef}></div> {/* 메시지 끝 참조 */}
       </div>
       <div className={cx('messageFooter')}>
         <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type a message" />

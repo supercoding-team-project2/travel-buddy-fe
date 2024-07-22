@@ -114,6 +114,13 @@ const ProfilePost = ({ data }: Props) => {
               alt="보내기버튼"
               width={25}
               height={25}
+              onClick={() => {
+                window.open(
+                  "/chat",
+                  "_blank",
+                  "noopener,noreferrer,width=540,height=640"
+                );
+              }}
             />
           </div>
         </figcaption>
