@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -7,7 +7,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const EditTitle = () => {
+interface EditTitleProps {
+  initialData?: {
+    category: string;
+    title: string;
+    summary: string;
+  };
+}
+
+const EditTitle = ({ initialData }: EditTitleProps) => {
+  const [category, setCategory] = useState(initialData?.category || "");
+  const [title, setTitle] = useState(initialData?.title || "");
+  const [summary, setSummary] = useState(initialData?.summary || "");
+
   return (
     <>
       <div className="flex gap-3">
@@ -30,6 +42,8 @@ const EditTitle = () => {
             id="title"
             name="title"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
         </div>
@@ -41,6 +55,8 @@ const EditTitle = () => {
           id="title"
           name="title"
           className="w-full h-[5rem] px-4 py-2 border  border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+          value={summary}
+          onChange={(e) => setSummary(e.target.value)}
           required
         />
       </div>

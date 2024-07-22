@@ -99,6 +99,7 @@ const clientComponent = () => {
   return (
     <div className="px-20 py-10">
       <EditTitle />
+      {/* <EditTitle initialData={initialData} /> */}
       <EditList data={data[0]} />
       <Editor />
     </div>
