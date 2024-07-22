@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 
 interface ImgUploadProps {
@@ -7,6 +7,11 @@ interface ImgUploadProps {
 
 const ImgUpload = ({ onImagesChange }: ImgUploadProps) => {
   const [previewSrcList, setPreviewSrcList] = useState<string[]>([]);
+
+  // // 이미지 상태 변경 시
+  // useEffect(() => {
+  //   console.log("🚀 ~ useEffect ~ images:", previewSrcList);
+  // }, [previewSrcList]);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -41,31 +46,44 @@ const ImgUpload = ({ onImagesChange }: ImgUploadProps) => {
     });
   };
 
-  const displayPreview = (file: File) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      if (reader.result) {
-        setPreviewSrcList((prev) => {
-          const newSrcList = [...prev, reader.result as string];
-          if (onImagesChange) {
-            onImagesChange(newSrcList); // 부모에게 이미지 리스트 전달
-          }
-          return newSrcList;
-        });
-      }
-    };
-  };
+  const updatePreviewList = useCallback(
+    (newSrc: string) => {
+      setPreviewSrcList((prev) => {
+        const newSrcList = [...prev, newSrc];
+        if (onImagesChange) {
+          onImagesChange(newSrcList);
+        }
+        return newSrcList;
+      });
+    },
+    [onImagesChange]
+  );
 
-  const handleRemoveImage = (index: number) => {
-    setPreviewSrcList((prev) => {
-      const newSrcList = prev.filter((_, i) => i !== index);
-      if (onImagesChange) {
-        onImagesChange(newSrcList); // 부모에게 이미지 리스트 전달
-      }
-      return newSrcList;
-    });
-  };
+  const displayPreview = useCallback(
+    (file: File) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        if (reader.result) {
+          updatePreviewList(reader.result as string);
+        }
+      };
+    },
+    [updatePreviewList]
+  );
+
+  const handleRemoveImage = useCallback(
+    (index: number) => {
+      setPreviewSrcList((prev) => {
+        const newSrcList = prev.filter((_, i) => i !== index);
+        if (onImagesChange) {
+          onImagesChange(newSrcList);
+        }
+        return newSrcList;
+      });
+    },
+    [onImagesChange]
+  );
 
   return (
     <>

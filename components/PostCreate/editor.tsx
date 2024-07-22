@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ImgUpload from "./imgUpload";
 import Checkbox from "./checkbox";
-//import dynamic from "next/dynamic";
-
-// const ImgUpload = dynamic(() => import("./imgUpload"), {
-//   ssr: false,
-// });
 
 interface EditTextProps {
   initialData?: {
@@ -36,30 +31,29 @@ export const Editor = ({ initialData }: EditTextProps) => {
     setCheckboxData(data);
   };
 
-  const handleContentChange = (e: any) => {
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
-    console.log("🚀 ~ handleContentChange ~ content:", content);
   };
 
   const handleImagesChange = (imageList: string[]) => {
     setImages(imageList);
   };
 
-  // 이미지 상태 변경 시
-  useEffect(() => {
-    console.log("🚀 ~ useEffect ~ images:", images);
-  }, [images]);
+  // // 체크박스 데이터 변경 시
+  // useEffect(() => {
+  //   console.log("🚀 ~ useEffect ~ checkboxData:", checkboxData);
+  // }, [checkboxData]);
 
-  // 체크박스 데이터 변경 시
-  useEffect(() => {
-    console.log("🚀 ~ useEffect ~ checkboxData:", checkboxData);
-  }, [checkboxData]);
+  // // 이미지 데이터 변경 시
+  // useEffect(() => {
+  //   console.log("🚀 ~ useEffect ~ images:", images);
+  // }, [images]);
 
   return (
     <div className="relative flex flex-col bg-slate-100 rounded-lg p-6 dark:bg-slate-800 dark:highlight-white/5">
-      <div className="flex flex-col p-4  ">
+      <div className="flex flex-col p-4">
         <ImgUpload onImagesChange={handleImagesChange} />
-        <div className="my-6 ">
+        <div className="my-6">
           <textarea
             placeholder="글 내용"
             id="content"

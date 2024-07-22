@@ -7,8 +7,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import TravelBar from "../PostDetail/TravelBar";
-import formatDateString from "../PostDetail/formatDateString";
 import { TripData } from "./interfaces";
+import formatDateString from "../PostDetail/formatDateString";
 
 const EditList = ({ data }: { data: TripData[] }) => {
   const [selectedTrip, setSelectedTrip] = useState<TripData | null>(null);
