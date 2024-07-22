@@ -1,5 +1,5 @@
 import React from "react";
-import ClientComponent from "../PostDetail/clientComponent";
+import ClientComponent from "./clientComponent";
 
 const page = () => {
   return (

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import ImgSlider from "./ImgSlider";
-import styles from "../../app/(Pages)/PostDetail/PostDetail.module.css";
+import styles from "../../app/(Pages)/post-detail/post-detail.module.css";
 import classNames from "classnames/bind";
 import { useState } from "react";
 import { CommentSection, MycommentSection } from "./comment/allcomment";

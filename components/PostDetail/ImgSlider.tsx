@@ -31,8 +31,8 @@ const ImgSlider = ({ img }: any) => {
                 <Image
                   src={slide}
                   alt={`Slide ${index + 1}`}
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  style={{ objectFit: "cover" }}
                 />
               </div>
             </div>

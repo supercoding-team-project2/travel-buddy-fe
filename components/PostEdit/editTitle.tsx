@@ -17,6 +17,7 @@ interface EditTitleProps {
 
 const EditTitle = ({ initialData }: EditTitleProps) => {
   const [category, setCategory] = useState(initialData?.category || "");
+  console.log("🚀 ~ EditTitle ~ category:", category);
   const [title, setTitle] = useState(initialData?.title || "");
   const [summary, setSummary] = useState(initialData?.summary || "");
 
@@ -24,7 +25,7 @@ const EditTitle = ({ initialData }: EditTitleProps) => {
     <>
       <div className="flex gap-3">
         <div>
-          <Select>
+          <Select onValueChange={(value) => setCategory(value)}>
             <SelectTrigger className="w-[180px] border-gray-500">
               <SelectValue placeholder="동행" />
             </SelectTrigger>

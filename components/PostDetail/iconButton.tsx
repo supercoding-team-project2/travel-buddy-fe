@@ -1,6 +1,6 @@
 import Image from "next/image";
 const cx = classNames.bind(styles);
-import styles from "../../app/(Pages)/PostDetail/PostDetail.module.css";
+import styles from "../../app/(Pages)/post-detail/post-detail.module.css";
 import classNames from "classnames/bind";
 
 //any말고 inteface로 타입 정해서 하기...

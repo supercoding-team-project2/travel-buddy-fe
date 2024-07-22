@@ -1,10 +1,12 @@
+import React, { useState } from "react";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
 
-export const ImgUpload: React.FC = () => {
+interface ImgUploadProps {
+  onImagesChange?: (images: string[]) => void; // 부모 컴포넌트로 이미지를 전달할 함수
+}
+
+const ImgUpload = ({ onImagesChange }: ImgUploadProps) => {
   const [previewSrcList, setPreviewSrcList] = useState<string[]>([]);
-  const dropzoneRef = useRef<HTMLDivElement | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -44,14 +46,25 @@ export const ImgUpload: React.FC = () => {
     reader.readAsDataURL(file);
     reader.onload = () => {
       if (reader.result) {
-        setPreviewSrcList((prev) => [...prev, reader.result as string]);
+        setPreviewSrcList((prev) => {
+          const newSrcList = [...prev, reader.result as string];
+          if (onImagesChange) {
+            onImagesChange(newSrcList); // 부모에게 이미지 리스트 전달
+          }
+          return newSrcList;
+        });
       }
     };
   };
 
-  /*사진지울때 */
   const handleRemoveImage = (index: number) => {
-    setPreviewSrcList((prev) => prev.filter((_, i) => i !== index));
+    setPreviewSrcList((prev) => {
+      const newSrcList = prev.filter((_, i) => i !== index);
+      if (onImagesChange) {
+        onImagesChange(newSrcList); // 부모에게 이미지 리스트 전달
+      }
+      return newSrcList;
+    });
   };
 
   return (
@@ -79,7 +92,6 @@ export const ImgUpload: React.FC = () => {
               width={48}
               height={48}
             />
-
             <h3 className="mt-2 text-sm font-medium text-gray-900">
               <label htmlFor="file-upload" className="relative cursor-pointer">
                 <span>Drag and drop</span>
@@ -137,7 +149,6 @@ export const ImgUpload: React.FC = () => {
                     id="file-upload"
                     multiple
                   />
-
                   <Image
                     className="mx-auto h-12 w-12"
                     src="https://www.svgrepo.com/show/357902/image-upload.svg"

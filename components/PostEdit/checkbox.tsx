@@ -5,6 +5,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const Checkbox = () => {
   const [participants, setParticipants] = useState<number>(1);
+  const [ageMin, setAgeMin] = useState<number | undefined>(undefined);
+  const [ageMax, setAgeMax] = useState<number | undefined>(undefined);
+  const [gender, setGender] = useState<string>("");
+
   const decreaseparticipant = () => {
     if (participants) {
       setParticipants((prev) => prev - 1);
@@ -17,13 +21,39 @@ const Checkbox = () => {
     }
   };
 
+  const handleAgeMinChange = (e: any) => {
+    setAgeMin(e.target.value);
+    console.log("🚀 ~ Checkbox ~ ageMin:", ageMin);
+  };
+
+  const handleAgeMaxChange = (e: any) => {
+    setAgeMax(e.target.value);
+    console.log("🚀 ~ Checkbox ~ ageMax:", ageMax);
+  };
+
+  const handleGenderChange = (value: string) => {
+    setGender(value);
+    console.log("🚀 ~ Checkbox ~ gender:", value);
+  };
+
   return (
     <div className=" border p-4 w-[20rem]">
       <div className="flex gap-5">
         <label>연령대</label>
         <div>
-          <input placeholder="min" className="w-14 border rounded" /> ⁓{" "}
-          <input placeholder="max" className="w-14 border rounded" />
+          <input
+            placeholder="min"
+            className="w-14 border rounded"
+            value={ageMin ?? ""}
+            onChange={handleAgeMinChange}
+          />{" "}
+          ⁓{" "}
+          <input
+            placeholder="max"
+            value={ageMax ?? ""}
+            onChange={handleAgeMaxChange}
+            className="w-14 border rounded"
+          />
         </div>
       </div>
       <div className="flex gap-5 my-4">
@@ -46,7 +76,12 @@ const Checkbox = () => {
       </div>
       <div className="flex gap-5">
         <label>성별</label>
-        <RadioGroup defaultValue="option-one" className="flex">
+        <RadioGroup
+          defaultValue="option-one"
+          className="flex"
+          value={gender}
+          onValueChange={handleGenderChange}
+        >
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="남성" id="option-one" />
             <Label htmlFor="option-one">남성</Label>
