@@ -1,5 +1,5 @@
 import { ChatClient } from './clientComponent';
 
 export default function Chat() {
-  return <ChatClient opponentId={0} />;
+  return <ChatClient chatIndex={0} />;
 }
