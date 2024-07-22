@@ -1,13 +1,13 @@
-type MessageProps = {
+interface MessageProps {
   isMine: boolean;
   content: string;
   timestamp: string;
-};
+}
 
-type ChatRoomSummaryProps = {
+interface ChatRoomSummaryProps {
   roomId: number;
   opponentName: string;
   lastMessage: string;
   lastTime: string;
   setChatIndex: (arg0: number) => void;
-};
+}

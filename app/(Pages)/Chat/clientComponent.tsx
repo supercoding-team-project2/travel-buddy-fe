@@ -6,6 +6,6 @@ import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
-export function ChatClient({ opponentId }: { opponentId: number }) {
-  return <Chat opponentId={0} />;
+export function ChatClient({ chatIndex }: { chatIndex: number }) {
+  return <Chat chatIndex={chatIndex} />;
 }
