@@ -1,13 +1,43 @@
-import React from "react";
-//import ImgUpload from "./imgUpload";
+import React, { useState } from "react";
+import ImgUpload from "./imgUpload";
 import Checkbox from "./checkbox";
-import dynamic from "next/dynamic";
+//import dynamic from "next/dynamic";
 
-const ImgUpload = dynamic(() => import("./imgUpload"), {
-  ssr: false,
-});
+// const ImgUpload = dynamic(() => import("./imgUpload"), {
+//   ssr: false,
+// });
 
-export const Editor = () => {
+interface EditTextProps {
+  initialData?: {
+    images: string[];
+    content: string;
+    checkbox: Boxs;
+  };
+}
+
+interface Boxs {
+  ageMin: number;
+  ageMax: number;
+  participantCount: number;
+  gender: string;
+}
+
+export const Editor = ({ initialData }: EditTextProps) => {
+  const [images, setImages] = useState<string[]>(initialData?.images || []);
+  const [content, setContent] = useState(initialData?.content || "");
+  const [checkboxData, setCheckboxData] = useState<Boxs>(
+    initialData?.checkbox || {
+      ageMin: 0,
+      ageMax: 0,
+      participantCount: 0,
+      gender: "",
+    }
+  );
+
+  const handleContentChange = (e: any) => {
+    setContent(e.target.value);
+  };
+
   return (
     <div className="relative flex flex-col bg-slate-100 rounded-lg p-6 dark:bg-slate-800 dark:highlight-white/5">
       <div className="flex flex-col p-4  ">

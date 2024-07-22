@@ -6,8 +6,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import TravelBar from "../PostDetail/TravelBar";
+import { Props } from "../PostDetail/interfaces";
+import formatDateString from "../PostDetail/formatDateString";
 
-const EditList = () => {
+const EditList = ({ data }: Props) => {
+  const startDate = formatDateString(data.route.startAt);
+  const endDate = formatDateString(data.route.endAt);
   return (
     <div className="my-10">
       <div className="flex mb-2 gap-10">
@@ -23,9 +28,13 @@ const EditList = () => {
             </SelectContent>
           </Select>
         </div>
-        <div>2024년 8월 15일 ~ 2024년 8월 18일</div>
+        <div>
+          {startDate}~{endDate}
+        </div>
       </div>
-      <div className="border">경로바 넣을 자리</div>
+      <div className="border">
+        <TravelBar route={data.route} />
+      </div>
     </div>
   );
 };

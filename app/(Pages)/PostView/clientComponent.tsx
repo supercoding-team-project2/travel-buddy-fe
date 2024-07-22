@@ -16,100 +16,43 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DatePickerWithRange } from "@/components/PostView/DatePickerWithRange";
 import { PostCard } from "@/components/PostView/PostCard";
+import { DateRange } from "react-day-picker";
 
 const cx = classNames.bind(styles);
 
 const posts = [
   {
-    image: "/png/travel1.png",
-    label: "동행",
-    title: "남해관광재단 워케이션 프로젝트",
-    author: "홍길동",
-    date: {
-      from: "2024.07.13",
-      to: "2024.07.15",
-    },
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
-    likes: 100,
+    id: 2,
+    categoryEnum: "GUIDE",
+    title: "가이드와 함께하는 짧은 부산여행",
+    summary: "mbti j인 가이드와 함께 떠나는 부산여행은 취향?",
+    author: "Jane Smith",
+    startAt: "2024-07-26",
+    endAt: "2024-07-28",
+    representativeImage: "/png/travel2.png",
+    likeCount: 0,
   },
   {
-    image: "/png/travel1.png",
-    label: "동행",
-    title: "남해관광재단 워케이션 프로젝트",
-    author: "홍길동",
-    date: {
-      from: "2024.07.13",
-      to: "2024.07.15",
-    },
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
-    likes: 100,
+    id: 1,
+    categoryEnum: "COMPANION",
+    title: "짧은 경주여행",
+    summary: "낯선사람과 떠나는 경주 여행은 어떠세요?",
+    author: "John Doe",
+    startAt: "2024-07-24",
+    endAt: "2024-07-26",
+    representativeImage: "/png/travel2.png",
+    likeCount: 10,
   },
   {
-    image: "/png/travel1.png",
-    label: "동행",
-    title: "남해관광재단 워케이션 프로젝트",
-    author: "홍길동",
-    date: {
-      from: "2024.07.13",
-      to: "2024.07.15",
-    },
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
-    likes: 100,
-  },
-  {
-    image: "/png/travel1.png",
-    label: "가이드",
-    title: "남해관광재단 워케이션 프로젝트",
-    author: "홍길동",
-    date: {
-      from: "2024.07.13",
-      to: "2024.07.15",
-    },
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
-    likes: 100,
-  },
-  {
-    image: "/png/travel1.png",
-    label: "가이드",
-    title: "남해관광재단 워케이션 프로젝트",
-    author: "홍길동",
-    date: {
-      from: "2024.07.13",
-      to: "2024.07.15",
-    },
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
-    likes: 100,
-  },
-  {
-    image: "/png/travel1.png",
-    label: "후기",
-    title: "남해관광재단 워케이션 프로젝트",
-    author: "홍길동",
-    date: {
-      from: "2024.07.13",
-      to: "2024.07.15",
-    },
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
-    likes: 100,
-  },
-  {
-    image: "/png/travel1.png",
-    label: "후기",
-    title: "남해관광재단 워케이션 프로젝트",
-    author: "홍길동",
-    date: {
-      from: "2024.07.13",
-      to: "2024.07.15",
-    },
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, mi sed egestas tincidunt, libero dolor bibendum nisl, non aliquam quam massa id lacus.",
-    likes: 100,
+    id: 3,
+    categoryEnum: "GUIDE",
+    title: "부산여행",
+    summary: "가위바위보라돌이뚜비나나",
+    author: "랄랄",
+    startAt: "2024-07-26",
+    endAt: "2024-07-28",
+    representativeImage: "/png/travel2.png",
+    likeCount: 44,
   },
 ];
 
@@ -141,38 +84,39 @@ export function ButtonOutline({ text, onClick }: ButtonOutlineProps) {
   );
 }
 
-export const SelectPost = () => {
+export const SelectPost = ({ onSortChange }: any) => {
   return (
-    <Select>
+    <Select onValueChange={onSortChange}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="최신순" />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="최신순">최신순</SelectItem>
         <SelectItem value="추천순">추천순</SelectItem>
-        <SelectItem value="추천순">조회순</SelectItem>
       </SelectContent>
     </Select>
   );
 };
 
+interface Post {
+  id: number;
+  categoryEnum: string;
+  title: string;
+  summary: string;
+  author: string;
+  startAt: string;
+  endAt: string;
+  representativeImage: string;
+  likeCount: number;
+}
+
 export const ClientComponent = () => {
   const [filter, setFilter] = useState("전체");
-  const [filteredPosts, setFilteredPosts] = useState(posts);
-
-  useEffect(() => {
-    console.log("Current filter:", filter);
-    if (filter === "전체") {
-      setFilteredPosts(posts);
-    } else {
-      const filtered = posts.filter((post) => {
-        console.log(`Post label: ${post.label}, Filter: ${filter}`);
-        return post.label === filter;
-      });
-      console.log("filtered-posts:", filtered);
-      setFilteredPosts(filtered);
-    }
-  }, [filter]);
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
+  const [selectedDateRange, setSelectedDateRange] = useState<
+    DateRange | undefined
+  >(undefined);
+  const [sortOrder, setSortOrder] = useState("최신순");
 
   return (
     <div className={cx("post-container")}>
@@ -198,8 +142,8 @@ export const ClientComponent = () => {
 
         <div className={cx("select-write-group")}>
           <div className={cx("select-container")}>
-            <SelectPost />
-            <DatePickerWithRange />
+            <SelectPost onSortChange={setSortOrder} />
+            <DatePickerWithRange onDateChange={setSelectedDateRange} />
           </div>
 
           <div className={cx("write-icon-container")}>
