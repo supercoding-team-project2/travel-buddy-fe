@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { DateRangePickerProps } from "react-date-range";
 
 import classnames from "classnames/bind";
 import styles from "./Places.module.css";
@@ -9,11 +10,29 @@ import EachPlace from "./EachPlace";
 const cx = classnames.bind(styles);
 
 interface Props {
-  setSelected: React.Dispatch<React.SetStateAction<any>>;
+  dateData: { [date: string]: any[] };
+  dateRange: DateRangePickerProps["ranges"];
+  isDateConfirmed: {};
   placeDetails: any[];
+  isSaved: { [placeId: string]: boolean };
+  setIsSaved: React.Dispatch<
+    React.SetStateAction<{ [placeId: string]: boolean }>
+  >;
+  setDateData: React.Dispatch<React.SetStateAction<{ [date: string]: any[] }>>;
+  setSelected: React.Dispatch<React.SetStateAction<any>>;
   setIsNewSelection: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const Places = ({ setSelected, placeDetails, setIsNewSelection }: Props) => {
+const Places = ({
+  dateData,
+  dateRange,
+  isDateConfirmed,
+  placeDetails,
+  isSaved,
+  setIsSaved,
+  setDateData,
+  setSelected,
+  setIsNewSelection,
+}: Props) => {
   const placeListRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -24,19 +43,28 @@ const Places = ({ setSelected, placeDetails, setIsNewSelection }: Props) => {
 
   return (
     <div className={cx("places-container")}>
-      <PlacesAutoComplete setSelected={setSelected}  setIsNewSelection={setIsNewSelection}/>
+      <PlacesAutoComplete
+        setSelected={setSelected}
+        setIsNewSelection={setIsNewSelection}
+      />
       <div className={cx("place-list-container")} ref={placeListRef}>
         {placeDetails?.length > 0 &&
           placeDetails.map((place) => {
             return (
               <EachPlace
+                dateData={dateData}
+                dateRange={dateRange}
+                isDateConfirmed={isDateConfirmed}
+                isSaved={isSaved}
+                setIsSaved={setIsSaved}
+                setDateData={setDateData}
                 setSelected={setSelected}
                 setIsNewSelection={setIsNewSelection}
                 key={place.placeId}
                 placeId={place.placeId}
                 name={place.name}
                 address={place.address}
-                type={place.type}
+                types={place.types}
                 photo={place.photo}
                 location={place.location}
               />

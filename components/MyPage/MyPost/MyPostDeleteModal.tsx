@@ -31,7 +31,7 @@ const MyPostDeleteModal: React.FC<Props> = ({
           />
         </div>
         <div className={cx("check-deletion")}>
-          이 후기를 삭제하시겠어요?
+          이 게시글을 삭제하시겠어요?
         </div>
         <div className={cx("delete-buttons-container")}>
           <button

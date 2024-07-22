@@ -55,8 +55,9 @@
 .check-icon {
   width: 25px;
   height: 25px;
+  border-radius: 50%;
 }
 
 .save-icon:hover {
-  background-color: rgb(241, 241, 241);
+  background-color: #cbdbe5;
 }
