@@ -33,26 +33,26 @@ const EachCourse: React.FC<Props> = ({
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [detailData, setDetailData] = useState();
+  const [detailData, setDetailData] = useState(); // detail mock Data 쓰기 
 
-  //현재 id가 열려있을 때, axios get 요청
-  useEffect(() => {
-    if (isCourseOpen) {
-      const accessToken = localStorage.getItem("accessToken");
+  //현재 id가 열려있을 때, axios get 요청 & url에 param으로 id 보내기 
+  // useEffect(() => {
+  //   if (isCourseOpen) {
+  //     const accessToken = localStorage.getItem("accessToken");
 
-      if (accessToken) {
-        axios
-          .get("url", { headers: { Authorization: `Bearer ${accessToken}` } })
-          .then((response) => {
-            console.log("여행 경로 디테일 조회 데이터", response.data);
-            setDetailData(response.data);
-          })
-          .catch((error) => {
-            console.error("여행 경로 디테일 조회 요청 실패", error);
-          });
-      }
-    }
-  }, [isCourseOpen]);
+  //     if (accessToken) {
+  //       axios
+  //         .get("url", { headers: { Authorization: `Bearer ${accessToken}` } })
+  //         .then((response) => {
+  //           console.log("여행 경로 디테일 조회 데이터", response.data);
+  //           setDetailData(response.data);
+  //         })
+  //         .catch((error) => {
+  //           console.error("여행 경로 디테일 조회 요청 실패", error);
+  //         });
+  //     }
+  //   }
+  // }, [isCourseOpen]);
 
   return (
     <>

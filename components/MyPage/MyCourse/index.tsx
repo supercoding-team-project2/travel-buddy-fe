@@ -18,7 +18,7 @@ const MyCourse = () => {
   const [openId, setOpenId] = useState<number | null>(null);
 
   //테스트 데이터 배열
-  const [postData, setPostData] = useState([
+  const [courseData, setCourseData] = useState([
     {
       id: 1,
       name: "여행 이름1",
@@ -47,26 +47,26 @@ const MyCourse = () => {
     setOpenId(id === openId ? null : id);
   };
 
-  // 경로 조회 axios get 요청
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
+  //경로 조회 axios get 요청
+  // useEffect(() => {
+  //   const accessToken = localStorage.getItem("accessToken");
 
-    if (accessToken) {
-      axios
-        .get("url", { headers: { Authorization: `Bearer ${accessToken}` } })
-        .then((response) => {
-          console.log("경로 조회 데이터", response.data);
-          setPostData(response.data);
-        })
-        .catch((error) => {
-          console.error("경로 조회 요청 실패", error);
-        });
-    }
-  }, []);
+  //   if (accessToken) {
+  //     axios
+  //       .get("url", { headers: { Authorization: `Bearer ${accessToken}` } })
+  //       .then((response) => {
+  //         console.log("경로 조회 데이터", response.data);
+  //         setCourseData(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error("경로 조회 요청 실패", error);
+  //       });
+  //   }
+  // }, []);
 
   return (
     <>
-      {postData.length === 0 ? (
+      {courseData.length === 0 ? (
         <EmptyMyCourse />
       ) : (
         <main className={cx("my-course-container")}>
@@ -90,7 +90,7 @@ const MyCourse = () => {
             </button>
           </div>
           <div className={cx("courses-container")}>
-            {postData.map((element: any, index: number) => {
+            {courseData.map((element: any, index: number) => {
               return (
                 <EachCourse
                   key={element.id}

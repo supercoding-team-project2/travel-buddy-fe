@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { createPortal } from "react-dom";
 
 import classNames from "classnames/bind";
@@ -9,14 +10,35 @@ import exit from "../../../assets/exit.png";
 
 const cx = classNames.bind(styles);
 interface Props {
+  id: number;
   isDeleteModalOpen: boolean;
   setIsDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  fetchPostData: () => void;
 }
 
-const MyPostDeleteModal: React.FC<Props> = ({
+const MyPostDeleteModal = ({
+  id,
   isDeleteModalOpen,
   setIsDeleteModalOpen,
-}) => {
+  fetchPostData,
+}: Props) => {
+
+  const handleDelete = (id: number) => {
+    //게시글 axios delete 요청 & url에 id 넣어서 요청보내기
+    const accessToken = localStorage.getItem("accessToken");
+    axios
+      .delete(`url/${id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+      .then((response) => {
+        console.log("해당 게시글 삭제 성공", response.data.message);
+        fetchPostData();
+      })
+      .catch((error) => {
+        console.error("해당 게시글 삭제 요청 실패", error);
+      });
+  };
+
   if (!isDeleteModalOpen) return null;
 
   return createPortal(
@@ -30,9 +52,7 @@ const MyPostDeleteModal: React.FC<Props> = ({
             onClick={() => setIsDeleteModalOpen(false)}
           />
         </div>
-        <div className={cx("check-deletion")}>
-          이 게시글을 삭제하시겠어요?
-        </div>
+        <div className={cx("check-deletion")}>이 게시글을 삭제하시겠어요?</div>
         <div className={cx("delete-buttons-container")}>
           <button
             className={cx("cancel-button")}
@@ -40,7 +60,12 @@ const MyPostDeleteModal: React.FC<Props> = ({
           >
             취소
           </button>
-          <button className={cx("delete-button")}>삭제</button>
+          <button
+            className={cx("delete-button")}
+            onClick={() => handleDelete(id)}
+          >
+            삭제
+          </button>
         </div>
       </div>
     </div>,
