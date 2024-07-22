@@ -4,25 +4,24 @@ import classNames from "classnames/bind";
 import styles from "./MyInfo.module.css";
 
 import Image from "next/image";
-import view from "../../../assets/view.png";
-import userImage from "../../../assets/userEx.png";
+import { StaticImageData } from "next/image";
 
 import { useState } from "react";
 
 const cx = classNames.bind(styles);
 
-const MyInfo: React.FC = () => {
-  const [isPasswordViewed, setIsPasswordViewed] = useState(false);
-  const [isPasswordCheckViewed, setIsPasswordCheckViewed] =
-    useState(false);
+interface Props {
+  profilePic: string | StaticImageData;
+  setProfilePic: React.Dispatch<React.SetStateAction<string | StaticImageData>>;
+}
 
-  const [secondSocialNumber, setSecondSocialNumber] =
-    useState("2345678"); //마스킹 되기 전 주민등록번호 뒷자리
-  const [maskedSocialNumber, setMaskedSocialNumber] = useState(""); //마스킹 된 후의 주민등록번호 뒷자리
+const MyInfo = ({ profilePic, setProfilePic }: Props) => {
+  const [secondSocialNumber, setSecondSocialNumber] = useState("2"); //마스킹 전 주민등록번호 뒷자리
+  const [maskedSocialNumber, setMaskedSocialNumber] = useState(""); //마스킹이 더해진 후의 주민등록번호 뒷자리
 
-  // 주민등록번호 뒷자리 마스킹하는 함수
+  // 주민등록번호 뒷자리 마스킹 붙이는 함수
   const hideSecondSocial = (value: string) => {
-    const hiddenValue = value.substring(0, 1) + "*".repeat(value.length - 1);
+    const hiddenValue = value.substring(0, 1) + "*".repeat(6);
 
     setMaskedSocialNumber(hiddenValue);
 
@@ -33,94 +32,84 @@ const MyInfo: React.FC = () => {
     hideSecondSocial(secondSocialNumber);
   }
 
+  const sortGender = () => {
+    if (maskedSocialNumber) {
+      if (maskedSocialNumber.charAt(0) === "1") {
+        return "남성";
+      } else {
+        return "여성";
+      }
+    }
+  };
+
+  const pictureChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        if (e.target && e.target.result) {
+          setProfilePic(e.target.result as string);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <div className={cx("myinfo-container")}>
-      <div className={cx("myinfo-statement")}>회원 정보 수정</div>
-      <form className={cx("myinfo-form")}>
-        <div className={cx("email-container")}>
-          <label className={cx("email-label")}>Email</label>
-          <input className={cx("email-input")} value="test@gmail.com" />
-        </div>
-        <div className={cx("name-container")}>
-          <label className={cx("name-label")}>Name</label>
-          <input className={cx("name-input")} value="유저 네임" />
-        </div>
-        <div className={cx("password-container")}>
-          <label className={cx("password-label")}>Password</label>
-          <input
-            className={cx("password-input")}
-            type={isPasswordViewed ? "text" : "password"}
-            value="testytester"
-          />
-          <Image
-            src={view}
-            alt="view"
-            className={cx("view-icon")}
-            onClick={() => {
-              setIsPasswordViewed(!isPasswordViewed);
-            }}
-          />
-        </div>
-        <div className={cx("password-check-container")}>
-          <label className={cx("password-check-label")}>Password Check</label>
-          <input
-            className={cx("password-check-input")}
-            type={isPasswordCheckViewed ? "text" : "password"}
-            value="testytester"
-          />
-          <Image
-            src={view}
-            alt="view"
-            className={cx("view-icon")}
-            onClick={() => {
-              setIsPasswordCheckViewed(!isPasswordCheckViewed);
-            }}
-          />
-        </div>
-        <div className={cx("verification-container")}>
-          <button className={cx("verification-button")}>E-mail 인증</button>
-        </div>
-        <div className={cx("socialNum-container")}>
-          <label className={cx("socialNum-label")}>주민등록번호</label>
-          <div className={cx("socialNum-input-container")}>
-            <input
-              className={cx("socialNum-first-input")}
-              type="tel"
-              pattern="[0-9]{6}"
-              value="971017"
-            />
-            <input
-              className={cx("socialNum-second-input")}
-              value={maskedSocialNumber}
-            />
+      <div className={cx("myinfo-statement")}>회원 정보</div>
+      <div className={cx("myinfo-div")}>
+        <div className={cx("myinfo-details")}>
+          <div className={cx("email-container")}>
+            <label className={cx("email-label")}>Email:</label>
+            <div className={cx("email")}>test@gmail.com</div>
           </div>
-        </div>
-        <div className={cx("gender-container")}>
-          <input className={cx("gender-input")} type="radio" checked />
-          <label className={cx("gender-label")}>남성</label>
+          <div className={cx("name-container")}>
+            <label className={cx("name-label")}>Name:</label>
+            <div className={cx("name")}>유저 네임</div>
+          </div>
+          <div className={cx("socialNum-container")}>
+            <label className={cx("socialNum-label")}>주민등록번호:</label>
+            <div className={cx("socialNum-container")}>
+              <div>971017-{maskedSocialNumber}</div>
+            </div>
+          </div>
+          <div className={cx("gender-container")}>
+            <input className={cx("gender-input")} type="radio" checked />
+            <label className={cx("gender-label")}>{sortGender()}</label>
+          </div>
         </div>
         <div className={cx("picture-container")}>
-          <label className={cx("picture-label")} htmlFor="image-change-input">
-            프로필 사진 수정
-          </label>
-          <input
-            id="image-change-input"
-            style={{ display: "none" }}
-            type="file"
-            accept="image/*"
-          />
           <div className={cx("image-container")}>
             <Image
-              src={userImage}
+              src={profilePic}
               alt="user-image"
               className={cx("user-image")}
+              width={120}
+              height={120}
             />
           </div>
+          <div className={cx("modify-container")}>
+            <button className={cx("modify-button")}>
+              <label
+                htmlFor="image-change-input"
+                className={cx("modify-label")}
+              >
+                프로필 사진 수정
+              </label>
+              <input
+                id="image-change-input"
+                style={{ display: "none" }}
+                type="file"
+                accept="image/*"
+                onChange={pictureChangeHandler}
+              />
+            </button>
+          </div>
         </div>
-        <div className={cx("modify-container")}>
-          <button className={cx("modify-button")}>수정하기</button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };

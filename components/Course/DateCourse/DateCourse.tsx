@@ -8,9 +8,21 @@ const cx = classnames.bind(styles);
 
 interface Props {
   dateRange: DateRangePickerProps["ranges"];
+  dateData: { [date: string]: any[] };
+  setDateData: React.Dispatch<React.SetStateAction<{ [date: string]: any[] }>>;
+  setIsDateConfirmed: React.Dispatch<React.SetStateAction<{}>>;
+  setIsSaved: React.Dispatch<
+    React.SetStateAction<{ [placeId: string]: boolean }>
+  >;
 }
 
-const DateCourse = ({ dateRange }: Props) => {
+const DateCourse = ({
+  dateRange,
+  dateData,
+  setDateData,
+  setIsDateConfirmed,
+  setIsSaved,
+}: Props) => {
   const [dates, setDates] = useState<Date[]>([]);
 
   const getDatesBetween = (startDate: Date, endDate: Date): Date[] => {
@@ -43,7 +55,16 @@ const DateCourse = ({ dateRange }: Props) => {
     <div className={cx("date-course-container")}>
       {dates.length > 0 &&
         dates.map((date: Date, index: number) => {
-          return <EachDate key={index} date={date} />;
+          return (
+            <EachDate
+              key={index}
+              date={date}
+              dateData={dateData}
+              setDateData={setDateData}
+              setIsDateConfirmed={setIsDateConfirmed}
+              setIsSaved={setIsSaved}
+            />
+          );
         })}
       <div className={cx("memo-button-container")}>
         <textarea

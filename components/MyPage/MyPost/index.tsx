@@ -16,7 +16,8 @@ const cx = classNames.bind(styles);
 const MyPost: React.FC = () => {
   const testData: any = [0, 1, 2];
 
-  const [isAccompanyClicked, setIsAccompanyClicked] = useState(true);
+  const [isReviewClicked, setIsReviewClicked] = useState(false);
+  const [isAccompanyClicked, setIsAccompanyClicked] = useState(false);
   const [isGuideClicked, setIsGuideClicked] = useState(false);
 
   return (
@@ -37,6 +38,8 @@ const MyPost: React.FC = () => {
             />
           </div>
           <MyPostSort
+            isReviewClicked={isReviewClicked}
+            setIsReviewClicked={setIsReviewClicked}
             isAccompanyClicked={isAccompanyClicked}
             isGuideClicked={isGuideClicked}
             setIsAccompanyClicked={setIsAccompanyClicked}

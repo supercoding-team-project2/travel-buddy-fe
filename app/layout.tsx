@@ -1,13 +1,13 @@
+import React, { ReactNode } from "react";
 import "./globals.css";
 import Header from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
+type RootLayoutProps = {
+  children: ReactNode;
+};
+
+const RootLayout: React.FC<RootLayoutProps> = ({ children }) => (
     <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,5 +27,6 @@ export default function RootLayout({
         <Footer />
       </body>
     </html>
-  );
-}
+);
+
+export default RootLayout;

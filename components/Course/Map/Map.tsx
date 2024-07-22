@@ -76,7 +76,7 @@ const Map = ({
                   placeId: place.place_id,
                   name: place.name,
                   address: place.formatted_address || place.vicinity,
-                  type: place.types && place.types[0],
+                  types: place.types,
                   photo: place.photos && place.photos[0].getUrl(),
                   location: {
                     lat: place.geometry && place.geometry.location?.lat(),
@@ -125,7 +125,7 @@ const Map = ({
                             placeId: place.place_id,
                             name: place.name,
                             address: place.formatted_address || place.vicinity,
-                            type: place.types && place.types[0],
+                            types: place.types,
                             photo: place.photos && place.photos[0].getUrl(),
                             location: {
                               lat:
@@ -193,7 +193,7 @@ const Map = ({
                 placeId: place.place_id,
                 name: place.name,
                 address: place.formatted_address || place.vicinity,
-                type: place.types && place.types[0],
+                types: place.types,
                 photo: place.photos && place.photos[0]?.getUrl(),
                 location: {
                   lat: place.geometry && place.geometry.location?.lat(),
@@ -211,6 +211,8 @@ const Map = ({
       );
     }
   }, [selected, center, setPlaceDetails]);
+
+  console.log("데이터 패치", placeDetails);
 
   const showMarkers = () => {
     if (selected && typeof selected === "object") {

@@ -9,7 +9,7 @@ import DateCourse from "@/components/Course/DateCourse/DateCourse";
 
 const CourseClient = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  //date range state
+  const [isSaved, setIsSaved] = useState<{ [placeId: string]: boolean }>({});
   const [dateRange, setDateRange] = useState<DateRangePickerProps["ranges"]>([
     {
       startDate: new Date(),
@@ -17,6 +17,8 @@ const CourseClient = () => {
       key: "selection",
     },
   ]);
+  const [dateData, setDateData] = useState<{ [date: string]: any[] }>({});
+  const [isDateConfirmed, setIsDateConfirmed] = useState({});
 
   return (
     <>
@@ -26,8 +28,21 @@ const CourseClient = () => {
         dateRange={dateRange}
         setDateRange={setDateRange}
       />
-      <MapContainer />
-      <DateCourse dateRange={dateRange} />
+      <MapContainer
+        dateData={dateData}
+        dateRange={dateRange}
+        isDateConfirmed={isDateConfirmed}
+        isSaved={isSaved}
+        setIsSaved={setIsSaved}
+        setDateData={setDateData}
+      />
+      <DateCourse
+        dateData={dateData}
+        setDateData={setDateData}
+        dateRange={dateRange}
+        setIsDateConfirmed={setIsDateConfirmed}
+        setIsSaved={setIsSaved}
+      />
     </>
   );
 };

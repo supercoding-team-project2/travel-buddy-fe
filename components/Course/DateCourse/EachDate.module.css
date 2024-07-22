@@ -15,28 +15,45 @@
 }
 
 .prev-container {
-  margin-right: 3.5%;
+  margin-right: 2%;
+}
+
+.slider-container {
+  width: 100%;
 }
 
 .place-container {
   display: flex !important;
   flex-direction: row !important;
   justify-content: center;
-  width: 90% !important;
-  height: 150px;
+  min-width: 95% !important;
+  max-width: 95% !important;
+  height: 160px;
   border: 1px solid #e6ebf2;
   border-radius: 5px;
-  padding: 3%;
+  padding: 3% !important;
+  padding-top: 6%;
+  margin-right: 2%;
+  position: relative;
+}
+
+.cancel-icon {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  top: 5%;
+  left: 93%;
+  cursor: pointer;
 }
 
 .place-image {
-  width: 50%;
+  width: 40%;
   height: 100%;
   object-fit: cover;
 }
 
 .place-detail-container {
-  width: 50%;
+  width: 60%;
   display: flex !important;
   flex-direction: column !important;
   gap: 5px;
@@ -53,7 +70,7 @@
   color: rgb(94, 94, 92);
 }
 
-.place-intro {
+.place-address {
   font-size: 0.9rem;
 }
 
