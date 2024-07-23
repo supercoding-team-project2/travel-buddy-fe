@@ -152,8 +152,13 @@ const TogetherBtn = ({ onClick }: any) => {
   );
 };
 
+interface ClientComponentProps {
+  postId: number;
+}
+
 /*   clientComponent    */
-const ClientComponent = () => {
+const ClientComponent = ({ postId }: ClientComponentProps) => {
+  console.log("🚀 ~ ClientComponent ~ postId:", postId);
   const router = useRouter();
   const { openModal, ModalWrapper } = useModal();
   const startDate = formatDateString(data[0].route.startAt);

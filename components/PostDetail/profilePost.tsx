@@ -40,8 +40,8 @@ const ButtonWithHoverImage = () => {
       <Image
         src={
           isClicked || isHovered
-            ? "./svg/thumbs-up-fill.svg"
-            : "./svg/thumbs-up.svg"
+            ? "/svg/thumbs-up-fill.svg"
+            : "/svg/thumbs-up.svg"
         }
         width={30}
         height={30}

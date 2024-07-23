@@ -17,44 +17,35 @@ import { useRouter } from "next/navigation";
 import { DatePickerWithRange } from "@/components/PostView/DatePickerWithRange";
 import { PostCard } from "@/components/PostView/PostCard";
 import { DateRange } from "react-day-picker";
+import api from "@/app/api/api";
+import { posts } from "@/components/PostView/posts";
+import { Router } from "next/router";
 
 const cx = classNames.bind(styles);
 
-const posts = [
-  {
-    id: 2,
-    categoryEnum: "GUIDE",
-    title: "가이드와 함께하는 짧은 부산여행",
-    summary: "mbti j인 가이드와 함께 떠나는 부산여행은 취향?",
-    author: "Jane Smith",
-    startAt: "2024-07-26",
-    endAt: "2024-07-28",
-    representativeImage: "/png/travel2.png",
-    likeCount: 0,
-  },
-  {
-    id: 1,
-    categoryEnum: "COMPANION",
-    title: "짧은 경주여행",
-    summary: "낯선사람과 떠나는 경주 여행은 어떠세요?",
-    author: "John Doe",
-    startAt: "2024-07-24",
-    endAt: "2024-07-26",
-    representativeImage: "/png/travel2.png",
-    likeCount: 10,
-  },
-  {
-    id: 3,
-    categoryEnum: "GUIDE",
-    title: "부산여행",
-    summary: "가위바위보라돌이뚜비나나",
-    author: "랄랄",
-    startAt: "2024-07-26",
-    endAt: "2024-07-28",
-    representativeImage: "/png/travel2.png",
-    likeCount: 44,
-  },
-];
+export const fetchData = async ({
+  category,
+  startDate,
+  endDate,
+  sortBy,
+  order,
+}: any) => {
+  try {
+    const params = {
+      category,
+      startDate,
+      endDate,
+      sortBy,
+      order,
+    };
+
+    const response = await api.get("/endpoint", { params });
+
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "An error occurred");
+  }
+};
 
 export const WriteButton = () => {
   const router = useRouter();
@@ -91,8 +82,9 @@ export const SelectPost = ({ onSortChange }: any) => {
         <SelectValue placeholder="최신순" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="최신순">최신순</SelectItem>
-        <SelectItem value="추천순">추천순</SelectItem>
+        <SelectItem value="createdAt">최신순</SelectItem>
+        <SelectItem value="likes">추천순</SelectItem>
+        <SelectItem value="title">가나다순</SelectItem>
       </SelectContent>
     </Select>
   );
@@ -117,6 +109,41 @@ export const ClientComponent = () => {
     DateRange | undefined
   >(undefined);
   const [sortOrder, setSortOrder] = useState("최신순");
+  //const [sortOrder, setSortOrder] = useState("createdAt");
+
+  const [data, setData] = useState<Post[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const response = await fetchData({
+  //         category: filter === "전체" ? undefined : filter,
+  //         startDate: selectedDateRange?.from?.toISOString(),
+  //         endDate: selectedDateRange?.to?.toISOString(),
+  //         sortBy: sortOrder,
+  //         order: "asc", // or "desc" based on your requirement
+  //       });
+  //       setData(response);
+  //       setFilteredPosts(response);
+  //     } catch (err:any) {
+  //       setError(err.message);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   getData();
+  // }, [filter, selectedDateRange, sortOrder]);
+
+  // if (loading) return <div>Loading...</div>;
+  // if (error) return <div>Error: {error}</div>;
+
+  const router = useRouter();
+  const handlePostClick = (id: number) => {
+    router.push(`/post-detail/${id}`);
+  };
 
   return (
     <div className={cx("post-container")}>
@@ -151,7 +178,7 @@ export const ClientComponent = () => {
           </div>
         </div>
       </div>
-      <PostCard posts={filteredPosts} />
+      <PostCard posts={filteredPosts} onPostClick={handlePostClick} />
     </div>
   );
 };
