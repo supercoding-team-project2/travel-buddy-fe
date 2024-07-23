@@ -56,8 +56,6 @@ const DateCourse = ({
     }
   }, [dateRange]);
 
-  console.log("dateData 콘솔", dateData);
-
   const descriptionChangeHandler = (
     event: ChangeEvent<HTMLTextAreaElement>
   ) => {

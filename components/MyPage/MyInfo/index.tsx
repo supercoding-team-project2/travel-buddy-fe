@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import classNames from "classnames/bind";
 import styles from "./MyInfo.module.css";
 
 import Image from "next/image";
 import { StaticImageData } from "next/image";
-
-import { useState } from "react";
 
 const cx = classNames.bind(styles);
 
@@ -16,45 +15,91 @@ interface Props {
 }
 
 const MyInfo = ({ profilePic, setProfilePic }: Props) => {
-  const [secondSocialNumber, setSecondSocialNumber] = useState("2"); //마스킹 전 주민등록번호 뒷자리
-  const [maskedSocialNumber, setMaskedSocialNumber] = useState(""); //마스킹이 더해진 후의 주민등록번호 뒷자리
+  const [userData, setUserData] = useState({
+    email: "",
+    name: "",
+    residentNum: "",
+    gender: "",
+  });
+  const [firstResidentNum, setFirstResidentNum] = useState("");
+  const [secondMaskedNum, setSecondMaskedNum] = useState("");
 
-  // 주민등록번호 뒷자리 마스킹 붙이는 함수
-  const hideSecondSocial = (value: string) => {
-    const hiddenValue = value.substring(0, 1) + "*".repeat(6);
+  //axios get when rendered
+  useEffect(() => {
+    // const accessToken = localStorage.getItem("accessToken");
+    // if (accessToken) {
+    //   axios
+    //     .get("/api/user", {
+    //       headers: { Authorization: `Bearer ${accessToken}` },
+    //     })
+    //     .then((response) => {
+    //       const userData = response.data;
+    //       console.log("회원 정보 조회 데이터", userData);
+    //       setUserData({
+    //         email: userData.email,
+    //         name: userData.name,
+    //         residentNum: userData.residentNum,
+    //         gender: userData.gender,
+    //       });
+    //       setProfilePic(userData.profilePictureUrl);
+    //     })
+    //     .catch((error) => {
+    //       console.error("회원 정보 조회 요청 실패", error);
+    //     });
+    // }
+  }, []);
 
-    setMaskedSocialNumber(hiddenValue);
+  //when userData.residentNum exists, set the resident number states
+  useEffect(() => {
+    if (userData.residentNum.length > 0) {
+      splitResidentNumber(userData.residentNum);
+    }
+  }, [userData.residentNum]);
 
-    return hiddenValue;
+  const splitResidentNumber = (residentNum: string) => {
+    const firstNumber = residentNum.slice(0, -1);
+    setFirstResidentNum(firstNumber);
+
+    const secondNumber = residentNum[residentNum.length - 1];
+    const maskedSecondNumber = secondNumber + "*".repeat(6);
+    setSecondMaskedNum(maskedSecondNumber);
   };
 
-  if (!maskedSocialNumber.includes("*")) {
-    hideSecondSocial(secondSocialNumber);
-  }
-
   const sortGender = () => {
-    if (maskedSocialNumber) {
-      if (maskedSocialNumber.charAt(0) === "1") {
-        return "남성";
-      } else {
-        return "여성";
-      }
+    if (userData.gender === "MALE") {
+      return "남성";
+    } else {
+      return "여성";
     }
   };
 
+  //프로필 수정 axios put 요청 로직 
   const pictureChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (file) {
-      const reader = new FileReader();
+      const formData = new FormData();
+      formData.append("profilePictureUrl", file);
 
-      reader.onload = (e) => {
-        if (e.target && e.target.result) {
-          setProfilePic(e.target.result as string);
-        }
-      };
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        throw new Error("No access token found");
+      }
 
-      reader.readAsDataURL(file);
+      axios
+        .put("/api/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((response) => {
+          setProfilePic(response.data.profilePictureUrl);
+          console.log("프로필 사진 수정 성공");
+        })
+        .catch((error) => {
+          console.error("프로필 사진 수정 실패", error);
+        });
     }
   };
   return (
@@ -64,16 +109,18 @@ const MyInfo = ({ profilePic, setProfilePic }: Props) => {
         <div className={cx("myinfo-details")}>
           <div className={cx("email-container")}>
             <label className={cx("email-label")}>Email:</label>
-            <div className={cx("email")}>test@gmail.com</div>
+            <div className={cx("email")}>{userData.email}</div>
           </div>
           <div className={cx("name-container")}>
             <label className={cx("name-label")}>Name:</label>
-            <div className={cx("name")}>유저 네임</div>
+            <div className={cx("name")}>{userData.name}</div>
           </div>
           <div className={cx("socialNum-container")}>
             <label className={cx("socialNum-label")}>주민등록번호:</label>
             <div className={cx("socialNum-container")}>
-              <div>971017-{maskedSocialNumber}</div>
+              <div>
+                {firstResidentNum}-{secondMaskedNum}
+              </div>
             </div>
           </div>
           <div className={cx("gender-container")}>
