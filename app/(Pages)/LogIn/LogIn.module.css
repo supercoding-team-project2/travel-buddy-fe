@@ -124,7 +124,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.2vw;
-  width: 75%;
+  width: 95%;
 }
 
 .socialWrapper img {

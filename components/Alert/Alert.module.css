@@ -1,0 +1,19 @@
+.Alert {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3vh;
+}
+
+.alertMessage {
+  font-size: 2rem;
+}
+
+.Alert a {
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 0.5vh 1vw;
+}
