@@ -66,7 +66,7 @@ const Header: React.FC = () => {
         <button className={cx('login-button')} onClick={() => router.push('/login')}>
           로그인
         </button>
-        <button className={cx('signup-button')} onClick={() => router.push('/signup')}>
+        <button className={cx('signup-button')} onClick={() => router.push('/verify-phone')}>
           회원 가입
         </button>
         <Image

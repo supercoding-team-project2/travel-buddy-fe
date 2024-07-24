@@ -20,3 +20,9 @@ interface MessageProps {
   currentUser: string;
   opponentProfile: string;
 }
+
+interface ErrorProps {
+  errorMessage: string;
+  buttonText: string;
+  nextLink: string;
+}

@@ -1,9 +1,9 @@
-.SignUp {
+.VerifyPhone {
   background: #85b1cc;
   display: flex;
   width: 100%;
   height: 100vh;
-  padding: 5vh 15vw;
+  padding: 10vh 15vw;
 }
 
 .leftWrapper {
@@ -29,15 +29,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.8vh;
-  padding: 5vh 4.5vh;
+  gap: 5vh;
+  padding: 10vh 5vh;
   position: relative;
   z-index: 10;
   max-height: 100%;
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 600;
   color: black;
 }
@@ -48,16 +48,23 @@
   flex-direction: column;
   align-items: center;
   gap: 2vh;
-  width: 90%;
-  position: relative;
+  width: 75%;
+}
+
+.formContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.4vh;
 }
 
 .inputUnit {
-  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 0.4vh;
+  gap: 1vh;
+  position: relative;
 }
 
 .inputTitle {
@@ -74,41 +81,54 @@
   font-size: 1rem;
 }
 
-.idNumInput {
-  width: 100%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.5vw;
-  color: black;
-  font-size: 1rem;
-}
-
-.part1 {
-  width: 5.8vw;
-  padding: 1.2vh 1vw;
-}
-.part2 {
-  width: 2.2vw;
-  padding: 1.2vh 0.8vw;
-}
-
 .showPasswordButton {
   position: absolute;
   width: 1.6vw;
-  top: 5.7vh;
+  top: 6.3vh;
   right: 3%;
 }
 
-.passwordDot {
-  background: #e2e2e2;
-  width: 2vw;
-  height: 2vw;
-  border-radius: 12px;
+.getCodeButton {
+  background: #85b1cc;
+  color: white;
+  border-radius: 6px;
+  line-height: 5vh;
+  margin-top: 1.2vh;
+  margin-bottom: 1vh;
+  width: 45%;
+  font-size: 1.2rem;
 }
 
-.inputImageContent {
-  width: 5vw;
+.submitButton {
+  background: #85b1cc;
+  color: white;
+  border-radius: 6px;
+  line-height: 5vh;
+  margin-top: 1.2vh;
+  margin-bottom: 1vh;
+  width: 45%;
+  font-size: 1.2rem;
+}
+
+.middleWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  align-items: center;
+}
+
+.text {
+  color: black;
+}
+
+.text a {
+  color: #85b1cc;
+}
+
+.line {
+  width: 50%;
+  border: solid 0.5px lightgrey;
 }
 
 .bottomWrapper {
@@ -118,16 +138,7 @@
   align-items: center;
 }
 
-.submitButton {
-  background: #85b1cc;
-  color: white;
-  border-radius: 6px;
-  line-height: 5vh;
-  margin-top: 1vh;
-  margin-bottom: 0.8vh;
-  font-size: 1.2rem;
-  width: 100%;
-}
-.submitButton:disabled {
-  background: #e2e2e2;
+.bottomWrapper a {
+  color: #85b1cc;
+  font-size: 0.9rem;
 }
