@@ -5,6 +5,7 @@ import styles from './LogIn.module.css';
 import Link from 'next/link';
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const cx = classNames.bind(styles);
 
@@ -13,6 +14,8 @@ export function LogInClient() {
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+
+  const router = useRouter();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -29,12 +32,28 @@ export function LogInClient() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/user/login', { email, password });
-      const token = response.data.token;
-
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('password', password);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/login`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(response);
+      if (response.status === 200) {
+        console.log('Log In successful');
+        router.push('/');
+      } else {
+        console.error('Log In failed');
+        return;
+      }
+      const token = response.headers.authorization;
+      console.log(token);
       sessionStorage.setItem('token', token);
     } catch (error) {
-      setError('Login failed. Please check your credentials and try again.');
+      console.log(error);
+      console.log('Log In failed.');
     }
   };
 
