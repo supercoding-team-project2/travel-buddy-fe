@@ -27,9 +27,10 @@ const MyInfo = ({ profilePic, setProfilePic }: Props) => {
   //axios get when rendered
   useEffect(() => {
     const token = sessionStorage.getItem("token");
+
     if (token) {
       axios
-        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user`, {
+        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/`, {
           headers: { Authorization: token },
         })
         .then((response) => {
@@ -87,12 +88,16 @@ const MyInfo = ({ profilePic, setProfilePic }: Props) => {
       }
 
       axios
-        .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/profile-picture`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .put(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/profile-picture`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: token,
+            },
+          }
+        )
         .then((response) => {
           console.log("프로필 사진 수정 성공", response.data);
           setProfilePic(response.data);

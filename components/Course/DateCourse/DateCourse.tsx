@@ -101,7 +101,7 @@ const DateCourse = ({
         })),
       };
 
-      console.log("tranformedDateData", transformedDateData);
+      // console.log("tranformedDateData", transformedDateData);
 
       //axios post 요청
       const token = sessionStorage.getItem("token");
