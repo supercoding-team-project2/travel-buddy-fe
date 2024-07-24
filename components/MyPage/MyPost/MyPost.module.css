@@ -1,5 +1,5 @@
 .myPost-container {
-  font-family: var(--font-family);
+  min-height: 100vh;
 }
 
 .myPost-list-container {

@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 import classNames from "classnames/bind";
 import styles from "./MyPostSort.module.css";
@@ -12,6 +13,7 @@ interface Props {
   setIsReviewClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setIsAccompanyClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setIsGuideClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  fetchPostData: (category: string) => void;
 }
 
 const MyPostSort: React.FC<Props> = ({
@@ -21,12 +23,16 @@ const MyPostSort: React.FC<Props> = ({
   isGuideClicked,
   setIsAccompanyClicked,
   setIsGuideClicked,
+  fetchPostData,
 }) => {
   
-  const buttonHandler = (type: string) => {
-    setIsReviewClicked(type === "review");
-    setIsAccompanyClicked(type === "accompany");
-    setIsGuideClicked(type === "guide");
+  const buttonHandler = (category: string) => {
+    setIsReviewClicked(category === "REVIEW");
+    setIsAccompanyClicked(category === "COMPANION");
+    setIsGuideClicked(category === "GUIDE");
+
+    //매개변수 카테고리에 맞는 걸로 axios get 요청
+    fetchPostData(category);
   };
 
   return (
@@ -35,7 +41,7 @@ const MyPostSort: React.FC<Props> = ({
         className={cx("review-button", {
           "review-button-active": isReviewClicked,
         })}
-        onClick={()=>buttonHandler("review")}
+        onClick={() => buttonHandler("REVIEW")}
       >
         후기
       </button>
@@ -43,7 +49,7 @@ const MyPostSort: React.FC<Props> = ({
         className={cx("accompany-button", {
           "accompany-button-active": isAccompanyClicked,
         })}
-        onClick={()=>buttonHandler("accompany")}
+        onClick={() => buttonHandler("COMPANION")}
       >
         동행
       </button>
@@ -51,7 +57,7 @@ const MyPostSort: React.FC<Props> = ({
         className={cx("guide-button", {
           "guide-button-active": isGuideClicked,
         })}
-        onClick={()=>buttonHandler("guide")}
+        onClick={() => buttonHandler("GUIDE")}
       >
         가이드
       </button>

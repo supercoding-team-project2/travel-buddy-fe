@@ -5,25 +5,21 @@
   width: 100%;
 }
 
-.slick-track {
-  /* min-width: 100vw !important; */
-  /* width: 1225px !important; */
-  /* width: calc(300px * 3 + 40px) !important;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  margin: 0; */
+.slick-list {
+  position: relative;
+  outline: none;
+  width: 90%;
 }
 
-/* .slick-track {
-  display: flex;
-  flex-wrap: nowrap;
-  width: 1300px !important;
-  padding: 0;
-  margin: 0;
+.slick-track {
+  display: flex !important;
+  gap: 1vw;
+}
+.slick-track::after,
+.slick-track::before {
+  display: none !important;
 }
 
 .slick-slide {
-  margin-right: 10px;
-  width: 300px !important;
-} */
+  width: 26.2vw !important;
+}
