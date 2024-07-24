@@ -22,7 +22,9 @@ export function ChangePasswordClient() {
   const sendVerificationCode = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/user/signup/sms/send', { phoneNumber });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/signup/sms/send`, {
+        phoneNumber,
+      });
       if (response.data.success) {
         setIsCodeSent(true);
       } else {
@@ -36,7 +38,10 @@ export function ChangePasswordClient() {
   const verifyCodeAndProceed = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/user/sms-code/check', { phoneNumber, code: verificationCode });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/sms-code/check`, {
+        phoneNumber,
+        code: verificationCode,
+      });
       if (response.status === 200) {
         setIsRegistered(response.data.isRegistered);
       } else {
