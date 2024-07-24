@@ -4,12 +4,19 @@ import classNames from 'classnames/bind';
 import styles from './LogIn.module.css';
 import Link from 'next/link';
 import { useState } from 'react';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
 export function LogInClient() {
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -17,6 +24,18 @@ export function LogInClient() {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('/api/user/login', { email, password });
+      const token = response.data.token;
+
+      sessionStorage.setItem('token', token);
+    } catch (error) {
+      setError('Login failed. Please check your credentials and try again.');
+    }
   };
 
   return (
@@ -27,10 +46,16 @@ export function LogInClient() {
       <div className={cx('rightWrapper')}>
         <div className={cx('title')}>Login</div>
         <div className={cx('container')}>
-          <form className={cx('formContainer')}>
+          <form className={cx('formContainer')} onSubmit={handleSubmit}>
             <div className={cx('inputUnit')}>
               <div className={cx('inputTitle')}>Email</div>
-              <input className={cx('inputContent')} type="text" placeholder="Enter your Email here"></input>
+              <input
+                className={cx('inputContent')}
+                type="text"
+                placeholder="Enter your Email here"
+                value={email}
+                onChange={handleEmailChange}
+              />
             </div>
             <div className={cx('inputUnit')}>
               <div className={cx('inputTitle')}>Password</div>
@@ -48,6 +73,7 @@ export function LogInClient() {
               )}
             </div>
             <button className={cx('submitButton')}>Login</button>
+            {error && <div className={cx('error')}>{error}</div>}
           </form>
           <div className={cx('middleWrapper')}>
             <div className={cx('text')}>
