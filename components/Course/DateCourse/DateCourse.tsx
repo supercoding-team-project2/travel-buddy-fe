@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import { DateRangePickerProps } from "react-date-range";
 import EachDate from "./EachDate";
@@ -26,6 +27,7 @@ const DateCourse = ({
   setIsDateConfirmed,
   setIsSaved,
 }: Props) => {
+  const router = useRouter();
   const [dates, setDates] = useState<Date[]>([]);
   const [description, setDescription] = useState("");
 
@@ -60,10 +62,7 @@ const DateCourse = ({
     event: ChangeEvent<HTMLTextAreaElement>
   ) => {
     const textareaValue = event.target.value;
-
-    if (textareaValue.trim().length > 0) {
-      setDescription(textareaValue);
-    }
+    setDescription(textareaValue);
   };
 
   const transformCategory = (category: string) => {
@@ -105,14 +104,22 @@ const DateCourse = ({
       console.log("tranformedDateData", transformedDateData);
 
       //axios post 요청
-      //   const token = localStorage.getItem("token");
-      //   axios.post(
-      //     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/add`,
-      //     {
-      //       transformedDateData,
-      //     },
-      //     { headers: { Authorization: `Bearer ${token}` } }
-      //   );
+      const token = sessionStorage.getItem("token");
+      axios
+        .post(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/add`,
+          {
+            transformedDateData,
+          },
+          { headers: { Authorization: token } }
+        )
+        .then((response) => {
+          console.log("여행 경로 등록 성공", response.status);
+          router.push("/my-page");
+        })
+        .catch((error) => {
+          console.error("여행 경로 등록 실패", error);
+        });
     }
   };
 

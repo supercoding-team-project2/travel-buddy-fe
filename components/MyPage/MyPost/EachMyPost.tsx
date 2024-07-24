@@ -37,13 +37,19 @@ const EachMyPost = ({
 
   //소개글이 정해진 글자수 150보다 넘으면 ... 띄우기
   const truncateIntroduction = (introduction: string) => {
-    const MAX_INTRODUCTION_LENGTH = 150;
+    const MAX_INTRODUCTION_LENGTH = 155;
 
-    if (introduction.length > MAX_INTRODUCTION_LENGTH) {
+    if (introduction?.length > MAX_INTRODUCTION_LENGTH) {
       return introduction.substring(0, MAX_INTRODUCTION_LENGTH) + " ...";
     }
 
     return introduction;
+  };
+
+  const formatDate = (date: string) => {
+    const [datePart] = date.split(" ");
+
+    return datePart.replace(/-/g, "/");
   };
 
   return (
@@ -82,7 +88,7 @@ const EachMyPost = ({
             <div className={cx("post-introduction")}>
               {truncateIntroduction(introduction)}
             </div>
-            <div className={cx("post-date")}>{createdAt}</div>
+            <div className={cx("post-date")}>{formatDate(createdAt)}</div>
           </div>
         </div>
       </div>

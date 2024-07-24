@@ -44,15 +44,19 @@ const MapContainer = ({
 
   const titleChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    if(inputValue.trim().length > 0) {
-      setTitle(inputValue)
-    }
-  }
+    setTitle(inputValue);
+  };
 
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <div className={cx("entire-map-container")}>
-      <input className={cx("course-title")} placeholder="제목" value={title} onChange={titleChangeHandler} required />
+      <input
+        className={cx("course-title")}
+        placeholder="제목"
+        value={title}
+        onChange={titleChangeHandler}
+        required
+      />
       <div className={cx("place-map-container")}>
         <Places
           dateData={dateData}
