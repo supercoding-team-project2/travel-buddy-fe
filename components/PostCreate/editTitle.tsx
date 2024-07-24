@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -13,12 +13,23 @@ interface EditTitleProps {
     title: string;
     summary: string;
   };
+  onChange: (data: {
+    category: string;
+    title: string;
+    summary: string;
+  }) => void;
 }
 
-const EditTitle = ({ initialData }: EditTitleProps) => {
+const EditTitle = ({ initialData, onChange }: EditTitleProps) => {
   const [category, setCategory] = useState(initialData?.category || "");
   const [title, setTitle] = useState(initialData?.title || "");
   const [summary, setSummary] = useState(initialData?.summary || "");
+
+  useEffect(() => {
+    if (onChange) {
+      onChange({ category, title, summary });
+    }
+  }, [category, title, summary]);
 
   return (
     <>

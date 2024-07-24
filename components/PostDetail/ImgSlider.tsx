@@ -28,11 +28,11 @@ const ImgSlider = ({ img }: any) => {
               } duration-700 ease-in-out`}
             >
               <div className="w-full h-full">
-                <Image
+                <img
                   src={slide}
                   alt={`Slide ${index + 1}`}
-                  layout="fill"
-                  objectFit="cover"
+                  //fill
+                  style={{ objectFit: "cover" }}
                 />
               </div>
             </div>

@@ -7,6 +7,8 @@ export interface Board {
   author: string;
   likeCount: number;
   images: string[];
+  userId: number; //유저 아이디가 넘버로 설정... 나중에 스트링으로 올 수도 있음
+  userPhoto: string;
 }
 
 export interface Trip {
@@ -15,6 +17,7 @@ export interface Trip {
   targetNumber: number;
   participantCount: number;
   gender: string;
+  userId: number; //유저 아이디가 넘버로 설정... 나중에 스트링으로 올 수도 있음
 }
 
 export interface Place {
@@ -38,4 +41,8 @@ export interface Props {
     trip: Trip;
     route: Route;
   };
+}
+
+export interface ClientComponentProps {
+  postId: number;
 }

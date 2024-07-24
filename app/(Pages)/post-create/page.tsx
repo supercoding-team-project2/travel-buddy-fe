@@ -1,5 +1,5 @@
 import React from "react";
-import ClientComponent from "../post-edit/clientComponent";
+import ClientComponent from "../post-create/clientComponent";
 
 const page = () => {
   return (
