@@ -8,6 +8,8 @@ interface EditTextProps {
     content: string;
     checkbox: CheckboxData;
   };
+  onSelectChange: any;
+  onEditChange: any;
 }
 
 interface CheckboxData {
@@ -17,7 +19,12 @@ interface CheckboxData {
   gender: string;
 }
 
-export const Editor = ({ initialData }: EditTextProps) => {
+// onSelectChange: 내려받는 거(부모->자식) onEditChange: 올려주는 거(부모 <- 자식)
+export const Editor = ({
+  initialData,
+  onSelectChange,
+  onEditChange,
+}: EditTextProps) => {
   const [images, setImages] = useState<string[]>(initialData?.images || []);
   const [content, setContent] = useState(initialData?.content || "");
   const [checkboxData, setCheckboxData] = useState<CheckboxData>({
@@ -39,15 +46,11 @@ export const Editor = ({ initialData }: EditTextProps) => {
     setImages(imageList);
   };
 
-  // // 체크박스 데이터 변경 시
-  // useEffect(() => {
-  //   console.log("🚀 ~ useEffect ~ checkboxData:", checkboxData);
-  // }, [checkboxData]);
-
-  // // 이미지 데이터 변경 시
-  // useEffect(() => {
-  //   console.log("🚀 ~ useEffect ~ images:", images);
-  // }, [images]);
+  useEffect(() => {
+    if (onEditChange) {
+      onEditChange({ images, content, checkboxData });
+    }
+  }, [images, content, checkboxData]);
 
   return (
     <div className="relative flex flex-col bg-slate-100 rounded-lg p-6 dark:bg-slate-800 dark:highlight-white/5">
@@ -65,7 +68,9 @@ export const Editor = ({ initialData }: EditTextProps) => {
           ></textarea>
         </div>
         <div>
-          <Checkbox onChange={handleCheckboxChange} />
+          {onSelectChange !== "후기" && (
+            <Checkbox onChange={handleCheckboxChange} />
+          )}
         </div>
       </div>
 

@@ -31,25 +31,6 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
         <button className="absolute top-3 right-3" onClick={onClose}>
           <Image src="/svg/close.svg" alt="닫기-버튼" width="20" height="20" />
         </button>
-        {/* <h2 className="text-xl mb-4">같이 여행을 떠나요!</h2>
-        <p className="mb-4">현재 인원: {content}명</p>
-        <div className="flex justify-between">
-          <div className="flex">
-            <div className="mr-3">참여인원: {participants}</div>
-          </div>
-
-          <div className="flex gap-3">
-            <button className="px-4 border rounded" onClick={onClose}>
-              취소
-            </button>
-            <button
-              className="px-4  bg-slate-500 text-white rounded"
-              onClick={onClose}
-            >
-              참여
-            </button>
-          </div>
-        </div> */}
         {!hasJoined ? (
           <>
             <h2 className="text-xl mb-4">같이 여행을 떠나요!</h2>

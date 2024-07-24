@@ -19,7 +19,7 @@ import { PostCard } from "@/components/PostView/PostCard";
 import { DateRange } from "react-day-picker";
 import api from "@/app/api/api";
 import { posts } from "@/components/PostView/posts";
-import { Router } from "next/router";
+import { ButtonOutlineProps, Post } from "@/components/PostView/interfaces";
 
 const cx = classNames.bind(styles);
 
@@ -29,17 +29,25 @@ export const fetchData = async ({
   endDate,
   sortBy,
   order,
-}: any) => {
+}: {
+  category?: string;
+  startDate?: string;
+  endDate?: string;
+  sortBy?: string;
+  order?: string;
+}) => {
   try {
-    const params = {
-      category,
-      startDate,
-      endDate,
-      sortBy,
-      order,
-    };
+    const params: Record<string, string> = {};
 
-    const response = await api.get("/endpoint", { params });
+    if (category && category !== "전체") {
+      params.category = encodeURIComponent(category.trim());
+    }
+    if (startDate) params.startDate = startDate;
+    if (endDate) params.endDate = endDate;
+    if (sortBy) params.sortBy = sortBy;
+    if (order) params.order = order;
+
+    const response = await api.get("/api/boards", { params });
 
     return response.data;
   } catch (error: any) {
@@ -56,16 +64,11 @@ export const WriteButton = () => {
         alt="글쓰기버튼"
         width={30}
         height={30}
-        onClick={() => router.push("/post-edit")}
+        onClick={() => router.push("/post-create")}
       />
     </button>
   );
 };
-
-interface ButtonOutlineProps {
-  text: string;
-  onClick: any;
-}
 
 export function ButtonOutline({ text, onClick }: ButtonOutlineProps) {
   return (
@@ -75,9 +78,27 @@ export function ButtonOutline({ text, onClick }: ButtonOutlineProps) {
   );
 }
 
-export const SelectPost = ({ onSortChange }: any) => {
+export const SelectPost = ({
+  sortOrder,
+  onSortChange,
+  onOrderChange,
+}: {
+  sortOrder: string;
+  onSortChange: (value: string) => void;
+  onOrderChange: (value: string) => void;
+}) => {
   return (
-    <Select onValueChange={onSortChange}>
+    <Select
+      value={sortOrder}
+      onValueChange={(value) => {
+        onSortChange(value);
+        if (value === "title") {
+          onOrderChange("asc"); // 가나다순일 때는 오름차순
+        } else {
+          onOrderChange("desc");
+        }
+      }}
+    >
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="최신순" />
       </SelectTrigger>
@@ -90,59 +111,58 @@ export const SelectPost = ({ onSortChange }: any) => {
   );
 };
 
-interface Post {
-  id: number;
-  categoryEnum: string;
-  title: string;
-  summary: string;
-  author: string;
-  startAt: string;
-  endAt: string;
-  representativeImage: string;
-  likeCount: number;
-}
-
 export const ClientComponent = () => {
   const [filter, setFilter] = useState("전체");
   const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
   const [selectedDateRange, setSelectedDateRange] = useState<
     DateRange | undefined
   >(undefined);
-  const [sortOrder, setSortOrder] = useState("최신순");
-  //const [sortOrder, setSortOrder] = useState("createdAt");
+  console.log("🚀 ~ ClientComponent ~ selectedDateRange:", selectedDateRange);
+  //const [sortOrder, setSortOrder] = useState("최신순");
+  const [sortOrder, setSortOrder] = useState("createdAt");
+  console.log("🚀 ~ ClientComponent ~ sortOrder:", sortOrder);
+  const [order, setOrder] = useState("desc");
 
   const [data, setData] = useState<Post[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const response = await fetchData({
-  //         category: filter === "전체" ? undefined : filter,
-  //         startDate: selectedDateRange?.from?.toISOString(),
-  //         endDate: selectedDateRange?.to?.toISOString(),
-  //         sortBy: sortOrder,
-  //         order: "asc", // or "desc" based on your requirement
-  //       });
-  //       setData(response);
-  //       setFilteredPosts(response);
-  //     } catch (err:any) {
-  //       setError(err.message);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        setLoading(true);
+        // 기본값: 전체 기간
+        const fromDate = selectedDateRange?.from
+          ? selectedDateRange.from.toISOString()
+          : undefined;
+        const toDate = selectedDateRange?.to
+          ? selectedDateRange.to.toISOString()
+          : undefined;
 
-  //   getData();
-  // }, [filter, selectedDateRange, sortOrder]);
+        const response = await fetchData({
+          category: filter === "전체" ? undefined : filter,
+          startDate: fromDate,
+          endDate: toDate,
+          sortBy: sortOrder,
+          order: order,
+        });
+        setData(response);
+        setFilteredPosts(response);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getData();
+  }, [filter, selectedDateRange, sortOrder]);
 
-  // if (loading) return <div>Loading...</div>;
-  // if (error) return <div>Error: {error}</div>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   const router = useRouter();
-  const handlePostClick = (id: number) => {
-    router.push(`/post-detail/${id}`);
+  const handlePostClick = (postId: number) => {
+    router.push(`/post-detail/${postId}`);
   };
 
   return (
@@ -151,10 +171,14 @@ export const ClientComponent = () => {
         <div className={cx("button-container")}>
           <div className={cx("category-button-group")}>
             <ButtonOutline text="전체" onClick={() => setFilter("전체")} />
-            <ButtonOutline text="후기" onClick={() => setFilter("후기")} />
-            <ButtonOutline text="동행" onClick={() => setFilter("동행")} />
-            <ButtonOutline text="가이드" onClick={() => setFilter("가이드")} />
+            <ButtonOutline text="후기" onClick={() => setFilter("REVIEW")} />
+            <ButtonOutline
+              text="동행"
+              onClick={() => setFilter(" COMPANION")}
+            />
+            <ButtonOutline text="가이드" onClick={() => setFilter("GUIDE")} />
           </div>
+
           <div className={cx("view-button-group")}>
             <ButtonOutline
               text="추천한 게시물"
@@ -169,8 +193,15 @@ export const ClientComponent = () => {
 
         <div className={cx("select-write-group")}>
           <div className={cx("select-container")}>
-            <SelectPost onSortChange={setSortOrder} />
-            <DatePickerWithRange onDateChange={setSelectedDateRange} />
+            <SelectPost
+              sortOrder={sortOrder}
+              onSortChange={setSortOrder}
+              onOrderChange={setOrder}
+            />
+            <DatePickerWithRange
+              onDateChange={setSelectedDateRange}
+              dateRange={selectedDateRange}
+            />
           </div>
 
           <div className={cx("write-icon-container")}>

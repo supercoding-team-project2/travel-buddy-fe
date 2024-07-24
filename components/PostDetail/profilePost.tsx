@@ -6,7 +6,7 @@ import { useState } from "react";
 import { CommentSection, MycommentSection } from "./comment/allcomment";
 const cx = classNames.bind(styles);
 
-//any말고 inteface로 타입 정해서 하기...
+/* 버튼 컴포넌트 */
 const IconButton = ({
   src,
   alt,
@@ -23,23 +23,54 @@ const IconButton = ({
 };
 
 /*따봉 버튼 */
-const ButtonWithHoverImage = () => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
+// const ButtonWithHoverImage = () => {
+//   const [isHovered, setIsHovered] = useState(false);
+//   const [isClicked, setIsClicked] = useState(false);
 
-  const handleClick = () => {
-    setIsClicked((prev) => !prev);
-  };
+//   const handleClick = () => {
+//     setIsClicked((prev) => !prev);
+//   };
+
+//   return (
+//     <button
+//       onMouseEnter={() => setIsHovered(true)}
+//       onMouseLeave={() => setIsHovered(false)}
+//       onClick={handleClick}
+//     >
+//       <Image
+//         src={
+//           isClicked || isHovered
+//             ? "/svg/thumbs-up-fill.svg"
+//             : "/svg/thumbs-up.svg"
+//         }
+//         width={30}
+//         height={30}
+//         alt="좋아요"
+//       />
+//     </button>
+//   );
+// };
+
+const ButtonWithHoverImage = ({
+  onLike,
+  onDislike,
+  isLiked,
+}: {
+  onLike: () => void;
+  onDislike: () => void;
+  isLiked: boolean;
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <button
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={handleClick}
+      onClick={() => (isLiked ? onDislike() : onLike())}
     >
       <Image
         src={
-          isClicked || isHovered
+          isLiked || isHovered
             ? "/svg/thumbs-up-fill.svg"
             : "/svg/thumbs-up.svg"
         }
@@ -51,28 +82,29 @@ const ButtonWithHoverImage = () => {
   );
 };
 
-interface Board {
-  id: number;
-  title: string;
-  summary: string;
-  content: string;
-  category: string;
-  author: string;
-  likeCount: number;
-  images: string[];
-}
-
 interface Props {
   data: {
-    board: Board;
+    id: number;
+    title: string;
+    summary: string;
+    content: string;
+    category: string;
+    userPhoto: string;
+    author: string;
+    likeCount: number;
+    images: string[];
   };
 }
 
-/*메인 프로필 포스트 */
-const ProfilePost = ({ data }: Props) => {
-  const { board } = data;
+/* 메인 프로필 포스트 */
+export const ProfilePost = ({ data }: Props) => {
+  const board = data;
+  console.log("🚀 ~ ProfilePost ~ board:", board);
+
   const [showComments, setShowComments] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]); // 댓글 상태 관리
+  const [likeCount, setLikeCount] = useState<number>(board?.likeCount || 0);
+  const [isLiked, setIsLiked] = useState<boolean>(false); // 좋아요 버튼 상태
 
   const toggleComments = () => {
     setShowComments((prev) => !prev);
@@ -90,13 +122,23 @@ const ProfilePost = ({ data }: Props) => {
     setShowComments(true);
   };
 
+  const handleLike = () => {
+    setIsLiked(true);
+    setLikeCount((prevCount) => prevCount + 1);
+  };
+
+  const handleDislike = () => {
+    setIsLiked(false);
+    setLikeCount((prevCount) => prevCount - 1);
+  };
+
   return (
     <div className="text-sm leading-6">
       <figure className="relative flex flex-col bg-slate-100 rounded-lg p-6 dark:bg-slate-800 dark:highlight-white/5">
         <figcaption className="flex items-center space-x-4 ml-6 mb-3">
-          {/* 프로필사진 <<--- 데이터화시키기 */}
-          <Image
-            src="/png/hamster2.png"
+          {/* 프로필사진-------------Image*/}
+          <img
+            src={board?.userPhoto}
             alt="image"
             width={56}
             height={56}
@@ -126,7 +168,7 @@ const ProfilePost = ({ data }: Props) => {
         </figcaption>
         <div className="flex">
           <div className="w-1/2">
-            {/* 여행사진들 받는 거 구현 */}
+            {/* 여행사진들 ------------------------Image*/}
             <ImgSlider img={board.images} />
           </div>
           <div className=" w-1/2 flex-col">
@@ -137,9 +179,13 @@ const ProfilePost = ({ data }: Props) => {
                   {board.content}
                 </div>
                 <div className="flex my-5">
-                  <ButtonWithHoverImage />
+                  <ButtonWithHoverImage
+                    onLike={handleLike}
+                    onDislike={handleDislike}
+                    isLiked={isLiked}
+                  />
                   {/* 좋아요 갯수 */}
-                  <div className="flex items-center"> {board.likeCount}</div>
+                  <div className="flex items-center"> {likeCount}</div>
                   <IconButton
                     src="/svg/chat.svg"
                     alt="댓글-버튼"
@@ -162,5 +208,3 @@ const ProfilePost = ({ data }: Props) => {
     </div>
   );
 };
-
-export default ProfilePost;
