@@ -18,7 +18,8 @@ interface Props {
   title: string;
   introduction: string;
   createdAt: string;
-  fetchPostData: () => void;
+  category: string;
+  fetchPostData: (category: string) => void;
 }
 
 // return에 photo 갈아끼우기
@@ -27,6 +28,7 @@ const EachMyPost = ({
   photo,
   title,
   introduction,
+  category,
   createdAt,
   fetchPostData,
 }: Props) => {
@@ -50,6 +52,7 @@ const EachMyPost = ({
         isDeleteModalOpen={isDeleteModalOpen}
         setIsDeleteModalOpen={setIsDeleteModalOpen}
         id={id}
+        category={category}
         fetchPostData={fetchPostData}
       />
       <div

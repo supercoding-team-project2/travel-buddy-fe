@@ -26,27 +26,27 @@ const MyInfo = ({ profilePic, setProfilePic }: Props) => {
 
   //axios get when rendered
   useEffect(() => {
-    // const accessToken = localStorage.getItem("accessToken");
-    // if (accessToken) {
-    //   axios
-    //     .get("/api/user", {
-    //       headers: { Authorization: `Bearer ${accessToken}` },
-    //     })
-    //     .then((response) => {
-    //       const userData = response.data;
-    //       console.log("회원 정보 조회 데이터", userData);
-    //       setUserData({
-    //         email: userData.email,
-    //         name: userData.name,
-    //         residentNum: userData.residentNum,
-    //         gender: userData.gender,
-    //       });
-    //       setProfilePic(userData.profilePictureUrl);
-    //     })
-    //     .catch((error) => {
-    //       console.error("회원 정보 조회 요청 실패", error);
-    //     });
-    // }
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      axios
+        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user`, {
+          headers: { Authorization: token },
+        })
+        .then((response) => {
+          const userData = response.data;
+          console.log("회원 정보 조회 데이터", userData);
+          setUserData({
+            email: userData.email,
+            name: userData.name,
+            residentNum: userData.residentNum,
+            gender: userData.gender,
+          });
+          setProfilePic(userData.profilePictureUrl);
+        })
+        .catch((error) => {
+          console.error("회원 정보 조회 요청 실패", error);
+        });
+    }
   }, []);
 
   //when userData.residentNum exists, set the resident number states
@@ -73,29 +73,29 @@ const MyInfo = ({ profilePic, setProfilePic }: Props) => {
     }
   };
 
-  //프로필 수정 axios put 요청 로직 
+  //프로필 수정 axios put 요청 로직
   const pictureChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (file) {
       const formData = new FormData();
-      formData.append("profilePictureUrl", file);
+      formData.append("profilePicture", file);
 
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
+      const token = sessionStorage.getItem("token");
+      if (!token) {
         throw new Error("No access token found");
       }
 
       axios
-        .put("/api/upload", formData, {
+        .put(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/profile-picture`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
-          setProfilePic(response.data.profilePictureUrl);
-          console.log("프로필 사진 수정 성공");
+          console.log("프로필 사진 수정 성공", response.data);
+          setProfilePic(response.data);
         })
         .catch((error) => {
           console.error("프로필 사진 수정 실패", error);

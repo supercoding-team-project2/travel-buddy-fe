@@ -13,7 +13,7 @@ interface Props {
   setIsReviewClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setIsAccompanyClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setIsGuideClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setPostData: React.Dispatch<React.SetStateAction<any[]>>;
+  fetchPostData: (category: string) => void;
 }
 
 const MyPostSort: React.FC<Props> = ({
@@ -23,26 +23,16 @@ const MyPostSort: React.FC<Props> = ({
   isGuideClicked,
   setIsAccompanyClicked,
   setIsGuideClicked,
-  setPostData,
+  fetchPostData,
 }) => {
-  const buttonHandler = (type: string) => {
-    setIsReviewClicked(type === "review");
-    setIsAccompanyClicked(type === "accompany");
-    setIsGuideClicked(type === "guide");
+  
+  const buttonHandler = (category: string) => {
+    setIsReviewClicked(category === "REVIEW");
+    setIsAccompanyClicked(category === "COMPANION");
+    setIsGuideClicked(category === "GUIDE");
 
-    //매개변수 type에 맞는 걸로 axios get 요청 & url에 type 넣기
-    // const accessToken = localStorage.getItem("accessToken");
-    // if (accessToken) {
-    //   axios
-    //     .get("url", { headers: { Authorization: `Bearer ${accessToken}` } })
-    //     .then((response) => {
-    //       console.log("내 카테고리 게시글 조회 데이터", response.data);
-    //       setPostData(response.data);
-    //     })
-    //     .catch((error) => {
-    //       console.error("내 카테고리 게시글 조회 요청 실패", error);
-    //     });
-    // }
+    //매개변수 카테고리에 맞는 걸로 axios get 요청
+    fetchPostData(category);
   };
 
   return (
@@ -51,7 +41,7 @@ const MyPostSort: React.FC<Props> = ({
         className={cx("review-button", {
           "review-button-active": isReviewClicked,
         })}
-        onClick={() => buttonHandler("review")}
+        onClick={() => buttonHandler("REVIEW")}
       >
         후기
       </button>
@@ -59,7 +49,7 @@ const MyPostSort: React.FC<Props> = ({
         className={cx("accompany-button", {
           "accompany-button-active": isAccompanyClicked,
         })}
-        onClick={() => buttonHandler("accompany")}
+        onClick={() => buttonHandler("COMPANION")}
       >
         동행
       </button>
@@ -67,7 +57,7 @@ const MyPostSort: React.FC<Props> = ({
         className={cx("guide-button", {
           "guide-button-active": isGuideClicked,
         })}
-        onClick={() => buttonHandler("guide")}
+        onClick={() => buttonHandler("GUIDE")}
       >
         가이드
       </button>

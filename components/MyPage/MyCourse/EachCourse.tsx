@@ -5,8 +5,8 @@ import classNames from "classnames/bind";
 import styles from "./EachCourse.module.css";
 
 import Image from "next/image";
-import edit from "../../../assets/edit.png";
-import bin from "../../../assets/bin.png";
+import edit from "@/assets/edit.png";
+import bin from "@/assets/bin.png";
 
 import CourseDeleteModal from "./CourseDeleteModal";
 
@@ -14,51 +14,49 @@ const cx = classNames.bind(styles);
 
 interface Props {
   id: number;
-  name: string;
-  startDate: string;
-  endDate: string;
+  title: string;
+  description: string;
+  startAt: string;
+  endAt: string;
   createdAt: string;
+  days: [];
   isCourseOpen: boolean;
   clickEachHandler: () => void;
+  getMyCourse: () => void;
 }
 
 const EachCourse: React.FC<Props> = ({
   id,
-  name,
-  startDate,
-  endDate,
+  title,
+  description,
+  startAt,
+  endAt,
   createdAt,
+  days,
   isCourseOpen,
   clickEachHandler,
+  getMyCourse
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [detailData, setDetailData] = useState(); // detail mock Data 쓰기 
 
-  //현재 id가 열려있을 때, axios get 요청 & url에 param으로 id 보내기 
-  // useEffect(() => {
-  //   if (isCourseOpen) {
-  //     const accessToken = localStorage.getItem("accessToken");
+  const formatTripDate = (date: string) => {
+    const [year, month, day] = date.split("-");
+    return `${year}년 ${month}월 ${day}일`;
+  };
 
-  //     if (accessToken) {
-  //       axios
-  //         .get("url", { headers: { Authorization: `Bearer ${accessToken}` } })
-  //         .then((response) => {
-  //           console.log("여행 경로 디테일 조회 데이터", response.data);
-  //           setDetailData(response.data);
-  //         })
-  //         .catch((error) => {
-  //           console.error("여행 경로 디테일 조회 요청 실패", error);
-  //         });
-  //     }
-  //   }
-  // }, [isCourseOpen]);
+  const formatCreatedDate = (date: string) => {
+    const [year, month, day] = date.split("-");
+    return `${year}/${month}/${day}`;
+  };
 
   return (
     <>
       <CourseDeleteModal
         isDeleteOpen={isDeleteModalOpen}
         setIsDeleteOpen={setIsDeleteModalOpen}
+        id={id}
+        getMyCourse={getMyCourse}
       />
       <div
         className={cx("each-course-container", {
@@ -72,12 +70,14 @@ const EachCourse: React.FC<Props> = ({
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            {name}
+            {title}
           </div>
           <div className={cx("course-period")}>
-            {startDate} ~ {endDate}
+            {formatTripDate(startAt)} ~ {formatTripDate(endAt)}
           </div>
-          <div className={cx("course-posted-date")}>{createdAt}</div>
+          <div className={cx("course-posted-date")}>
+            {formatCreatedDate(createdAt)}
+          </div>
           <div className={cx("course-icons-container")}>
             <div className={cx("image-conatiner")}>
               <Image src={edit} alt="edit" className={cx("edit-icon")} />
@@ -95,9 +95,23 @@ const EachCourse: React.FC<Props> = ({
         {isCourseOpen && (
           <div className={cx("show-detail")}>
             <div className={cx("each-detail-container")}></div>
-            <div className={cx("show-detail-date")}>여행 날짜</div>
-            <div className={cx("show-detail-course")}>여행 경로</div>
-            <div className={cx("show-detail-memo")}>여행 코스 메모</div>
+            {days?.length > 0 &&
+              days.map((eachDay: { day: string; places: any[] }) => {
+                return (
+                  <>
+                    <div className={cx("show-detail-date")}>{eachDay.day}</div>
+                    <div className={cx("show-detail-course")}>
+                      {eachDay.places.map((place) => (
+                        <>
+                          <div>{place.placeName}</div>
+                          <div>{place.placeCategory}</div>
+                        </>
+                      ))}
+                    </div>
+                  </>
+                );
+              })}
+            <div className={cx("show-detail-memo")}>{description}</div>
           </div>
         )}
       </div>

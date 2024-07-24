@@ -63,30 +63,30 @@ const DateCourse = ({
 
     if (textareaValue.trim().length > 0) {
       setDescription(textareaValue);
-    } 
+    }
   };
 
   const transformCategory = (category: string) => {
-    if(category === "숙소") {
-      return "ACCOMMODATION"
+    if (category === "숙소") {
+      return "ACCOMMODATION";
     }
-    if(category === "카페") {
-      return "CAFE"
+    if (category === "카페") {
+      return "CAFE";
     }
-    if(category === "음식점") {
-      return "RESTAURANT"
+    if (category === "음식점") {
+      return "RESTAURANT";
     }
-    if(category === "명소") {
-      return "ATTRACTION"
+    if (category === "명소") {
+      return "ATTRACTION";
     }
     return "ETC";
-  }
+  };
 
   const handleCourseSave = () => {
     if (dateRange && dateRange.length > 0) {
       const startDate = dateRange[0]?.startDate;
       const endDate = dateRange[0]?.endDate;
-   
+
       const transformedDateData = {
         title: title,
         description: description,
@@ -102,15 +102,17 @@ const DateCourse = ({
         })),
       };
 
+      console.log("tranformedDateData", transformedDateData);
+
       //axios post 요청
-      // const accessToken = localStorage.getItem("accessToken");
-      // axios.post(
-      //   "/api/routes/add",
-      //   {
-      //     transformedDateData,
-      //   },
-      //   { headers: { Authorization: `Bearer ${accessToken}` } }
-      // );
+      //   const token = localStorage.getItem("token");
+      //   axios.post(
+      //     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/add`,
+      //     {
+      //       transformedDateData,
+      //     },
+      //     { headers: { Authorization: `Bearer ${token}` } }
+      //   );
     }
   };
 

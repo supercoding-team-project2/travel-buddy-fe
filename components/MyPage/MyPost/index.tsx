@@ -39,17 +39,22 @@ const MyPost: React.FC = () => {
       createdAt: "2024/07/23",
     },
   ]);
-  const [isReviewClicked, setIsReviewClicked] = useState(false);
+  const [isReviewClicked, setIsReviewClicked] = useState(true);
   const [isAccompanyClicked, setIsAccompanyClicked] = useState(false);
   const [isGuideClicked, setIsGuideClicked] = useState(false);
 
-  //전체 게시글 axios get 요청
-  const fetchPostData = () => {
-    const accessToken = localStorage.getItem("accessToken");
+  //게시글 axios get 요청
+  const fetchPostData = (category: string) => {
+    const token = sessionStorage.getItem("token");
 
-    if (accessToken) {
+    if (token) {
       axios
-        .get("url", { headers: { Authorization: `Bearer ${accessToken}` } })
+        .get(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/boards/my?category=${category}`,
+          {
+            headers: { Authorization: token },
+          }
+        )
         .then((response) => {
           console.log("내 게시글 조회 데이터", response.data);
           setPostData(response.data);
@@ -60,8 +65,9 @@ const MyPost: React.FC = () => {
     }
   };
 
+  //디폴트로 후기글 get
   useEffect(() => {
-    fetchPostData();
+    fetchPostData("REVIEW");
   }, []);
 
   return (
@@ -81,7 +87,7 @@ const MyPost: React.FC = () => {
           isGuideClicked={isGuideClicked}
           setIsAccompanyClicked={setIsAccompanyClicked}
           setIsGuideClicked={setIsGuideClicked}
-          setPostData={setPostData}
+          fetchPostData={fetchPostData}
         />
         {postData.length === 0 ? (
           <EmptyMyPost />
@@ -92,9 +98,10 @@ const MyPost: React.FC = () => {
                 <EachMyPost
                   key={element.id}
                   id={element.id}
-                  photo={element.photo}
+                  photo={element.representativeImage}
                   title={element.title}
-                  introduction={element.introduction}
+                  introduction={element.summary}
+                  category={element.category}
                   createdAt={element.createdAt}
                   fetchPostData={fetchPostData}
                 />
