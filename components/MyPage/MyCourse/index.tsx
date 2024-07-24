@@ -16,6 +16,7 @@ const cx = classNames.bind(styles);
 const MyCourse = () => {
   const router = useRouter();
   const [openId, setOpenId] = useState<number | null>(null);
+  const [isUparrowVisible, setIsUparrowVisible] = useState(false);
 
   //테스트 데이터 배열
   const [courseData, setCourseData] = useState([
@@ -28,18 +29,20 @@ const MyCourse = () => {
       createdAt: "2024-05-23",
       days: [
         {
-        "day": "2024-07-01",
-        "places": [
-        {
-        "placeName": "장소 1",
-        "placeCategory": "ATTRACTION"
+          day: "2024-07-01",
+          places: [
+            {
+              placeName: "장소 1",
+              placeCategory: "ATTRACTION",
+            },
+            {
+              placeName: "장소 2",
+              placeCategory: "RESTAURANT",
+            },
+          ],
         },
-        {
-        "placeName": "장소 2",
-        "placeCategory": "RESTAURANT"
-        }
-        ]
-    }]},
+      ],
+    },
     {
       routeId: 2,
       title: "여행 이름2",
@@ -49,31 +52,32 @@ const MyCourse = () => {
       createdAt: "2024-06-02",
       days: [
         {
-        "day": "2024-07-11",
-        "places": [
-        {
-        "placeName": "장소 1",
-        "placeCategory": "ATTRACTION1"
+          day: "2024-07-11",
+          places: [
+            {
+              placeName: "장소 1",
+              placeCategory: "ATTRACTION1",
+            },
+            {
+              placeName: "장소 2",
+              placeCategory: "RESTAURANT1",
+            },
+          ],
         },
         {
-        "placeName": "장소 2",
-        "placeCategory": "RESTAURANT1"
-        }
-        ]
-    },
-    {
-      "day": "2024-07-12",
-      "places": [
-      {
-      "placeName": "장소 1",
-      "placeCategory": "ATTRACTION2"
-      },
-      {
-      "placeName": "장소 2",
-      "placeCategory": "RESTAURANT2"
-      }
-      ]
-  }, ]
+          day: "2024-07-12",
+          places: [
+            {
+              placeName: "장소 1",
+              placeCategory: "ATTRACTION2",
+            },
+            {
+              placeName: "장소 2",
+              placeCategory: "RESTAURANT2",
+            },
+          ],
+        },
+      ],
     },
     {
       routeId: 3,
@@ -84,43 +88,45 @@ const MyCourse = () => {
       createdAt: "2024-07-15",
       days: [
         {
-        "day": "2024-08-15",
-        "places": [
-        {
-        "placeName": "장소 1",
-        "placeCategory": "ATTRACTION1"
+          day: "2024-08-15",
+          places: [
+            {
+              placeName: "장소 1",
+              placeCategory: "ATTRACTION1",
+            },
+            {
+              placeName: "장소 2",
+              placeCategory: "RESTAURANT1",
+            },
+          ],
         },
         {
-        "placeName": "장소 2",
-        "placeCategory": "RESTAURANT1"
-        }
-        ]
-    },
-    {
-      "day": "2024-08-16",
-      "places": [
-      {
-      "placeName": "장소 1",
-      "placeCategory": "ATTRACTION2"
-      },
-      {
-      "placeName": "장소 2",
-      "placeCategory": "RESTAURANT2"
-      }
-      ]
-  },  {
-    "day": "2024-08-17",
-    "places": [
-    {
-    "placeName": "장소 1",
-    "placeCategory": "ATTRACTION2"
-    },
-    {
-    "placeName": "장소 2",
-    "placeCategory": "RESTAURANT2"
-    }
-    ]
-}]
+          day: "2024-08-16",
+          places: [
+            {
+              placeName: "장소 1",
+              placeCategory: "ATTRACTION2",
+            },
+            {
+              placeName: "장소 2",
+              placeCategory: "RESTAURANT2",
+            },
+          ],
+        },
+        {
+          day: "2024-08-17",
+          places: [
+            {
+              placeName: "장소 1",
+              placeCategory: "ATTRACTION2",
+            },
+            {
+              placeName: "장소 2",
+              placeCategory: "RESTAURANT2",
+            },
+          ],
+        },
+      ],
     },
   ]);
 
@@ -145,11 +151,25 @@ const MyCourse = () => {
           console.error("경로 조회 요청 실패", error);
         });
     }
-  }
+  };
 
   //경로 조회 axios get 요청
   useEffect(() => {
     getMyCourse();
+
+    //Top arrow
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsUparrowVisible(true);
+      } else {
+        setIsUparrowVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
@@ -158,17 +178,18 @@ const MyCourse = () => {
         <EmptyMyCourse />
       ) : (
         <main className={cx("my-course-container")}>
-          <div
-            className={cx("upArrow-container")}
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          >
-            <div className={cx("upArrow-word")}>Top</div>
-            <Image
-              src={upArrow}
-              alt="up-arrow"
-              className={cx("upArrow-icon")}
-            />
-          </div>
+          {isUparrowVisible && (
+            <div
+              className={cx("upArrow-container")}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
+              <Image
+                src={upArrow}
+                alt="up-arrow"
+                className={cx("upArrow-icon")}
+              />
+            </div>
+          )}
           <div className={cx("course-button-container")}>
             <button
               className={cx("course-button")}
@@ -190,7 +211,9 @@ const MyCourse = () => {
                   createdAt={element.createdAt}
                   days={element.days}
                   isCourseOpen={element.routeId === openId}
-                  clickEachHandler={() => clickEachCourseHandler(element.routeId)}
+                  clickEachHandler={() =>
+                    clickEachCourseHandler(element.routeId)
+                  }
                   getMyCourse={getMyCourse}
                 />
               );

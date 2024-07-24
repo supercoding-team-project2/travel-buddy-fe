@@ -35,7 +35,7 @@ const EachCourse: React.FC<Props> = ({
   days,
   isCourseOpen,
   clickEachHandler,
-  getMyCourse
+  getMyCourse,
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);

@@ -18,14 +18,11 @@ interface Route {
 }
 
 const translationMap: any = {
-  restaurant: "/png/restaurant-pin.png",
   RESTAURANT: "/png/restaurant-pin.png",
-  cafe: "/png/cafe.png",
   CAFE: "/png/cafe.png",
-  locality: "/png/map-pin.png",
-  ATTRACTION: "/png/map-pin.png",
-  HOTEL: "/png/hotel-pin.png",
-  ACCOMMODATION: "/png/map-pin.png",
+  ATTRACTION: "/png/map-pin.png", //attraction icon 찾기
+  ACCOMMODATION: "/png/hotel-pin.png",
+  ETC: "/png/map-pin.png",
 };
 
 const translateDescription = (description: any) => {

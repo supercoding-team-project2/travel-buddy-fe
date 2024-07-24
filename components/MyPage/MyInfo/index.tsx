@@ -79,6 +79,12 @@ const MyInfo = ({ profilePic, setProfilePic }: Props) => {
     const file = event.target.files?.[0];
 
     if (file) {
+      const maxSizeInBytes = 5 * 1024 * 1024;
+      if (file.size > maxSizeInBytes) {
+        alert("파일 크기는 5MB를 초과할 수 없습니다.");
+        return;
+      }
+
       const formData = new FormData();
       formData.append("profilePicture", file);
 

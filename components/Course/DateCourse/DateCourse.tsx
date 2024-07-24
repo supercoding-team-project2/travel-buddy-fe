@@ -62,7 +62,7 @@ const DateCourse = ({
     event: ChangeEvent<HTMLTextAreaElement>
   ) => {
     const textareaValue = event.target.value;
-    setDescription(textareaValue);
+    setDescription(textareaValue.trim());
   };
 
   const transformCategory = (category: string) => {
@@ -82,6 +82,11 @@ const DateCourse = ({
   };
 
   const handleCourseSave = () => {
+    if (title.length <= 1) {
+      alert("한 글자 이상의 제목을 생성해주세요.");
+      return;
+    }
+
     if (dateRange && dateRange.length > 0) {
       const startDate = dateRange[0]?.startDate;
       const endDate = dateRange[0]?.endDate;

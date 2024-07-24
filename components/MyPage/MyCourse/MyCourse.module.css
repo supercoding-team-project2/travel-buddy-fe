@@ -6,8 +6,8 @@
 
 .upArrow-container {
   position: fixed;
-  width: 45px;
-  height: 45px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   border: 2px solid rgb(104, 104, 104);
   display: flex;
