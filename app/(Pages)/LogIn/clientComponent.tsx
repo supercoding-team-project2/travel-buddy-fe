@@ -54,6 +54,7 @@ export function LogInClient() {
     } catch (error) {
       console.log(error);
       console.log('Log In failed.');
+      console.log('haha');
     }
   };
 
