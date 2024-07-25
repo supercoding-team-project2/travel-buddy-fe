@@ -76,7 +76,8 @@ interface Props {
 }
 const TripBar = ({ day, places }: Props) => {
   const formatDay = () => {
-    const splitDay = day.split("-");
+    const shortDay = day.split("T")[0];
+    const splitDay = shortDay.split("-");
     const [year, month, da] = splitDay;
     return `${year}년 ${month}월 ${da}일`;
   };
@@ -84,7 +85,7 @@ const TripBar = ({ day, places }: Props) => {
   return (
     <div className="flex flex-col-reverse p-4 ml-4 w-full mx-auto dark:bg-gray-800">
       <div className="flex flex-col mr-8 my-3">
-        <div className="text-base mb-3">{formatDay()}</div>
+        <div className="text-base mb-5">{formatDay()}</div>
         <div className="flex ml-3">
           {places.map((place: any, placeIndex: number) => (
             <LocationItem

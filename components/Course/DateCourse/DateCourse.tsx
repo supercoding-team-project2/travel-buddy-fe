@@ -62,7 +62,7 @@ const DateCourse = ({
     event: ChangeEvent<HTMLTextAreaElement>
   ) => {
     const textareaValue = event.target.value;
-    setDescription(textareaValue.trim());
+    setDescription(textareaValue);
   };
 
   const transformCategory = (category: string) => {
@@ -82,7 +82,7 @@ const DateCourse = ({
   };
 
   const handleCourseSave = () => {
-    if (title.length <= 1) {
+    if (title.trim().length <= 1) {
       alert("한 글자 이상의 제목을 생성해주세요.");
       return;
     }
@@ -96,7 +96,6 @@ const DateCourse = ({
         description: description,
         startAt: startDate?.toISOString().split("T")[0],
         endAt: endDate?.toISOString().split("T")[0],
-        createdAt: new Date(),
         days: Object.keys(dateData).map((date) => ({
           day: date,
           places: dateData[date].map((place) => ({
@@ -116,7 +115,12 @@ const DateCourse = ({
           {
             transformedDateData,
           },
-          { headers: { Authorization: token } }
+          {
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
+          }
         )
         .then((response) => {
           console.log("여행 경로 등록 성공", response.status);

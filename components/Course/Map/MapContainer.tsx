@@ -44,7 +44,7 @@ const MapContainer = ({
 
   const titleChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    setTitle(inputValue.trim());
+    setTitle(inputValue);
   };
 
   if (!isLoaded) return <div>Loading...</div>;

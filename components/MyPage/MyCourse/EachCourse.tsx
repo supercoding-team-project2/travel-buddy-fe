@@ -45,12 +45,14 @@ const EachCourse: React.FC<Props> = ({
   const [modifyMemo, setModifyMemo] = useState(description);
 
   const formatTripDate = (date: string) => {
-    const [year, month, day] = date.split("-");
+    const shortDate = date.split("T")[0];
+    const [year, month, day] = shortDate.split("-");
     return `${year}년 ${month}월 ${day}일`;
   };
 
   const formatCreatedDate = (date: string) => {
-    const [year, month, day] = date.split("-");
+    const shortDate = date.split("T")[0];
+    const [year, month, day] = shortDate.split("-");
     return `${year}/${month}/${day}`;
   };
 
