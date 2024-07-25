@@ -38,7 +38,7 @@ const CourseDeleteModal: React.FC<Props> = ({
         );
         if (response.status === 200) {
           console.log("내 여행 경로 삭제 성공", response.status);
-          setIsDeleteOpen(true);
+          setIsDeleteOpen(false);
           getMyCourse();
         } else {
           console.log("내 여행 경로 삭제 실패", response.status);

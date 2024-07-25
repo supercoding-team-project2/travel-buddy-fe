@@ -32,7 +32,7 @@ const MyPostDeleteModal = ({
         headers: { Authorization: token },
       })
       .then((response) => {
-        console.log("해당 게시글 삭제 성공", response.data.message);
+        console.log("해당 게시글 삭제 성공", response.data);
         setIsDeleteModalOpen(false);
         fetchPostData(category);
       })

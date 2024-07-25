@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import { DateRangePickerProps } from "react-date-range";
 import EachDate from "./EachDate";
@@ -106,7 +106,7 @@ const DateCourse = ({
         })),
       };
 
-      // console.log("tranformedDateData", transformedDateData);
+      console.log("tranformedDateData", transformedDateData);
 
       //axios post 요청
       const token = sessionStorage.getItem("token");

@@ -8,7 +8,7 @@ import EmptyMyPost from "./EmptyMyPost";
 import classNames from "classnames/bind";
 import styles from "./MyPost.module.css";
 import Image from "next/image";
-import upArrow from "../../../assets/up-arrow.png";
+import upArrow from "@/assets/up-arrow.png";
 
 const cx = classNames.bind(styles);
 

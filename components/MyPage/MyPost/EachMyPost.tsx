@@ -61,10 +61,7 @@ const EachMyPost = ({
         category={category}
         fetchPostData={fetchPostData}
       />
-      <div
-        className={cx("each-post-container")}
-        onClick={() => router.push("/")}
-      >
+      <div className={cx("each-post-container")}>
         <div className={cx("post-picture-container")}>
           <Image className={cx("post-picture")} src={picture} alt="picture" />
         </div>
@@ -83,8 +80,11 @@ const EachMyPost = ({
               <Image src={bin} alt="bin" className={cx("bin-icon")} />
             </div>
           </div>
-          <div className={cx("post-detail-container")}>
-            <div className={cx("post-tilte")}>{title}</div>
+          <div
+            className={cx("post-detail-container")}
+            // onClick={() => router.push("/")} 이 게시글을 누르면 게시글로 가게 하기
+          >
+            <div className={cx("post-title")}>{title}</div>
             <div className={cx("post-introduction")}>
               {truncateIntroduction(introduction)}
             </div>

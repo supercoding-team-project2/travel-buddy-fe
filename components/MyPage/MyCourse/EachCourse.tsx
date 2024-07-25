@@ -9,6 +9,7 @@ import edit from "@/assets/edit.png";
 import bin from "@/assets/bin.png";
 
 import CourseDeleteModal from "./CourseDeleteModal";
+import TripBar from "./TripBar";
 
 const cx = classNames.bind(styles);
 
@@ -39,6 +40,9 @@ const EachCourse: React.FC<Props> = ({
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [ismodifyClicked, setIsModifyClicked] = useState(false);
+  const [modifytitle, setModifyTitle] = useState(title);
+  const [modifyMemo, setModifyMemo] = useState(description);
 
   const formatTripDate = (date: string) => {
     const [year, month, day] = date.split("-");
@@ -49,6 +53,9 @@ const EachCourse: React.FC<Props> = ({
     const [year, month, day] = date.split("-");
     return `${year}/${month}/${day}`;
   };
+
+  const modifyTitleHandler = () => {};
+  const modifyMemoHandler = () => {};
 
   return (
     <>
@@ -62,16 +69,21 @@ const EachCourse: React.FC<Props> = ({
         className={cx("each-course-container", {
           "each-course-container-active": isHovered,
         })}
-        onClick={clickEachHandler}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         <div className={cx("show-course")}>
-          <div
-            className={cx("course-name")}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            {title}
-          </div>
+          {ismodifyClicked ? (
+            <input
+              className={cx("modify-title-input")}
+              value={modifytitle}
+              onChange={modifyTitleHandler}
+            ></input>
+          ) : (
+            <div className={cx("course-name")} onClick={clickEachHandler}>
+              {title}
+            </div>
+          )}
           <div className={cx("course-period")}>
             {formatTripDate(startAt)} ~ {formatTripDate(endAt)}
           </div>
@@ -79,7 +91,10 @@ const EachCourse: React.FC<Props> = ({
             {formatCreatedDate(createdAt)}
           </div>
           <div className={cx("course-icons-container")}>
-            <div className={cx("image-conatiner")}>
+            <div
+              className={cx("image-conatiner")}
+              onClick={() => setIsModifyClicked(true)}
+            >
               <Image src={edit} alt="edit" className={cx("edit-icon")} />
             </div>
             <div className={cx("image-conatiner")}>
@@ -93,25 +108,27 @@ const EachCourse: React.FC<Props> = ({
           </div>
         </div>
         {isCourseOpen && (
-          <div className={cx("show-detail")}>
+          <div
+            className={cx("show-detail")}
+            onMouseEnter={() => setIsHovered(false)}
+          >
             <div className={cx("each-detail-container")}></div>
             {days?.length > 0 &&
               days.map((eachDay: { day: string; places: any[] }) => {
-                return (
-                  <>
-                    <div className={cx("show-detail-date")}>{eachDay.day}</div>
-                    <div className={cx("show-detail-course")}>
-                      {eachDay.places.map((place) => (
-                        <>
-                          <div>{place.placeName}</div>
-                          <div>{place.placeCategory}</div>
-                        </>
-                      ))}
-                    </div>
-                  </>
-                );
+                return <TripBar day={eachDay.day} places={eachDay.places} />;
               })}
-            <div className={cx("show-detail-memo")}>{description}</div>
+            {ismodifyClicked ? (
+              <div className={cx("modify-memo-container")}>
+                <textarea
+                  className={cx("modify-memo")}
+                  value={modifyMemo}
+                  onChange={modifyMemoHandler}
+                ></textarea>
+                <button className={cx("modify-button")}>수정</button>
+              </div>
+            ) : (
+              <div className={cx("show-detail-memo")}>{description}</div>
+            )}
           </div>
         )}
       </div>
