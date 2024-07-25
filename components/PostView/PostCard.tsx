@@ -1,13 +1,31 @@
 import { ButtonWithHoverImage } from "./buttonClick";
 import { translateCategory } from "./translateCategory";
 
-export const PostCard = ({ posts }: any) => {
+interface Post {
+  id: number;
+  categoryEnum: string;
+  title: string;
+  summary: string;
+  author: string;
+  startAt: string;
+  endAt: string;
+  representativeImage: string;
+  likeCount: number;
+}
+
+interface PostCardProps {
+  posts: Post[];
+  onPostClick: (id: number) => void;
+}
+
+export const PostCard = ({ posts, onPostClick }: PostCardProps) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 p-10 md:px-20">
       {posts.map((post: any, id: any) => (
         <div
           key={id}
           className="bg-white rounded-xl shadow-md overflow-hidden min-h-[22rem] min-w-[40rem]"
+          onClick={() => onPostClick(post.id)}
         >
           <div className="relative">
             <img

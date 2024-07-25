@@ -25,6 +25,7 @@ const translationMap: any = {
   locality: "/png/map-pin.png",
   ATTRACTION: "/png/map-pin.png",
   HOTEL: "/png/hotel-pin.png",
+  ACCOMMODATION: "/png/map-pin.png",
 };
 
 const translateDescription = (description: any) => {

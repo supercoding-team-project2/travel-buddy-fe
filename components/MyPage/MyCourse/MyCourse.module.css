@@ -1,6 +1,7 @@
 .my-course-container {
   width: 100%;
   font-family: var(--font-family);
+  min-height: 100vh;
 }
 
 .upArrow-container {

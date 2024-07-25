@@ -69,8 +69,8 @@ const EachDate = ({
     slidesToShow: Math.min(3, places.length),
     slidesToScroll: 3,
     initialSlide: 0,
-    prevArrow: places.length >= 3 ? <PrevArrow /> : undefined,
-    nextArrow: places.length >= 3 ? <NextArrow /> : undefined,
+    prevArrow: places.length > 3 ? <PrevArrow /> : undefined,
+    nextArrow: places.length > 3 ? <NextArrow /> : undefined,
   };
 
   //confirm date

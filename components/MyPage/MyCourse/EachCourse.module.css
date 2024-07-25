@@ -33,12 +33,12 @@
   height: 10rem;
   border: 1px solid #bbbdbe;
   overflow-y: auto;
+  padding: 1%;
 }
 
 .course-name {
   width: 30%;
 }
-
 
 .course-period {
   width: 30%;

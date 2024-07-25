@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { addDays, format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
@@ -14,16 +14,20 @@ import {
 interface DatePickerWithRangeProps
   extends React.HTMLAttributes<HTMLDivElement> {
   onDateChange?: (dateRange: DateRange | undefined) => void;
+  dateRange: DateRange | undefined;
 }
 
 export function DatePickerWithRange({
   className,
   onDateChange,
+  dateRange,
 }: DatePickerWithRangeProps) {
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 3),
-  });
+  const [date, setDate] = useState<DateRange | undefined>(dateRange);
+  console.log("🚀 ~ date:", date);
+
+  useEffect(() => {
+    setDate(dateRange);
+  }, [dateRange]);
 
   const handleDateChange = (newDate: DateRange | undefined) => {
     setDate(newDate);
@@ -33,6 +37,7 @@ export function DatePickerWithRange({
   };
 
   console.log("이건 날짜컴포넌트에서 가져온 데이터", date?.from);
+
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>

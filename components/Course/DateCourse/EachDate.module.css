@@ -1,6 +1,7 @@
 .each-date-container {
   margin-bottom: 2%;
 }
+
 .date {
   font-weight: 700;
   font-size: 1rem;
@@ -9,13 +10,9 @@
 
 .prev-container,
 .next-container {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
-}
-
-.prev-container {
-  margin-right: 2%;
 }
 
 .slider-container {
@@ -26,14 +23,13 @@
   display: flex !important;
   flex-direction: row !important;
   justify-content: center;
-  min-width: 95% !important;
-  max-width: 95% !important;
-  height: 160px;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  height: 130px;
   border: 1px solid #e6ebf2;
   border-radius: 5px;
   padding: 3% !important;
   padding-top: 6%;
-  margin-right: 2%;
   position: relative;
 }
 
