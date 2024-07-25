@@ -5,12 +5,14 @@ import classNames from "classnames/bind";
 import styles from "./MyCourse.module.css";
 
 import Image from "next/image";
-import upArrow from "../../../assets/up-arrow.png";
+import upArrow from "@/assets/up-arrow.png";
 
 import EachCourse from "./EachCourse";
 import EmptyMyCourse from "./EmptyMyCourse";
+import Loading from "@/components/Loading";
 
 import { useRouter } from "next/navigation";
+
 const cx = classNames.bind(styles);
 
 const MyCourse = () => {
@@ -18,6 +20,7 @@ const MyCourse = () => {
   const [openId, setOpenId] = useState<number | null>(null);
   const [isUparrowVisible, setIsUparrowVisible] = useState(false);
   const [editingCourseId, setEditingCourseId] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   //테스트 데이터 배열
   const [courseData, setCourseData] = useState([]);
@@ -41,6 +44,7 @@ const MyCourse = () => {
         .then((response) => {
           console.log("경로 조회 데이터", response.data);
           setCourseData(response.data);
+          setIsLoading(false);
         })
         .catch((error) => {
           console.error("경로 조회 요청 실패", error);
@@ -69,7 +73,8 @@ const MyCourse = () => {
 
   return (
     <>
-      {courseData.length === 0 ? (
+      {isLoading && <Loading />}
+      {!isLoading && courseData.length === 0 ? (
         <EmptyMyCourse />
       ) : (
         <main className={cx("my-course-container")}>
@@ -85,37 +90,35 @@ const MyCourse = () => {
               />
             </div>
           )}
-          <div className={cx("course-button-container")}>
-            <button
-              className={cx("course-button")}
-              onClick={() => router.push("/course")}
-            >
-              내 경로 생성하기
-            </button>
-          </div>
+          {!isLoading && (
+            <div className={cx("course-button-container")}>
+              <button
+                className={cx("course-button")}
+                onClick={() => router.push("/course")}
+              >
+                내 경로 생성하기
+              </button>
+            </div>
+          )}
           <div className={cx("courses-container")}>
-            {courseData.map((element: any, index: number) => {
-              return (
-                <EachCourse
-                  key={element.routeId}
-                  id={element.routeId}
-                  title={element.title}
-                  description={element.description}
-                  startAt={element.startAt}
-                  endAt={element.endAt}
-                  createdAt={element.createdAt}
-                  days={element.days}
-                  isCourseOpen={element.routeId === openId}
-                  clickEachHandler={() =>
-                    clickEachCourseHandler(element.routeId)
-                  }
-                  getMyCourse={getMyCourse}
-                  editingCourseId={editingCourseId}
-                  setEditingCourseId={setEditingCourseId}
-                  setOpenId={setOpenId}
-                />
-              );
-            })}
+            {courseData.map((element: any, index: number) => (
+              <EachCourse
+                key={element.routeId}
+                id={element.routeId}
+                title={element.title}
+                description={element.description}
+                startAt={element.startAt}
+                endAt={element.endAt}
+                createdAt={element.createdAt}
+                days={element.days}
+                isCourseOpen={element.routeId === openId}
+                clickEachHandler={() => clickEachCourseHandler(element.routeId)}
+                getMyCourse={getMyCourse}
+                editingCourseId={editingCourseId}
+                setEditingCourseId={setEditingCourseId}
+                setOpenId={setOpenId}
+              />
+            ))}
           </div>
         </main>
       )}
