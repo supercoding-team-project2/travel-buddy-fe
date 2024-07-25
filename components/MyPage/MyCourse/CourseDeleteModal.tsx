@@ -23,7 +23,7 @@ const CourseDeleteModal: React.FC<Props> = ({
   getMyCourse,
 }) => {
   //user clike the delete button & axios delete
-  const clickDeleteHandler = async () => {
+  const clickDeleteHandler = async (id: number) => {
     const token = sessionStorage.getItem("token");
 
     if (token) {
@@ -72,7 +72,10 @@ const CourseDeleteModal: React.FC<Props> = ({
           >
             취소
           </button>
-          <button className={cx("delete-button")} onClick={clickDeleteHandler}>
+          <button
+            className={cx("delete-button")}
+            onClick={() => clickDeleteHandler(id)}
+          >
             삭제
           </button>
         </div>

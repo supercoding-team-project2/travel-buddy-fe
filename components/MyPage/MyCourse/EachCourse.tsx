@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 import classNames from "classnames/bind";
@@ -41,8 +41,9 @@ const EachCourse: React.FC<Props> = ({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [ismodifyClicked, setIsModifyClicked] = useState(false);
-  const [modifytitle, setModifyTitle] = useState(title);
+  const [modifyTitle, setModifyTitle] = useState(title);
   const [modifyMemo, setModifyMemo] = useState(description);
+  const titleInputRef = useRef<HTMLInputElement>(null);
 
   const formatTripDate = (date: string) => {
     const shortDate = date.split("T")[0];
@@ -56,8 +57,60 @@ const EachCourse: React.FC<Props> = ({
     return `${year}/${month}/${day}`;
   };
 
-  const modifyTitleHandler = () => {};
-  const modifyMemoHandler = () => {};
+  const modifyTitleHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setModifyTitle(event.target.value);
+  };
+  const modifyMemoHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setModifyMemo(event.target.value);
+  };
+
+  //수정 버튼 핸들러
+  const modifyButtonHandler = async (id: number) => {
+    if (title === modifyTitle && description === modifyMemo) {
+      alert("수정된 글이 없습니다.");
+      return;
+    }
+
+    if (modifyTitle.trim().length < 1) {
+      alert("한 글자 이상의 제목을 적어주세요.");
+      return;
+    }
+
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      throw new Error("토큰이 없습니다.");
+    }
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/update/${id}`,
+        {
+          title: modifyTitle,
+          description: modifyMemo,
+        },
+        {
+          headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("내 여행 경로 수정 성공", response.data);
+        getMyCourse();
+      } else {
+        console.log("내 여행 경로 수정 실패", response.status);
+      }
+    } catch (error) {
+      console.error("내 여행 경로 수정 요청 중 에러", error);
+    }
+  };
+
+  useEffect(() => {
+    if (ismodifyClicked && titleInputRef.current) {
+      titleInputRef.current.focus();
+    }
+  }, [ismodifyClicked]);
 
   return (
     <>
@@ -78,8 +131,9 @@ const EachCourse: React.FC<Props> = ({
           {ismodifyClicked ? (
             <input
               className={cx("modify-title-input")}
-              value={modifytitle}
+              value={modifyTitle}
               onChange={modifyTitleHandler}
+              ref={titleInputRef}
             ></input>
           ) : (
             <div className={cx("course-name")} onClick={clickEachHandler}>
@@ -126,7 +180,12 @@ const EachCourse: React.FC<Props> = ({
                   value={modifyMemo}
                   onChange={modifyMemoHandler}
                 ></textarea>
-                <button className={cx("modify-button")}>수정</button>
+                <button
+                  className={cx("modify-button")}
+                  onClick={() => modifyButtonHandler(id)}
+                >
+                  수정
+                </button>
               </div>
             ) : (
               <div className={cx("show-detail-memo")}>{description}</div>
