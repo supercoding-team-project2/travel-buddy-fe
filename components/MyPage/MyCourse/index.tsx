@@ -17,6 +17,7 @@ const MyCourse = () => {
   const router = useRouter();
   const [openId, setOpenId] = useState<number | null>(null);
   const [isUparrowVisible, setIsUparrowVisible] = useState(false);
+  const [editingCourseId, setEditingCourseId] = useState<number | null>(null);
 
   //테스트 데이터 배열
   const [courseData, setCourseData] = useState([]);
@@ -24,6 +25,10 @@ const MyCourse = () => {
   //하나의 여행 경로 컴포넌트가 클릭 되었을 때, 나머지는 다 닫아놓기
   const clickEachCourseHandler = (id: number) => {
     setOpenId(id === openId ? null : id);
+
+    if (editingCourseId !== id) {
+      // editingCourseId(null)
+    }
   };
 
   const getMyCourse = () => {
@@ -106,6 +111,9 @@ const MyCourse = () => {
                     clickEachCourseHandler(element.routeId)
                   }
                   getMyCourse={getMyCourse}
+                  editingCourseId={editingCourseId}
+                  setEditingCourseId={setEditingCourseId}
+                  setOpenId={setOpenId}
                 />
               );
             })}

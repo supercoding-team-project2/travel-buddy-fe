@@ -30,7 +30,7 @@ const MyInfo = ({ profilePic, setProfilePic }: Props) => {
 
     if (token) {
       axios
-        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/`, {
+        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user`, {
           headers: { Authorization: token },
         })
         .then((response) => {

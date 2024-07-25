@@ -94,8 +94,8 @@ const DateCourse = ({
       const transformedDateData = {
         title: title,
         description: description,
-        startAt: startDate,
-        endAt: endDate,
+        startAt: startDate?.toISOString().split("T")[0],
+        endAt: endDate?.toISOString().split("T")[0],
         days: Object.keys(dateData).map((date) => ({
           day: date,
           places: dateData[date].map((place) => ({
