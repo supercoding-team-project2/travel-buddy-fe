@@ -20,40 +20,13 @@ import { DateRange } from "react-day-picker";
 import api from "@/app/api/api";
 import { posts } from "@/components/PostView/posts";
 import { ButtonOutlineProps, Post } from "@/components/PostView/interfaces";
+import {
+  fetchData,
+  fetchParticipatedPosts,
+  fetchRecommendedPosts,
+} from "@/components/PostView/fetchApi";
 
 const cx = classNames.bind(styles);
-
-export const fetchData = async ({
-  category,
-  startDate,
-  endDate,
-  sortBy,
-  order,
-}: {
-  category?: string;
-  startDate?: string;
-  endDate?: string;
-  sortBy?: string;
-  order?: string;
-}) => {
-  try {
-    const params: Record<string, string> = {};
-
-    if (category && category !== "전체") {
-      params.category = encodeURIComponent(category.trim());
-    }
-    if (startDate) params.startDate = startDate;
-    if (endDate) params.endDate = endDate;
-    if (sortBy) params.sortBy = sortBy;
-    if (order) params.order = order;
-
-    const response = await api.get("/api/boards", { params });
-
-    return response.data;
-  } catch (error: any) {
-    throw new Error(error.response?.data?.message || "An error occurred");
-  }
-};
 
 export const WriteButton = () => {
   const router = useRouter();
@@ -118,7 +91,6 @@ export const ClientComponent = () => {
     DateRange | undefined
   >(undefined);
   console.log("🚀 ~ ClientComponent ~ selectedDateRange:", selectedDateRange);
-  //const [sortOrder, setSortOrder] = useState("최신순");
   const [sortOrder, setSortOrder] = useState("createdAt");
   console.log("🚀 ~ ClientComponent ~ sortOrder:", sortOrder);
   const [order, setOrder] = useState("desc");
@@ -126,6 +98,9 @@ export const ClientComponent = () => {
   const [data, setData] = useState<Post[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [viewType, setViewType] = useState<"recommended" | "participated">(
+    "recommended"
+  ); // 상태 추가
 
   useEffect(() => {
     const getData = async () => {
@@ -157,6 +132,58 @@ export const ClientComponent = () => {
     getData();
   }, [filter, selectedDateRange, sortOrder]);
 
+  const getMy = async (type: "recommended" | "participated") => {
+    try {
+      setLoading(true);
+      const fromDate = selectedDateRange?.from
+        ? selectedDateRange.from.toISOString()
+        : undefined;
+      const toDate = selectedDateRange?.to
+        ? selectedDateRange.to.toISOString()
+        : undefined;
+
+      let response;
+      if (type === "recommended") {
+        response = await fetchRecommendedPosts({
+          category: filter === "전체" ? undefined : filter,
+          startDate: fromDate,
+          endDate: toDate,
+          sortBy: sortOrder,
+          order: order,
+        });
+      } else if (type === "participated") {
+        response = await fetchParticipatedPosts({
+          category: filter === "전체" ? undefined : filter,
+          startDate: fromDate,
+          endDate: toDate,
+          sortBy: sortOrder,
+          order: order,
+        });
+      }
+
+      setData(response.data);
+      setFilteredPosts(response.data);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // useEffect(() => {
+  //   getMy(viewType);
+  // }, [viewType, filter, selectedDateRange, sortOrder, order]);
+
+  const handleButtonClick = (type: "recommended" | "participated") => {
+    setViewType(type);
+  };
+
+  // 버튼 클릭 시
+  // const handleButtonClick = (type: "recommended" | "participated") => {
+  //   setViewType(type); //이거 없어도 될듯
+  //   getMy(type);
+  // };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -182,11 +209,11 @@ export const ClientComponent = () => {
           <div className={cx("view-button-group")}>
             <ButtonOutline
               text="추천한 게시물"
-              onClick={() => setFilter("전체")}
+              onClick={() => handleButtonClick("recommended")}
             />
             <ButtonOutline
               text="참여한 여행"
-              onClick={() => setFilter("전체")}
+              onClick={() => handleButtonClick("participated")}
             />
           </div>
         </div>

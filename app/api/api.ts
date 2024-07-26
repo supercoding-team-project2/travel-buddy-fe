@@ -8,3 +8,5 @@ const api = axios.create({
 });
 
 export default api;
+
+//process.env.NEXT_PUBLIC_SERVER_URL

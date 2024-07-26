@@ -99,7 +99,6 @@ interface Props {
 /* 메인 프로필 포스트 */
 export const ProfilePost = ({ data }: Props) => {
   const board = data;
-  console.log("🚀 ~ ProfilePost ~ board:", board);
 
   const [showComments, setShowComments] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]); // 댓글 상태 관리
@@ -137,7 +136,7 @@ export const ProfilePost = ({ data }: Props) => {
       <figure className="relative flex flex-col bg-slate-100 rounded-lg p-6 dark:bg-slate-800 dark:highlight-white/5">
         <figcaption className="flex items-center space-x-4 ml-6 mb-3">
           {/* 프로필사진-------------Image*/}
-          <img
+          <Image
             src={board?.userPhoto}
             alt="image"
             width={56}
@@ -169,7 +168,7 @@ export const ProfilePost = ({ data }: Props) => {
         <div className="flex">
           <div className="w-1/2">
             {/* 여행사진들 ------------------------Image*/}
-            <ImgSlider img={board.images} />
+            <ImgSlider img={board?.images} />
           </div>
           <div className=" w-1/2 flex-col">
             <div>

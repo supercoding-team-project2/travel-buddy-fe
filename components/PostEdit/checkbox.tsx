@@ -1,5 +1,5 @@
-import Image from "next/image";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
@@ -12,14 +12,22 @@ interface CheckboxData {
 
 interface CheckboxProps {
   onChange?: (data: CheckboxData) => void;
+  initialData?: CheckboxData; // 추가된 부분
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ onChange }) => {
-  const [participants, setParticipants] = useState<number>(1);
-  const [ageMin, setAgeMin] = useState<number | undefined>(undefined);
-  const [ageMax, setAgeMax] = useState<number | undefined>(undefined);
-  const [gender, setGender] = useState<string>("");
+const Checkbox: React.FC<CheckboxProps> = ({ onChange, initialData }) => {
+  const [participants, setParticipants] = useState<number>(
+    initialData?.participants || 1
+  );
+  const [ageMin, setAgeMin] = useState<number | undefined>(
+    initialData?.ageMin || undefined
+  );
+  const [ageMax, setAgeMax] = useState<number | undefined>(
+    initialData?.ageMax || undefined
+  );
+  const [gender, setGender] = useState<string>(initialData?.gender || "");
 
+  // 상태 변경 시 부모 컴포넌트로 데이터 전달
   useEffect(() => {
     if (onChange) {
       onChange({ ageMin, ageMax, participants, gender });
@@ -91,15 +99,15 @@ const Checkbox: React.FC<CheckboxProps> = ({ onChange }) => {
           className="flex"
         >
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="남성" id="option-one" />
+            <RadioGroupItem value="MALE" id="option-one" />
             <Label htmlFor="option-one">남성</Label>
           </div>
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="여성" id="option-two" />
+            <RadioGroupItem value="FEMALE" id="option-two" />
             <Label htmlFor="option-two">여성</Label>
           </div>
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="무관" id="option-third" />
+            <RadioGroupItem value="ALL" id="option-third" />
             <Label htmlFor="option-third">무관</Label>
           </div>
         </RadioGroup>

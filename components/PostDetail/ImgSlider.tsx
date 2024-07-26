@@ -5,6 +5,7 @@ const ImgSlider = ({ img }: any) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = img;
+  console.log("🚀 ~ ImgSlider ~ slides:", slides);
   const totalSlides = slides.length;
 
   const nextSlide = () => {
@@ -20,23 +21,24 @@ const ImgSlider = ({ img }: any) => {
       <div className="relative rounded-lg overflow-hidden shadow-lg">
         {/* Carousel wrapper */}
         <div className="relative h-[400px] md:h-[600px]">
-          {slides.map((slide: any, index: any) => (
-            <div
-              key={index}
-              className={`carousel-item ${
-                index === currentSlide ? "" : "hidden"
-              } duration-700 ease-in-out`}
-            >
-              <div className="w-full h-full">
-                <img
-                  src={slide}
-                  alt={`Slide ${index + 1}`}
-                  //fill
-                  style={{ objectFit: "cover" }}
-                />
+          {totalSlides > 0 &&
+            slides.map((slide: any, index: any) => (
+              <div
+                key={index}
+                className={`carousel-item ${
+                  index === currentSlide ? "" : "hidden"
+                } duration-700 ease-in-out`}
+              >
+                <div className="w-full h-full">
+                  <img
+                    src={slide}
+                    alt={`Slide ${index + 1}`}
+                    //fill
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
         {/* Slider indicators */}
         <div className="flex absolute bottom-5 left-1/2 z-30 -translate-x-1/2 space-x-2">

@@ -15,14 +15,12 @@ import userImage from "@/assets/userEx.png";
 import { useState } from "react";
 
 const MyPageClient = () => {
-
   const [isMyCourseOpen, setIsMyCourseOpen] = useState<boolean>(true);
   const [isMyPostOpen, setIsMyPostOpen] = useState<boolean>(false);
   const [isMyInfoOpen, setIsMyInfoOpen] = useState<boolean>(false);
   const [profilePic, setProfilePic] = useState<string | StaticImageData>(
     userImage
   );
-
 
   return (
     <>
@@ -37,7 +35,9 @@ const MyPageClient = () => {
       />
       {isMyCourseOpen && <MyCourse />}
       {isMyPostOpen && <MyPost />}
-      {isMyInfoOpen && <MyInfo profilePic={profilePic} setProfilePic={setProfilePic}/>}
+      {isMyInfoOpen && (
+        <MyInfo profilePic={profilePic} setProfilePic={setProfilePic} />
+      )}
     </>
   );
 };
