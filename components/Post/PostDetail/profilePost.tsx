@@ -1,6 +1,6 @@
 import Image from "next/image";
 import ImgSlider from "./ImgSlider";
-import styles from "../../app/(Pages)/post-detail/post-detail.module.css";
+import styles from "@/app/(Pages)/post-detail/post-detail.module.css";
 import classNames from "classnames/bind";
 import { useState } from "react";
 import { CommentSection, MycommentSection } from "./comment/allcomment";
@@ -133,9 +133,9 @@ export const ProfilePost = ({ data }: Props) => {
 
   return (
     <div className="text-sm leading-6">
-      <figure className="relative flex flex-col bg-slate-100 rounded-lg p-6 dark:bg-slate-800 dark:highlight-white/5">
+      <figure className="relative flex flex-col bg-slate-100 rounded-lg p-9 dark:bg-slate-800 dark:highlight-white/5">
         <figcaption className="flex items-center space-x-4 ml-6 mb-3">
-          {/* 프로필사진-------------Image*/}
+          {/* 프로필사진 Image*/}
           <Image
             src={board?.userPhoto}
             alt="image"
@@ -147,7 +147,7 @@ export const ProfilePost = ({ data }: Props) => {
           />
           <div className="flex">
             {/* 프로필 이름 */}
-            <div className="text-base text-slate-900 font-semibold dark:text-slate-200 mr-2">
+            <div className="text-xl text-slate-900 font-bold dark:text-slate-200 mr-2">
               {board.author}
             </div>
             <IconButton
@@ -165,16 +165,16 @@ export const ProfilePost = ({ data }: Props) => {
             />
           </div>
         </figcaption>
-        <div className="flex">
-          <div className="w-1/2">
-            {/* 여행사진들 ------------------------Image*/}
+        <div className="flex gap-11">
+          <div className="w-[40rem]">
+            {/* 여행사진들 */}
             <ImgSlider img={board?.images} />
           </div>
-          <div className=" w-1/2 flex-col">
+          <div className="w-[55rem] flex-col">
             <div>
               <div className=" bg-white rounded-lg border p-5 ">
                 {/* 본문내용 구현 */}
-                <div className="border rounded-lg h-96 overflow-y-auto p-4">
+                <div className="text-lg border rounded-lg h-96 overflow-y-auto p-4">
                   {board.content}
                 </div>
                 <div className="flex my-5">

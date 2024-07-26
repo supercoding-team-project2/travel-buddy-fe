@@ -20,7 +20,7 @@ const ImgSlider = ({ img }: any) => {
     <div className="max-w-2xl">
       <div className="relative rounded-lg overflow-hidden shadow-lg">
         {/* Carousel wrapper */}
-        <div className="relative h-[400px] md:h-[600px]">
+        <div className="relative h-[25rem] md:h-[37.5rem]">
           {totalSlides > 0 &&
             slides.map((slide: any, index: any) => (
               <div

@@ -1,21 +1,21 @@
 "use client";
 
-import { BreadcrumbWithCustomSeparator } from "@/components/PostDetail/breadcrumb";
-import useModal from "@/components/PostDetail/modal/modal";
+import { BreadcrumbWithCustomSeparator } from "@/components/Post/PostDetail/breadcrumb";
+import useModal from "@/components/Post/PostDetail/modal/modal";
 import { useRouter } from "next/navigation";
-import TravelBar from "@/components/PostDetail/TravelBar";
-import { ProfilePost } from "@/components/PostDetail/profilePost";
-import { IconButton } from "@/components/PostDetail/iconButton";
-import formatDateString from "@/components/PostDetail/formatDateString";
-import { translateCategory } from "@/components/PostView/translateCategory";
+import TravelBar from "@/components/Post/PostDetail/TravelBar";
+import { ProfilePost } from "@/components/Post/PostDetail/profilePost";
+import { IconButton } from "@/components/Post/PostDetail/iconButton";
+import formatDateString from "@/components/Post/PostDetail/formatDateString";
+import { translateCategory } from "@/components/Post/PostView/translateCategory";
 import {
   ClientComponentProps,
   Props,
-} from "@/components/PostDetail/interfaces";
+} from "@/components/Post/PostDetail/interfaces";
 
 import api from "@/app/api/api";
 import { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
+import { currentUserId, userToken } from "@/components/Post/UserToken";
 
 const InfoTable = (data: any) => {
   const board = data;
@@ -105,21 +105,22 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
     router.push(`/post-edit/${postId}`);
   };
 
-  // const handleDelete = async () => {
-  //   setLoading(true);
-  //   setError(null);
-
-  //   try {
-  //     await api.delete(`api/boards/${postId}`);
-  //     console.log("Post deleted successfully");
-  //     router.push("/post-view");
-  //   } catch (err: any) {
-  //     console.error("Failed to delete the post:", err);
-  //     setError(err.message || "Failed to delete the post");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const handleDelete = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      if (userToken) {
+        await api.delete(`/api/boards/${postId}`, {
+          headers: { Authorization: userToken },
+        });
+        console.log("Post deleted successfully");
+        router.push("/post-view");
+      }
+    } catch (error: any) {
+      console.error("Failed to delete the post:", error);
+      setError(error.message || "Failed to delete the post");
+    }
+  };
 
   const getData = async () => {
     try {
@@ -143,31 +144,18 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   if (error) return <div>Error: {error}</div>;
 
   const { board, route, trip }: any = data;
+  console.log("유저에 대한 토큰을 출력해보자", currentUserId());
 
   const tripId = trip.id;
-  console.log("🚀 ~ ClientComponent ~ tripId:", tripId);
+
   if (!data) return <div>No data available</div>;
-
-  const getToken = () => {
-    return sessionStorage.getItem("token");
-  };
-  const token = getToken();
-
-  if (token) {
-    // token이 null이 아닐 경우에만 디코드 실행
-    const decoded = jwtDecode(token);
-    console.log(decoded);
-  } else {
-    console.error("No token found in session storage.");
-  }
 
   /*여행 취소 - delete 요청 */
   const onCancel = async () => {
     try {
-      const token = getToken();
-      if (token) {
+      if (userToken) {
         await api.delete(`/api/attend/${postId}`, {
-          headers: { Authorization: token },
+          headers: { Authorization: userToken },
         });
         console.log("참여취소 성공");
       }
@@ -245,27 +233,26 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
             )} */}
             <DetailsTable data={trip} />
             <div className="flex items-center justify-center mt-4">
-              {!result && (
-                <TogetherBtn
-                  onClick={() => {
-                    openModal();
-                    setModalOpen(true);
-                  }}
-                  label="참여신청"
-                  //  label={result ? "참여취소" : "참여신청"}
-                />
-              )}
-              <TogetherBtn
-                onClick={() => {
-                  onCancel();
-                }}
-                label="참여취소"
-              />
+              <>
+                {!result ? (
+                  <TogetherBtn
+                    onClick={() => {
+                      openModal();
+                      setModalOpen(true);
+                    }}
+                    label="참여신청"
+                  />
+                ) : (
+                  <TogetherBtn onClick={onCancel} label="참여취소" />
+                )}
+              </>
             </div>
           </div>
         </div>
+        <div className="border items-center">
+          <TravelBar route={route} />
+        </div>
 
-        <TravelBar route={route} />
         <ProfilePost data={board} />
       </div>
       <ModalWrapper

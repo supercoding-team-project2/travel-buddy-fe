@@ -1,11 +1,11 @@
 "use client";
-import EditList from "@/components/PostCreate/editList";
-import { Editor } from "@/components/PostCreate/editor";
-import EditTitle from "@/components/PostCreate/editTitle";
+import EditList from "@/components/Post/PostCreate/editList";
+import { Editor } from "@/components/Post/PostCreate/editor";
+import EditTitle from "@/components/Post/PostCreate/editTitle";
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { TripData } from "@/components/PostCreate/interfaces";
-import { trips } from "@/components/PostEdit/data"; //임시데이터
+import { TripData } from "@/components/Post/PostCreate/interfaces";
+import { trips } from "@/components/Post/PostEdit/data"; //임시데이터
 import api from "@/app/api/api";
 import { useRouter } from "next/router";
 

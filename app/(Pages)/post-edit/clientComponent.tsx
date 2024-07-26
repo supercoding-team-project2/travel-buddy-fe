@@ -1,12 +1,12 @@
 "use client";
-import EditList from "@/components/PostEdit/editList";
-import { Editor } from "@/components/PostEdit/editor";
-import EditTitle from "@/components/PostEdit/editTitle";
+import EditList from "@/components/Post/PostEdit/editList";
+import { Editor } from "@/components/Post/PostEdit/editor";
+import EditTitle from "@/components/Post/PostEdit/editTitle";
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { trips } from "@/components/PostEdit/data"; //임시데이터
+import { trips } from "@/components/Post/PostEdit/data"; //임시데이터
 import api from "@/app/api/api";
-import { Props } from "@/components/PostDetail/interfaces";
+import { Props } from "@/components/Post/PostDetail/interfaces";
 
 export interface ClientComponentProps {
   postId: number;

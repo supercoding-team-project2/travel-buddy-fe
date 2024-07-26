@@ -30,7 +30,7 @@ const translateDescription = (description: any) => {
 };
 
 const LocationItem = ({ name, description, isLast }: any) => {
-  const minWidth = name.length * 10 + 100; // 장소/명소/가게의 이름 길이에 따라 기본 너비 조정
+  const minWidth = name.length * 10 + 150; // 장소/명소/가게의 이름 길이에 따라 기본 너비 조정
 
   return (
     <div className="flex flex-col">
@@ -78,8 +78,9 @@ const TravelBar = ({ route }: { route: Route }) => {
     })
   );
 
+  //날짜 또 거꾸로 들어가면 reverse 넣기 -> flex flex-col-reverse
   return (
-    <div className="flex flex-col-reverse p-4 ml-4 w-full mx-auto dark:bg-gray-800">
+    <div className="flex flex-col p-4 ml-4 max-w-4xl mx-auto dark:bg-gray-800">
       {locations.map((location: any, index: number) => (
         <div key={index} className="flex flex-col mr-8 my-3">
           <div className="text-lg mb-3">{location.date}</div>
