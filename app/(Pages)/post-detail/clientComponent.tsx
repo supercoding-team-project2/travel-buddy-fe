@@ -15,6 +15,7 @@ import {
 
 import api from "@/app/api/api";
 import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 const InfoTable = (data: any) => {
   const board = data;
@@ -34,6 +35,7 @@ const InfoTable = (data: any) => {
 
 const DetailsTable = (data: any) => {
   const trip = data;
+  console.log("🚀 ~ DetailsTable ~ trip:", trip.data);
   return (
     <div>
       <table className="min-w-80 bg-white border border-gray-200">
@@ -131,18 +133,11 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   };
 
   useEffect(() => {
-    if (modalOpen === false) {
+    if (!modalOpen) {
       console.log("🚀 ~ ClientComponent ~ modalOpen:", modalOpen);
       getData();
     }
   }, [postId, modalOpen]);
-
-  /*  모달창 열렸을 때 닫혔을 때  */
-  // useEffect(() => {
-  //   if (!isOpen) {
-  //     getData();
-  //   }
-  // }, [postId, isOpen]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -156,14 +151,22 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   const getToken = () => {
     return sessionStorage.getItem("token");
   };
+  const token = getToken();
+
+  if (token) {
+    // token이 null이 아닐 경우에만 디코드 실행
+    const decoded = jwtDecode(token);
+    console.log(decoded);
+  } else {
+    console.error("No token found in session storage.");
+  }
 
   /*여행 취소 - delete 요청 */
   const onCancel = async () => {
     try {
       const token = getToken();
-
       if (token) {
-        await api.delete(`/api/attend/${tripId}`, {
+        await api.delete(`/api/attend/${postId}`, {
           headers: { Authorization: token },
         });
         console.log("참여취소 성공");
