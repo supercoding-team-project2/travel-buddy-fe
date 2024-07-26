@@ -15,7 +15,9 @@ export function CourseCard({ id, title, url }: Props) {
   return (
     <div className={cx("CourseCard")} onClick={() => router.push(`/post-detail/${id}`)}>
       <img src={url} alt="" className={cx("courseImg")} />
+      <div className={cx("title-container")}>
       <div className={cx("courseTitle")}>{title}</div>
+ </div>
     </div>
   );
 }

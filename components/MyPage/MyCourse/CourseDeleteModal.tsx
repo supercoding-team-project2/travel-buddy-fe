@@ -42,12 +42,11 @@ const CourseDeleteModal: React.FC<Props> = ({
           console.log("내 여행 경로 삭제 성공", response.status);
           setIsDeleteOpen(false);
           getMyCourse();
+        } else if (response.status === 202) {
+          setIsDoubleDeleteOpen(true);
+          setDeletePostTitle(response.data.boardTitles);
         } else {
           console.log("내 여행 경로 삭제 실패", response.status);
-          if (response.status === 403) {
-            setIsDoubleDeleteOpen(true);
-            setDeletePostTitle(response.data.title);
-          }
         }
       } catch (error) {
         console.error("내 여행 경로 삭제 요청 중 에러", error);

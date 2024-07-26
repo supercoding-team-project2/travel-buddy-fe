@@ -22,6 +22,9 @@ interface ApiResponse {
 }
 
 export default function MainPage() {
+  const sample1 = "/png/hamster.png";
+  const sample2 = "/png/hamster2.png";
+  const sample3 = "/png/hemsworth.png";
   const [topReviewData, settopReviewData] = useState<Post[]>([]);
   const [topGuideData, setTopGuideData] = useState<Post[]>([]);
   const [topCompanionData, setTopCompanionData] = useState<Post[]>([]);
@@ -46,7 +49,7 @@ export default function MainPage() {
         {/* <div className={cx("topWrapper")}> */}
         {/* <img src="/svg/airplane.svg" alt="" /> */}
         <div className={cx("wrapper")}>
-          <div className={cx("title")}>인기있는 후기</div>
+          <div className={cx("title")}>인기있는 여행 후기</div>
           <Link href={"/"} className={cx("link")}>
             전체보기
           </Link>
@@ -58,7 +61,8 @@ export default function MainPage() {
               key={review.id}
               id={review.id}
               title={review.title}
-              url={review.representativeImage}
+              // url={review.representativeImage}
+              url={sample1}
             />
           ))}
         </div>
@@ -66,7 +70,7 @@ export default function MainPage() {
       <section>
         {/* <div className={cx("topWrapperReverse")}> */}
         <div className={cx("wrapper")}>
-          <div className={cx("title")}>가이드 여행</div>
+          <div className={cx("title")}>가이드와 함께하는 패키지 여행</div>
           <Link href={"/"} className={cx("link")}>
             전체보기
           </Link>
@@ -79,7 +83,8 @@ export default function MainPage() {
               key={guide.id}
               id={guide.id}
               title={guide.title}
-              url={guide.representativeImage}
+              // url={guide.representativeImage}
+              url={sample2}
             />
           ))}
         </div>
@@ -88,7 +93,7 @@ export default function MainPage() {
         {/* <div className={cx("topWrapper")}> */}
         {/* <img src="/svg/airplane.svg" alt="" /> */}
         <div className={cx("wrapper")}>
-          <div className={cx("title")}>동행 여행</div>
+          <div className={cx("title")}>함께하는 동행 여행</div>
           <Link href={"/"} className={cx("link")}>
             전체보기
           </Link>
@@ -100,7 +105,8 @@ export default function MainPage() {
               key={companion.id}
               id={companion.id}
               title={companion.title}
-              url={companion.representativeImage}
+              // url={companion.representativeImage}
+              url={sample3}
             />
           ))}
         </div>

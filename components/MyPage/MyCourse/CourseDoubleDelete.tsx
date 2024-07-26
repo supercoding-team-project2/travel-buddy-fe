@@ -38,7 +38,7 @@ const CourseDoubleDelete = ({
 
     try {
       const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/endpoint주소받기`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/delete-boards/${id}`,
         {
           headers: {
             Authorization: token,
