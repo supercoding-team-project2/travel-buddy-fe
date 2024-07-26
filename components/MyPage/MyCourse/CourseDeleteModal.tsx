@@ -21,8 +21,8 @@ const CourseDeleteModal: React.FC<Props> = ({
   id,
   getMyCourse,
 }) => {
-  const [isDoubleDeleteOpen, setIsDoubleDeleteOpen] = useState(true);
-  const [deletePostTitle, setDeletePostTitle] = useState("");
+  const [isDoubleDeleteOpen, setIsDoubleDeleteOpen] = useState(false);
+  const [deletePostTitle, setDeletePostTitle] = useState("여행 게시글");
 
   //user clike the delete button & axios delete
   const clickDeleteHandler = async (id: number) => {
@@ -59,8 +59,13 @@ const CourseDeleteModal: React.FC<Props> = ({
 
   return createPortal(
     isDoubleDeleteOpen ? (
-      <CourseDoubleDelete 
-      
+      <CourseDoubleDelete
+        id={id}
+        deletePostTitle={deletePostTitle}
+        isDoubleDeleteOpen={isDoubleDeleteOpen}
+        setIsDoubleDeleteOpen={setIsDoubleDeleteOpen}
+        setIsDeleteOpen={setIsDeleteOpen}
+        getMyCourse={getMyCourse}
       />
     ) : (
       <div className={cx("delete-overlays")}>
