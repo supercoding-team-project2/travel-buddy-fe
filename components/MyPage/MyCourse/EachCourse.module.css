@@ -7,6 +7,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  overflow-x: auto;
 }
 
 .each-course-container-active {
@@ -20,7 +21,6 @@
   align-items: center;
   justify-content: space-between;
   font-size: 1rem;
-  cursor: pointer;
 }
 
 .show-detail {
@@ -36,8 +36,53 @@
   padding: 1%;
 }
 
+.modify-memo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.modify-memo {
+  width: 100%;
+  height: 10rem;
+  border: 1px solid #bbbdbe;
+  border-radius: 5px;
+  overflow-y: auto;
+  padding: 1%;
+  resize: none;
+}
+
+.modify-button {
+  width: 10%;
+  height: 2.25rem;
+  border-radius: 5px;
+  border: 1px solid #bbbdbe;
+  background-color: #85b1cc;
+  color: white;
+  font-weight: 600;
+  margin: auto;
+  cursor: pointer;
+  margin-top: 1.5%;
+}
+
 .course-name {
   width: 30%;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.course-name:hover {
+  font-size: 1.15rem;
+}
+
+.modify-title-input {
+  width: 30%;
+  height: 2.5rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-left: 2%;
+  padding: 1%;
+  overflow-x: auto;
 }
 
 .course-period {
@@ -66,6 +111,7 @@
   flex-direction: row;
   gap: 25px;
 }
+
 .edit-icon,
 .bin-icon {
   width: 25px;
