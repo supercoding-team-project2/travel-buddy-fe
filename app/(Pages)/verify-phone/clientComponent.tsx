@@ -9,19 +9,21 @@ import styles from './VerifyPhone.module.css';
 const cx = classNames.bind(styles);
 
 export function VerifyPhoneClient() {
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [phoneNum, setPhoneNum] = useState<string>('');
   const [verificationCode, setVerificationCode] = useState<string>('');
   const [isCodeSent, setIsCodeSent] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const sendVerificationCode = async () => {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/signup/sms/send`, {
-        phoneNumber,
+        phoneNum,
       });
-      if (response.data.success) {
+      if ((response.status = 200)) {
         setIsCodeSent(true);
+        setErrorMessage(null);
       } else {
         console.error('Failed to send code');
       }
@@ -32,14 +34,19 @@ export function VerifyPhoneClient() {
 
   const verifyCodeAndProceed = async () => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/sms-code/check`, {
-        phoneNumber,
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/signup/sms/check`, {
+        phoneNum,
         code: verificationCode,
       });
+
       if (response.status === 200) {
         setIsRegistered(response.data.isRegistered);
-      } else {
-        console.error('Failed to verify code');
+        setErrorMessage(null);
+      } else if (response.status === 400) {
+        setErrorMessage('인증 실패');
+      } else if (response.status === 409) {
+        setErrorMessage('이미 가입된 번호입니다.');
+        setIsRegistered(true);
       }
     } catch (error) {
       console.error('Error verifying code:', error);
@@ -61,8 +68,8 @@ export function VerifyPhoneClient() {
                 className={cx('inputContent')}
                 type="text"
                 placeholder="Enter your Phone Number here"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                value={phoneNum}
+                onChange={(e) => setPhoneNum(e.target.value)}
               />
             </div>
             {isCodeSent ? (
@@ -93,16 +100,7 @@ export function VerifyPhoneClient() {
                 <button className={cx('submitButton')} onClick={verifyCodeAndProceed}>
                   Submit
                 </button>
-                {isRegistered !== null &&
-                  (isRegistered ? (
-                    <Link href="/login">
-                      <a className={cx('submitButton')}>Go to Login</a>
-                    </Link>
-                  ) : (
-                    <Link href={`/signup?phoneNum=${encodeURIComponent(phoneNumber)}`}>
-                      <a className={cx('submitButton')}>Go to Sign Up</a>
-                    </Link>
-                  ))}
+                {errorMessage && <div className={cx('errorMessage')}>{errorMessage}</div>}
               </>
             ) : (
               <button className={cx('getCodeButton')} onClick={sendVerificationCode}>

@@ -7,7 +7,6 @@ import MyPost from "@/components/MyPage/MyPost";
 import MyInfo from "@/components/MyPage/MyInfo";
 
 import { StaticImageData } from "next/image";
-import userImage from "@/assets/userEx.png";
 
 // 이렇게하면 왜 에러가 뜰까?
 // import { Profile, MyCourse, MyPost, MyInfo } from "@/components/MyPage";
@@ -18,9 +17,7 @@ const MyPageClient = () => {
   const [isMyCourseOpen, setIsMyCourseOpen] = useState<boolean>(true);
   const [isMyPostOpen, setIsMyPostOpen] = useState<boolean>(false);
   const [isMyInfoOpen, setIsMyInfoOpen] = useState<boolean>(false);
-  const [profilePic, setProfilePic] = useState<string | StaticImageData>(
-    userImage
-  );
+  const [profilePic, setProfilePic] = useState<string | StaticImageData>("");
 
   return (
     <>
@@ -32,6 +29,7 @@ const MyPageClient = () => {
         setIsMyCourseOpen={setIsMyCourseOpen}
         setIsMyPostOpen={setIsMyPostOpen}
         setIsMyInfoOpen={setIsMyInfoOpen}
+        setProfilePic={setProfilePic}
       />
       {isMyCourseOpen && <MyCourse />}
       {isMyPostOpen && <MyPost />}

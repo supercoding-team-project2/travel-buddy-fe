@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import { DateRangePickerProps } from "react-date-range";
 import EachDate from "./EachDate";
@@ -82,6 +82,11 @@ const DateCourse = ({
   };
 
   const handleCourseSave = () => {
+    if (title.trim().length <= 1) {
+      alert("한 글자 이상의 제목을 생성해주세요.");
+      return;
+    }
+
     if (dateRange && dateRange.length > 0) {
       const startDate = dateRange[0]?.startDate;
       const endDate = dateRange[0]?.endDate;
@@ -91,7 +96,6 @@ const DateCourse = ({
         description: description,
         startAt: startDate?.toISOString().split("T")[0],
         endAt: endDate?.toISOString().split("T")[0],
-        createdAt: new Date(),
         days: Object.keys(dateData).map((date) => ({
           day: date,
           places: dateData[date].map((place) => ({
@@ -101,17 +105,20 @@ const DateCourse = ({
         })),
       };
 
-      // console.log("tranformedDateData", transformedDateData);
+      console.log("tranformedDateData", transformedDateData);
 
       //axios post 요청
       const token = sessionStorage.getItem("token");
       axios
         .post(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/add`,
+          transformedDateData,
           {
-            transformedDateData,
-          },
-          { headers: { Authorization: token } }
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
+          }
         )
         .then((response) => {
           console.log("여행 경로 등록 성공", response.status);
