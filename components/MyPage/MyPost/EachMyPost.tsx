@@ -69,7 +69,7 @@ const EachMyPost = ({
           <div className={cx("post-buttons-container")}>
             <div
               className={cx("icon-container")}
-              onClick={() => router.push("/")}
+              onClick={() => router.push(`/post-edit/${id}`)}
             >
               <Image src={edit} alt="edit" className={cx("edit-icon")} />
             </div>
@@ -82,7 +82,7 @@ const EachMyPost = ({
           </div>
           <div
             className={cx("post-detail-container")}
-            // onClick={() => router.push("/")} 이 게시글을 누르면 게시글로 가게 하기
+            onClick={() => router.push(`/post-detail/${id}`)}
           >
             <div className={cx("post-title")}>{title}</div>
             <div className={cx("post-introduction")}>

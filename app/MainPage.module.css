@@ -6,17 +6,22 @@
 }
 
 .MainPage section {
+  width: 90%;
+  margin: auto;
+  padding: 2%;
   display: flex;
   flex-direction: column;
-  gap: 1.5vh;
+  gap: 0.5vh;
   position: relative;
-  border: solid 3px white;
+  /* border: solid 3px blue; */
   /* border: solid 3px #85b1cc; */
   border-radius: 15px;
+  background: rgb(232, 242, 246);
 }
 
 .topWrapper {
-  background: #c3d8e6;
+  /* background: #c3d8e6; */
+  background-color: white;
   width: 100%;
   height: 40vh;
   border-radius: 0 0 50% 0;
@@ -24,45 +29,24 @@
   display: flex;
   align-items: end;
 }
-.topWrapper img {
-  position: relative;
-  left: -7.5vw;
-  width: 35vw;
-}
 
-.topWrapperReverse {
-  background: #c3d8e6;
-  width: 100%;
-  height: 40vh;
-  border-radius: 0 0 0 50%;
-  position: relative;
-  display: flex;
-  align-items: end;
-}
-.topWrapperReverse img {
-  position: relative;
-  right: -7.5vw;
-  width: 35vw;
+.wrapper {
+  width: 100vw;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 .title {
   position: relative;
   left: -5vw;
-  font-size: 3.5rem;
-  font-weight: 650;
+  font-size: 2rem;
+  font-weight: 700;
   width: 100%;
-}
-.titleReverse {
-  position: relative;
-  right: -7.5vw;
-  font-size: 3.5rem;
-  font-weight: 650;
-  width: 100%;
-  text-align: end;
 }
 
 .container {
-  padding: 2.5vh 1.5vw;
+  width: 100%;
+  padding: 2.5vh 5vw;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 1.5vw;
@@ -70,16 +54,9 @@
 }
 
 .link {
-  font-size: 1.8rem;
+  font-size: 1.25rem;
   color: #85b1cc;
   white-space: nowrap;
   position: relative;
   right: 2vw;
-}
-.linkReverse {
-  font-size: 1.8rem;
-  color: #85b1cc;
-  white-space: nowrap;
-  position: relative;
-  left: 2vw;
 }

@@ -1,13 +1,21 @@
-import classNames from 'classnames/bind';
-import styles from './CourseCard.module.css';
+import classNames from "classnames/bind";
+import styles from "./CourseCard.module.css";
+import { useRouter } from "next/navigation";
 
 const cx = classNames.bind(styles);
 
-export function CourseCard({ url, title }: { url: string; title: string }) {
+interface Props {
+  id: number;
+  title: string;
+  url: string;
+}
+
+export function CourseCard({ id, title, url }: Props) {
+  const router = useRouter();
   return (
-    <div className={cx('CourseCard')}>
-      <img src={url} alt="" className={cx('courseImg')} />
-      <div className={cx('courseTitle')}>{title}</div>
+    <div className={cx("CourseCard")} onClick={() => router.push(`/post-detail/${id}`)}>
+      <img src={url} alt="" className={cx("courseImg")} />
+      <div className={cx("courseTitle")}>{title}</div>
     </div>
   );
 }
