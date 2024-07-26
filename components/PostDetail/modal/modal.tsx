@@ -3,7 +3,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 // 모달 컴포넌트
-const Modal = ({ isOpen, onClose, title, content, postId }: any) => {
+const Modal = ({ isOpen, onClose, title, content, tripId }: any) => {
+  console.log("🚀 ~ Modal ~ tripId:", tripId);
   if (!isOpen) return null;
 
   const [participants, setParticipants] = useState(1);
@@ -21,7 +22,7 @@ const Modal = ({ isOpen, onClose, title, content, postId }: any) => {
 
       if (token) {
         await api.post(
-          `/api/attend/${postId}`,
+          `/api/attend/${tripId}`,
           { participants },
           {
             headers: { Authorization: token },
@@ -50,7 +51,7 @@ const Modal = ({ isOpen, onClose, title, content, postId }: any) => {
       const token = getToken();
 
       if (token) {
-        await api.delete(`/api/attend/${postId}`, {
+        await api.delete(`/api/attend/${tripId}`, {
           headers: { Authorization: token },
         });
 
@@ -117,13 +118,13 @@ const useModal = () => {
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
-  const ModalWrapper = ({ title, content, postId }: any) => (
+  const ModalWrapper = ({ title, content, tripId }: any) => (
     <Modal
       isOpen={isOpen}
       onClose={closeModal}
       title={title}
       content={content}
-      postId={postId}
+      tripId={tripId}
     />
   );
 

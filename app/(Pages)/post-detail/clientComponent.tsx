@@ -149,7 +149,29 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
 
   const { board, route, trip }: any = data;
 
+  const tripId = trip.id;
+  console.log("🚀 ~ ClientComponent ~ tripId:", tripId);
   if (!data) return <div>No data available</div>;
+
+  const getToken = () => {
+    return sessionStorage.getItem("token");
+  };
+
+  /*여행 취소 - delete 요청 */
+  const onCancel = async () => {
+    try {
+      const token = getToken();
+
+      if (token) {
+        await api.delete(`/api/attend/${tripId}`, {
+          headers: { Authorization: token },
+        });
+        console.log("참여취소 성공");
+      }
+    } catch (error: any) {
+      console.error("참여 취소 중 오류 발생:", error);
+    }
+  };
 
   let tripParticipantCount = trip.participantCount;
   let tripTargetNumber = trip.targetNumber;
@@ -230,6 +252,12 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
                   //  label={result ? "참여취소" : "참여신청"}
                 />
               )}
+              <TogetherBtn
+                onClick={() => {
+                  onCancel();
+                }}
+                label="참여취소"
+              />
             </div>
           </div>
         </div>
@@ -238,7 +266,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
         <ProfilePost data={board} />
       </div>
       <ModalWrapper
-        postId={trip.id}
+        tripId={tripId}
         content={trip.participantCount}
         onClose={() => {
           closeModal();
