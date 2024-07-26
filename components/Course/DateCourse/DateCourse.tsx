@@ -112,9 +112,7 @@ const DateCourse = ({
       axios
         .post(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/add`,
-          {
-            transformedDateData,
-          },
+          transformedDateData,
           {
             headers: {
               Authorization: token,
