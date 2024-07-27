@@ -3,43 +3,47 @@ import EditList from "@/components/Post/PostCreate/editList";
 import { Editor } from "@/components/Post/PostCreate/editor";
 import EditTitle from "@/components/Post/PostCreate/editTitle";
 import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { TripData } from "@/components/Post/PostCreate/interfaces";
-import { trips } from "@/components/Post/PostEdit/data"; //임시데이터
 import api from "@/app/api/api";
-import { useRouter } from "next/router";
-
-// const Editor = dynamic(() => import("@/components/PostEdit/editor"), {
-//   ssr: false,
-// });
-
-//확인된 데이터: select, title, summary, travelBar-name,images[], content, 동행/가이드일경우의 체크박스
-//여기서 travel 전체를 가져와야 하면 editList에서 selectedTrip이걸로 onSelectChange 셋해주기
-//후기일 경우 -> 데이터 안보내주는 걸로 바꿔야함. 아니면 걍 어차피
+import { useRouter } from "next/navigation";
 
 //const [trips, setTrips] = useState<TripData[]>([]); //여행데이터 저장하는 trips
-
-// useEffect(() => {
-//   // 여행 데이터를 가져오는 함수
-//   const fetchTrips = async () => {
-//     try {
-//       const response = await api.get("/api/trips");
-//       setTrips(response.data);
-//     } catch (error: any) {
-//       console.error(
-//         "Error fetching trips:",
-//         error.response?.data || error.message
-//       );
-//     }
-//   };
-//   fetchTrips();
-// }, []);
 
 const clientComponent = () => {
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
-  const [tripName, setTripName] = useState("");
+  const [tripId, setTripId] = useState("");
+  console.log("🚀 ~ clientComponent ~ tripId:", tripId);
+  const [isLoading, setIsLoading] = useState(true);
+  const [courseData, setCourseData] = useState([]);
+  const router = useRouter();
+
+  const handlePostView = () => {
+    router.push("/post-view");
+  };
+
+  const getMyCourse = () => {
+    const token = sessionStorage.getItem("token");
+
+    if (token) {
+      api
+        .get(`/api/routes/list`, {
+          headers: { Authorization: token },
+        })
+        .then((response) => {
+          console.log("경로 조회 데이터", response.data);
+          setCourseData(response.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("경로 조회 요청 실패", error);
+        });
+    }
+  };
+
+  useEffect(() => {
+    getMyCourse();
+  }, []);
 
   function removeBase64Prefix(base64String: any) {
     const base64Prefix = "base64,";
@@ -71,7 +75,7 @@ const clientComponent = () => {
 
   /* 경로바에서 이름 변경 핸들러 */
   const handleTripNameChange = (nameData: string) => {
-    setTripName(nameData);
+    setTripId(nameData);
   };
 
   /* 본문 변경 핸들러 */
@@ -93,35 +97,19 @@ const clientComponent = () => {
     setGender(newData.checkboxData.gender);
   };
 
-  // routeId : 3
-  // title : 게시글 등록 테스트
-  // summary : 게시글 등록 간단 설명
-  // content : 본문 내용
-  // category : REVIEW , COMPANION , GUIDE
-  // images : 이미지 파일들
-  // ageMin : 20
-  // ageMax : 30
-  // targetNumber : 2
-  // gender : MALE , FEMALE , ALL
-
   const handleSubmit = async () => {
-    //const router = useRouter();
     const token = sessionStorage.getItem("token");
 
     const formDataToSend = new FormData();
 
-    // FormData에 값 추가
-    formDataToSend.append("routeId", "8");
+    formDataToSend.append("routeId", String(tripId));
     formDataToSend.append("title", title);
     formDataToSend.append("summary", summary);
     formDataToSend.append("content", content);
     formDataToSend.append("category", category);
     images.forEach((image, index) => {
       if (typeof image === "string") {
-        // base64 문자열에서 실제 데이터만 추출
         const base64Data = removeBase64Prefix(image);
-
-        // base64를 Blob으로 변환
         const byteCharacters = atob(base64Data);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
@@ -129,8 +117,6 @@ const clientComponent = () => {
         }
         const byteArray = new Uint8Array(byteNumbers);
         const blob = new Blob([byteArray], { type: "image/jpeg" });
-
-        // Blob을 File 객체로 변환
         const file = new File([blob], `image${index}.jpg`, {
           type: "image/jpeg",
         });
@@ -168,9 +154,8 @@ const clientComponent = () => {
           Authorization: token,
         },
       });
-
+      handlePostView();
       console.log("Form submitted successfully", response.data);
-      //router.push("/post-view");
     } catch (error) {
       console.error("Error submitting the form", error);
     }
@@ -179,8 +164,7 @@ const clientComponent = () => {
   return (
     <div className="px-20 py-10">
       <EditTitle onChange={handleChange} />
-
-      <EditList data={trips} onSelectChange={handleTripNameChange} />
+      <EditList data={courseData} onSelectChange={handleTripNameChange} />
       <Editor onSelectChange={category} onEditChange={handleEditChange} />
       <div className="flex justify-end">
         <button
