@@ -11,8 +11,8 @@
   gap: 1.5vh;
   position: relative;
   border: solid 3px white;
-  /* border: solid 3px #85b1cc; */
   border-radius: 15px;
+  padding: 5vh 5vw;
 }
 
 .topWrapper {
