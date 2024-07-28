@@ -21,17 +21,10 @@ const MyCourse = () => {
   const [isUparrowVisible, setIsUparrowVisible] = useState(false);
   const [editingCourseId, setEditingCourseId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   //테스트 데이터 배열
   const [courseData, setCourseData] = useState([]);
-
-  const clickEachCourseHandler = (id: number) => {
-    setOpenId(id === openId ? null : id);
-
-    if (editingCourseId !== id) {
-      setEditingCourseId(null);
-    }
-  };
 
   const getMyCourse = () => {
     const token = sessionStorage.getItem("token");
@@ -54,6 +47,7 @@ const MyCourse = () => {
 
   //경로 조회 axios get 요청
   useEffect(() => {
+    setIsButtonLoading(false);
     getMyCourse();
 
     //Top arrow
@@ -70,6 +64,19 @@ const MyCourse = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const handleButtonClick = () => {
+    setIsButtonLoading(true);
+    router.push("/course");
+  };
+
+  const clickEachCourseHandler = (id: number) => {
+    setOpenId(id === openId ? null : id);
+
+    if (editingCourseId !== id) {
+      setEditingCourseId(null);
+    }
+  };
 
   return (
     <>
@@ -94,9 +101,15 @@ const MyCourse = () => {
             <div className={cx("course-button-container")}>
               <button
                 className={cx("course-button")}
-                onClick={() => router.push("/course")}
+                onClick={handleButtonClick}
               >
-                내 경로 생성하기
+                {isButtonLoading ? <img 
+                src="/gif/spinner-1.gif"
+                alt="Loading..."
+                width={20}
+                height={20}
+                className={cx("spinner-icon")}
+                /> : <div>내 경로 생성하기</div>}
               </button>
             </div>
           )}
