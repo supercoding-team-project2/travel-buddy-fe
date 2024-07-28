@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 
 import classNames from "classnames/bind";
 import styles from "./MyPostSort.module.css";

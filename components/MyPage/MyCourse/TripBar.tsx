@@ -1,22 +1,6 @@
 import Image from "next/image";
 import React from "react";
 
-interface Place {
-  placeName: string;
-  placeCategory: string;
-}
-
-interface Location {
-  date: string;
-  location: Place[];
-}
-
-interface Route {
-  routeDetails: {
-    [date: string]: Place[];
-  };
-}
-
 const translationMap: any = {
   RESTAURANT: "/png/restaurant-pin.png",
   CAFE: "/png/cafe.png",
@@ -25,11 +9,27 @@ const translationMap: any = {
   ETC: "/png/map-pin.png",
 };
 
-const translateDescription = (description: any) => {
-  return translationMap[description] || description;
+const translateCategory = (category: any) => {
+  return translationMap[category] || category;
 };
 
-const LocationItem = ({ name, description, isLast }: any) => {
+const koreanCategory = (category: string) => {
+  if (category === "RESTAURANT") {
+    return "식당";
+  }
+  if (category === "CAFE") {
+    return "카페";
+  }
+  if (category === "ATTRACTION") {
+    return "명소";
+  }
+  if (category === "ACCOMMODATION") {
+    return "숙소";
+  }
+  return "기타";
+};
+
+const LocationItem = ({ name, category, isLast }: any) => {
   const minWidth = name.length * 10 + 100; // 장소/명소/가게의 이름 길이에 따라 기본 너비 조정
 
   return (
@@ -38,8 +38,8 @@ const LocationItem = ({ name, description, isLast }: any) => {
         <div>
           <div className="flex mb-2" style={{ marginLeft: "-20px" }}>
             <Image
-              src={translateDescription(description)}
-              alt={description}
+              src={translateCategory(category)}
+              alt={category}
               width={50}
               height={50}
             />
@@ -63,40 +63,42 @@ const LocationItem = ({ name, description, isLast }: any) => {
           {name}
         </p>
         <p className="text-sm text-gray-600 dark:text-slate-400">
-          {description}
+          {koreanCategory(category)}
         </p>
       </div>
     </div>
   );
 };
 
-const TravelBar = ({ route }: { route: Route }) => {
-  const locations: Location[] = Object.entries(route.routeDetails).map(
-    ([date, places]) => ({
-      date,
-      location: places,
-    })
-  );
+interface Props {
+  day: string;
+  places: any[];
+}
+const TripBar = ({ day, places }: Props) => {
+  const formatDay = () => {
+    const shortDay = day.split("T")[0];
+    const splitDay = shortDay.split("-");
+    const [year, month, da] = splitDay;
+    return `${year}년 ${month}월 ${da}일`;
+  };
 
   return (
     <div className="flex flex-col-reverse p-4 ml-4 w-full mx-auto dark:bg-gray-800">
-      {locations.map((location: any, index: number) => (
-        <div key={index} className="flex flex-col mr-8 my-3">
-          <div className="text-lg mb-3">{location.date}</div>
-          <div className="flex ml-3">
-            {location.location.map((loca: any, locIndex: number) => (
-              <LocationItem
-                key={locIndex}
-                name={loca.placeName}
-                description={loca.placeCategory}
-                isLast={locIndex === location.location.length - 1}
-              />
-            ))}
-          </div>
+      <div className="flex flex-col mr-8 my-3">
+        <div className="text-base mb-5">{formatDay()}</div>
+        <div className="flex ml-3">
+          {places.map((place: any, placeIndex: number) => (
+            <LocationItem
+              key={placeIndex}
+              name={place.placeName}
+              category={place.placeCategory}
+              isLast={placeIndex === places.length - 1}
+            />
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 };
 
-export default TravelBar;
+export default TripBar;

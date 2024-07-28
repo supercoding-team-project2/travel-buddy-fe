@@ -37,12 +37,12 @@ const EditTitle = ({ initialData, onChange }: EditTitleProps) => {
         <div>
           <Select onValueChange={(value) => setCategory(value)}>
             <SelectTrigger className="w-[180px] border-gray-500">
-              <SelectValue placeholder="동행" />
+              <SelectValue placeholder="COMPANION" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="동행">동행</SelectItem>
-              <SelectItem value="후기">후기</SelectItem>
-              <SelectItem value="가이드">가이드</SelectItem>
+              <SelectItem value="COMPANION">동행</SelectItem>
+              <SelectItem value="REVIEW">후기</SelectItem>
+              <SelectItem value="GUIDE">가이드</SelectItem>
             </SelectContent>
           </Select>
         </div>

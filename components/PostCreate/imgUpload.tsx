@@ -8,11 +8,6 @@ interface ImgUploadProps {
 const ImgUpload = ({ onImagesChange }: ImgUploadProps) => {
   const [previewSrcList, setPreviewSrcList] = useState<string[]>([]);
 
-  // // 이미지 상태 변경 시
-  // useEffect(() => {
-  //   console.log("🚀 ~ useEffect ~ images:", previewSrcList);
-  // }, [previewSrcList]);
-
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.currentTarget.classList.add("border-indigo-600");
@@ -42,6 +37,12 @@ const ImgUpload = ({ onImagesChange }: ImgUploadProps) => {
   const handleFiles = (files: FileList) => {
     const fileArray = Array.from(files);
     fileArray.forEach((file) => {
+      // 파일 크기 출력
+      console.log(`File: ${file.name}, Size: ${file.size} bytes`);
+      const sizeInKB = (file.size / 1024).toFixed(2);
+      const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+      console.log(`Size: ${sizeInKB} KB (${sizeInMB} MB)`);
+
       displayPreview(file);
     });
   };

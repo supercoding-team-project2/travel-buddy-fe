@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+<<<<<<< HEAD
 import MyPostSort from './MyPostSort';
 import EachMyPost from './EachMyPost';
 import EmptyMyPost from './EmptyMyPost';
@@ -9,10 +10,22 @@ import classNames from 'classnames/bind';
 import styles from './MyPost.module.css';
 import Image from 'next/image';
 import upArrow from '../../../assets/up-arrow.png';
+=======
+import MyPostSort from "./MyPostSort";
+import EachMyPost from "./EachMyPost";
+import EmptyMyPost from "./EmptyMyPost";
+import Loading from "@/components/Loading"
+
+import classNames from "classnames/bind";
+import styles from "./MyPost.module.css";
+import Image from "next/image";
+import upArrow from "@/assets/up-arrow.png";
+>>>>>>> develop
 
 const cx = classNames.bind(styles);
 
 const MyPost: React.FC = () => {
+<<<<<<< HEAD
   const [postData, setPostData] = useState([
     {
       id: 1,
@@ -39,9 +52,14 @@ const MyPost: React.FC = () => {
       createdAt: '2024/07/23',
     },
   ]);
+=======
+  const [postData, setPostData] = useState([]);
+>>>>>>> develop
   const [isReviewClicked, setIsReviewClicked] = useState(true);
   const [isAccompanyClicked, setIsAccompanyClicked] = useState(false);
   const [isGuideClicked, setIsGuideClicked] = useState(false);
+  const [isUparrowVisible, setIsUparrowVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   //게시글 axios get 요청
   const fetchPostData = (category: string) => {
@@ -53,27 +71,71 @@ const MyPost: React.FC = () => {
           headers: { Authorization: token },
         })
         .then((response) => {
+<<<<<<< HEAD
           console.log('내 게시글 조회 데이터', response.data);
           setPostData(response.data);
         })
         .catch((error) => {
           console.error('내 게시글 조회 요청 실패', error);
+=======
+          console.log(`내 게시글 ${category} 조회 데이터`, response.data.data);
+          setPostData(response.data.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error(`내 게시글 ${category} 조회 요청 실패`, error);
+>>>>>>> develop
         });
     }
   };
 
   //디폴트로 후기글 get
   useEffect(() => {
+<<<<<<< HEAD
     fetchPostData('REVIEW');
+=======
+    fetchPostData("REVIEW");
+
+    //Top arrow
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsUparrowVisible(true);
+      } else {
+        setIsUparrowVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+>>>>>>> develop
   }, []);
 
   return (
     <>
+<<<<<<< HEAD
       <div className={cx('myPost-container')}>
         <div className={cx('upArrow-container')} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           <div className={cx('upArrow-word')}>Top</div>
           <Image src={upArrow} alt="up-arrow" className={cx('upArrow-icon')} />
         </div>
+=======
+    {isLoading && <Loading />}
+      <div className={cx("myPost-container")}>
+        {isUparrowVisible && (
+          <div
+            className={cx("upArrow-container")}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          >
+            <Image
+              src={upArrow}
+              alt="up-arrow"
+              className={cx("upArrow-icon")}
+            />
+          </div>
+        )}
+>>>>>>> develop
         <MyPostSort
           isReviewClicked={isReviewClicked}
           setIsReviewClicked={setIsReviewClicked}
@@ -83,7 +145,7 @@ const MyPost: React.FC = () => {
           setIsGuideClicked={setIsGuideClicked}
           fetchPostData={fetchPostData}
         />
-        {postData.length === 0 ? (
+        {!isLoading && postData.length === 0 ? (
           <EmptyMyPost />
         ) : (
           <div className={cx('myPost-list-container')}>

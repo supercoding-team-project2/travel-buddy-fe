@@ -7,21 +7,32 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import TravelBar from "../PostDetail/TravelBar";
-import formatDateString from "../PostDetail/formatDateString";
 import { TripData } from "./interfaces";
+import formatDateString from "../PostDetail/formatDateString";
 
-const EditList = ({ data }: { data: TripData[] }) => {
+const EditList = ({
+  data,
+  onSelectChange,
+}: {
+  data: TripData[];
+  onSelectChange: any;
+}) => {
   const [selectedTrip, setSelectedTrip] = useState<TripData | null>(null);
+  const [selectedTripName, setSelectedTripName] = useState<string | null>(null);
 
   const handleSelectChange = (tripName: string) => {
     const selected = data.find((trip) => trip.tripName === tripName);
     setSelectedTrip(selected || null);
+    setSelectedTripName(tripName);
   };
 
   useEffect(() => {
     if (selectedTrip) {
       const startDate = formatDateString(selectedTrip.route.startAt);
       const endDate = formatDateString(selectedTrip.route.endAt);
+    }
+    if (onSelectChange) {
+      onSelectChange(selectedTripName);
     }
   }, [selectedTrip]);
 

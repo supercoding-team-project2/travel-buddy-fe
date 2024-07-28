@@ -15,10 +15,10 @@ import {
 
 import api from "@/app/api/api";
 import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 const InfoTable = (data: any) => {
   const board = data;
-
   return (
     <section className="text-gray-600 body-font">
       <div className="container mx-auto flex px-5 pt-24 pb-10 md:flex-row flex-col items-center">
@@ -32,9 +32,10 @@ const InfoTable = (data: any) => {
     </section>
   );
 };
+
 const DetailsTable = (data: any) => {
   const trip = data;
-
+  console.log("🚀 ~ DetailsTable ~ trip:", trip.data);
   return (
     <div>
       <table className="min-w-80 bg-white border border-gray-200">
@@ -61,14 +62,14 @@ const DetailsTable = (data: any) => {
   );
 };
 
-const TogetherBtn = ({ onClick }: any) => {
+const TogetherBtn = ({ onClick, label }: any) => {
   return (
     <button
       className="px-4 py-2 text-white rounded"
       style={{ backgroundColor: "#c3d8e6", width: "30%" }}
       onClick={onClick}
     >
-      참여신청
+      {label}
     </button>
   );
 };
@@ -90,7 +91,7 @@ const fetchData = async (postId: number): Promise<Props["data"][]> => {
 /*   clientComponent  */
 const ClientComponent = ({ postId }: ClientComponentProps) => {
   const router = useRouter();
-  const { openModal, closeModal, ModalWrapper } = useModal();
+  const { isOpen, openModal, closeModal, ModalWrapper } = useModal();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [data, setData] = useState<Props["data"][] | null>(null);
   const [error, setError] = useState(null);
@@ -104,28 +105,80 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
     router.push(`/post-edit/${postId}`);
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const responseData = await fetchData(postId);
-        setData(responseData);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (!modalOpen) {
-      console.log("Modal closed. Refetching data...");
-    }
+  // const handleDelete = async () => {
+  //   setLoading(true);
+  //   setError(null);
 
-    getData();
+  //   try {
+  //     await api.delete(`api/boards/${postId}`);
+  //     console.log("Post deleted successfully");
+  //     router.push("/post-view");
+  //   } catch (err: any) {
+  //     console.error("Failed to delete the post:", err);
+  //     setError(err.message || "Failed to delete the post");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const getData = async () => {
+    try {
+      const responseData = await fetchData(postId);
+      setData(responseData);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!modalOpen) {
+      console.log("🚀 ~ ClientComponent ~ modalOpen:", modalOpen);
+      getData();
+    }
   }, [postId, modalOpen]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   const { board, route, trip }: any = data;
+
+  const tripId = trip.id;
+  console.log("🚀 ~ ClientComponent ~ tripId:", tripId);
+  if (!data) return <div>No data available</div>;
+
+  const getToken = () => {
+    return sessionStorage.getItem("token");
+  };
+  const token = getToken();
+
+  if (token) {
+    // token이 null이 아닐 경우에만 디코드 실행
+    const decoded = jwtDecode(token);
+    console.log(decoded);
+  } else {
+    console.error("No token found in session storage.");
+  }
+
+  /*여행 취소 - delete 요청 */
+  const onCancel = async () => {
+    try {
+      const token = getToken();
+      if (token) {
+        await api.delete(`/api/attend/${postId}`, {
+          headers: { Authorization: token },
+        });
+        console.log("참여취소 성공");
+      }
+    } catch (error: any) {
+      console.error("참여 취소 중 오류 발생:", error);
+    }
+  };
+
+  let tripParticipantCount = trip.participantCount;
+  let tripTargetNumber = trip.targetNumber;
+  const result = isUserSame(tripTargetNumber, tripParticipantCount);
 
   if (!board || !route || !trip) {
     return <div>Some data is missing</div>;
@@ -165,7 +218,11 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
               alt="글쓰기버튼"
               onClick={handlePostClick}
             />
-            <IconButton src="/svg/trash.svg" alt="삭제버튼" />
+            <IconButton
+              src="/svg/trash.svg"
+              alt="삭제버튼"
+              //onClick={handleDelete}
+            />
           </div>
         </div>
 
@@ -188,7 +245,22 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
             )} */}
             <DetailsTable data={trip} />
             <div className="flex items-center justify-center mt-4">
-              <TogetherBtn onClick={openModal} />
+              {!result && (
+                <TogetherBtn
+                  onClick={() => {
+                    openModal();
+                    setModalOpen(true);
+                  }}
+                  label="참여신청"
+                  //  label={result ? "참여취소" : "참여신청"}
+                />
+              )}
+              <TogetherBtn
+                onClick={() => {
+                  onCancel();
+                }}
+                label="참여취소"
+              />
             </div>
           </div>
         </div>
@@ -197,6 +269,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
         <ProfilePost data={board} />
       </div>
       <ModalWrapper
+        tripId={tripId}
         content={trip.participantCount}
         onClose={() => {
           closeModal();

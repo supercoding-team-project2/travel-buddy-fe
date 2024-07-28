@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ImgUpload from "./imgUpload";
 import Checkbox from "./checkbox";
-//import dynamic from "next/dynamic";
-
-// const ImgUpload = dynamic(() => import("./imgUpload"), {
-//   ssr: false,
-// });
 
 interface EditTextProps {
   initialData?: {
@@ -13,6 +8,8 @@ interface EditTextProps {
     content: string;
     checkbox: CheckboxData;
   };
+  onSelectChange: any;
+  onEditChange: any;
 }
 
 interface CheckboxData {
@@ -22,8 +19,13 @@ interface CheckboxData {
   gender: string;
 }
 
-export const Editor = ({ initialData }: EditTextProps) => {
-  const [images, setImages] = useState<string[]>(initialData?.images || []);
+// onSelectChange: 내려받는 거(부모->자식) onEditChange: 올려주는 거(부모 <- 자식)
+export const Editor = ({
+  initialData,
+  onSelectChange,
+  onEditChange,
+}: EditTextProps) => {
+  const [images, setImages] = useState<string[]>([]);
   const [content, setContent] = useState(initialData?.content || "");
   const [checkboxData, setCheckboxData] = useState<CheckboxData>({
     ageMin: initialData?.checkbox.ageMin,
@@ -31,35 +33,29 @@ export const Editor = ({ initialData }: EditTextProps) => {
     participants: initialData?.checkbox.participants || 1,
     gender: initialData?.checkbox.gender || "",
   });
-
   const handleCheckboxChange = (data: CheckboxData) => {
     setCheckboxData(data);
   };
 
-  const handleContentChange = (e: any) => {
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
-    console.log("🚀 ~ handleContentChange ~ content:", content);
   };
 
   const handleImagesChange = (imageList: string[]) => {
     setImages(imageList);
   };
 
-  // 이미지 상태 변경 시
   useEffect(() => {
-    console.log("🚀 ~ useEffect ~ images:", images);
-  }, [images]);
-
-  // 체크박스 데이터 변경 시
-  useEffect(() => {
-    console.log("🚀 ~ useEffect ~ checkboxData:", checkboxData);
-  }, [checkboxData]);
+    if (onEditChange) {
+      onEditChange({ images, content, checkboxData });
+    }
+  }, [images, content, checkboxData]);
 
   return (
     <div className="relative flex flex-col bg-slate-100 rounded-lg p-6 dark:bg-slate-800 dark:highlight-white/5">
-      <div className="flex flex-col p-4  ">
+      <div className="flex flex-col p-4">
         <ImgUpload onImagesChange={handleImagesChange} />
-        <div className="my-6 ">
+        <div className="my-6">
           <textarea
             placeholder="글 내용"
             id="content"
@@ -71,17 +67,13 @@ export const Editor = ({ initialData }: EditTextProps) => {
           ></textarea>
         </div>
         <div>
-          <Checkbox onChange={handleCheckboxChange} />
+          {onSelectChange !== "후기" && (
+            <Checkbox
+              onChange={handleCheckboxChange}
+              initialData={checkboxData}
+            />
+          )}
         </div>
-      </div>
-
-      <div className="flex justify-end">
-        <button
-          type="submit"
-          className="px-6 py-2 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none"
-        >
-          Submit
-        </button>
       </div>
     </div>
   );

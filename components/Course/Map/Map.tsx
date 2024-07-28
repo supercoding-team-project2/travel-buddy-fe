@@ -212,8 +212,6 @@ const Map = ({
     }
   }, [selected, center, setPlaceDetails]);
 
-  console.log("데이터 패치", placeDetails);
-
   const showMarkers = () => {
     if (selected && typeof selected === "object") {
       return <MarkerF position={selected} />;

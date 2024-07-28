@@ -26,7 +26,11 @@ const MyPostDeleteModal = ({ id, category, isDeleteModalOpen, setIsDeleteModalOp
         headers: { Authorization: token },
       })
       .then((response) => {
+<<<<<<< HEAD
         console.log('해당 게시글 삭제 성공', response.data.message);
+=======
+        console.log("해당 게시글 삭제 성공", response.data);
+>>>>>>> develop
         setIsDeleteModalOpen(false);
         fetchPostData(category);
       })

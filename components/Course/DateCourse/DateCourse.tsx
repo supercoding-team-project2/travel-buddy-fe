@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
@@ -5,6 +6,15 @@ import { DateRangePickerProps } from 'react-date-range';
 import EachDate from './EachDate';
 import classnames from 'classnames/bind';
 import styles from './DateCourse.module.css';
+=======
+import React, { useState, useEffect, ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { DateRangePickerProps } from "react-date-range";
+import EachDate from "./EachDate";
+import classnames from "classnames/bind";
+import styles from "./DateCourse.module.css";
+>>>>>>> develop
 
 const cx = classnames.bind(styles);
 
@@ -71,6 +81,11 @@ const DateCourse = ({ title, dateRange, dateData, setDateData, setIsDateConfirme
   };
 
   const handleCourseSave = () => {
+    if (title.trim().length <= 1) {
+      alert("한 글자 이상의 제목을 생성해주세요.");
+      return;
+    }
+
     if (dateRange && dateRange.length > 0) {
       const startDate = dateRange[0]?.startDate;
       const endDate = dateRange[0]?.endDate;
@@ -78,9 +93,14 @@ const DateCourse = ({ title, dateRange, dateData, setDateData, setIsDateConfirme
       const transformedDateData = {
         title: title,
         description: description,
+<<<<<<< HEAD
         startAt: startDate?.toISOString().split('T')[0],
         endAt: endDate?.toISOString().split('T')[0],
         createdAt: new Date(),
+=======
+        startAt: startDate?.toISOString().split("T")[0],
+        endAt: endDate?.toISOString().split("T")[0],
+>>>>>>> develop
         days: Object.keys(dateData).map((date) => ({
           day: date,
           places: dateData[date].map((place) => ({
@@ -90,17 +110,20 @@ const DateCourse = ({ title, dateRange, dateData, setDateData, setIsDateConfirme
         })),
       };
 
-      // console.log("tranformedDateData", transformedDateData);
+      console.log("tranformedDateData", transformedDateData);
 
       //axios post 요청
       const token = localStorage.getItem('token');
       axios
         .post(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/add`,
+          transformedDateData,
           {
-            transformedDateData,
-          },
-          { headers: { Authorization: token } }
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
+          }
         )
         .then((response) => {
           console.log('여행 경로 등록 성공', response.status);
