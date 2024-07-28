@@ -1,11 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import classNames from "classnames/bind";
 import styles from "./MainPage.module.css";
 import { MainSlider } from "../components/Main/MainSlider/MainSlider";
 import { CourseCard } from "../components/Main/CourseCard/CourseCard";
-import Link from "next/link";
 
 const cx = classNames.bind(styles);
 
@@ -29,6 +29,8 @@ export default function MainPage() {
   const [topGuideData, setTopGuideData] = useState<Post[]>([]);
   const [topCompanionData, setTopCompanionData] = useState<Post[]>([]);
 
+  const router = useRouter();
+
   useEffect(() => {
     axios
       .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/boards/top6-categories`)
@@ -46,15 +48,15 @@ export default function MainPage() {
     <div className={cx("MainPage")}>
       <MainSlider />
       <section>
-        {/* <div className={cx("topWrapper")}> */}
-        {/* <img src="/svg/airplane.svg" alt="" /> */}
         <div className={cx("wrapper")}>
           <div className={cx("title")}>인기있는 여행 후기</div>
-          <Link href={"/"} className={cx("link")}>
+          <div
+            className={cx("link")}
+            onClick={()=> router.push("/post-view?category=REVIEW")}
+          >
             전체보기
-          </Link>
+          </div>
         </div>
-        {/* </div> */}
         <div className={cx("container")}>
           {topReviewData.map((review) => (
             <CourseCard
@@ -68,14 +70,14 @@ export default function MainPage() {
         </div>
       </section>
       <section>
-        {/* <div className={cx("topWrapperReverse")}> */}
         <div className={cx("wrapper")}>
           <div className={cx("title")}>가이드와 함께하는 패키지 여행</div>
-          <Link href={"/"} className={cx("link")}>
+          <div
+            className={cx("link")}
+            onClick={()=> router.push("/post-view?category=GUIDE")}
+          >
             전체보기
-          </Link>
-          {/* <img src="/svg/airplane.svg" alt="" /> */}
-          {/* </div> */}
+          </div>
         </div>
         <div className={cx("container")}>
           {topGuideData.map((guide) => (
@@ -90,15 +92,15 @@ export default function MainPage() {
         </div>
       </section>
       <section>
-        {/* <div className={cx("topWrapper")}> */}
-        {/* <img src="/svg/airplane.svg" alt="" /> */}
         <div className={cx("wrapper")}>
           <div className={cx("title")}>함께하는 동행 여행</div>
-          <Link href={"/"} className={cx("link")}>
+          <div
+            className={cx("link")}
+            onClick={()=> router.push("/post-view?category=COMPANION")}
+          >
             전체보기
-          </Link>
+          </div>
         </div>
-        {/* </div> */}
         <div className={cx("container")}>
           {topCompanionData.map((companion) => (
             <CourseCard
