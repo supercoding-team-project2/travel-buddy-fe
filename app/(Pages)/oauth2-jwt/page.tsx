@@ -22,7 +22,7 @@ export default function OAuth2RedirectHandler() {
         );
 
         if (response.status === 200) {
-          const token = response.data.token;
+          const token = response.headers['authorization'];
           localStorage.setItem('token', token);
           router.push('/');
         } else {
