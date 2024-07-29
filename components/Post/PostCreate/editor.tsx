@@ -67,7 +67,7 @@ export const Editor = ({
           ></textarea>
         </div>
         <div>
-          {onSelectChange !== "후기" && (
+          {onSelectChange !== "REVIEW" && (
             <Checkbox onChange={handleCheckboxChange} />
           )}
         </div>

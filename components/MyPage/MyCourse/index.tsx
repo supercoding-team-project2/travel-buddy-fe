@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-import classNames from 'classnames/bind';
-import styles from './MyCourse.module.css';
+import classNames from "classnames/bind";
+import styles from "./MyCourse.module.css";
 
 import Image from "next/image";
 import upArrow from "@/assets/up-arrow.png";
@@ -27,7 +27,7 @@ const MyCourse = () => {
   const [courseData, setCourseData] = useState([]);
 
   const getMyCourse = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     if (token) {
       axios
@@ -35,12 +35,12 @@ const MyCourse = () => {
           headers: { Authorization: token },
         })
         .then((response) => {
-          console.log('경로 조회 데이터', response.data);
+          console.log("경로 조회 데이터", response.data);
           setCourseData(response.data);
           setIsLoading(false);
         })
         .catch((error) => {
-          console.error('경로 조회 요청 실패', error);
+          console.error("경로 조회 요청 실패", error);
         });
     }
   };

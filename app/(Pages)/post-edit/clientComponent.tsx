@@ -1,12 +1,11 @@
 "use client";
-import EditList from "@/components/PostEdit/editList";
-import { Editor } from "@/components/PostEdit/editor";
-import EditTitle from "@/components/PostEdit/editTitle";
+import EditList from "@/components/Post/PostEdit/editList";
+import { Editor } from "@/components/Post/PostEdit/editor";
+import EditTitle from "@/components/Post/PostEdit/editTitle";
 import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { trips } from "@/components/PostEdit/data"; //임시데이터
 import api from "@/app/api/api";
-import { Props } from "@/components/PostDetail/interfaces";
+import { Props } from "@/components/Post/PostDetail/interfaces";
+import { useRouter } from "next/navigation";
 
 export interface ClientComponentProps {
   postId: number;
@@ -16,18 +15,9 @@ const clientComponent = ({ postId }: ClientComponentProps) => {
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
-  const [tripName, setTripName] = useState("");
-
-  function removeBase64Prefix(base64String: any) {
-    const base64Prefix = "base64,";
-    const base64Index = base64String.indexOf(base64Prefix);
-
-    if (base64Index !== -1) {
-      return base64String.slice(base64Index + base64Prefix.length);
-    }
-    return base64String;
-  }
-
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+  const [courseData, setCourseData] = useState([]);
   const [images, setImages] = useState<File[]>([]);
   const [content, setContent] = useState("");
   const [ageMin, setAgeMin] = useState("");
@@ -37,6 +27,39 @@ const clientComponent = ({ postId }: ClientComponentProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<any | null>(null);
+  const [tripId, setTripId] = useState("");
+  console.log("🚀 ~ clientComponent ~ tripId:", tripId);
+
+  const handlePostView = () => {
+    router.push(`/post-detail/${postId}`);
+  };
+
+  const getMyCourse = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      api
+        .get(`/api/routes/list`, {
+          headers: { Authorization: token },
+        })
+        .then((response) => {
+          console.log("경로 조회 데이터", response.data);
+          setCourseData(response.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("경로 조회 요청 실패", error);
+        });
+    }
+  };
+
+  function removeBase64Prefix(base64String: any) {
+    const base64Prefix = "base64,";
+    const base64Index = base64String.indexOf(base64Prefix);
+    if (base64Index !== -1) {
+      return base64String.slice(base64Index + base64Prefix.length);
+    }
+    return base64String;
+  }
 
   /* 제목 변경 핸들러 */
   const handleChange = (newData: {
@@ -51,9 +74,8 @@ const clientComponent = ({ postId }: ClientComponentProps) => {
 
   /* 경로바에서 이름 변경 핸들러 */
   const handleTripNameChange = (nameData: string) => {
-    setTripName(nameData);
+    setTripId(nameData);
   };
-
   /* 본문 변경 핸들러 */
   const handleEditChange = (newData: {
     images: File[];
@@ -100,6 +122,7 @@ const clientComponent = ({ postId }: ClientComponentProps) => {
   useEffect(() => {
     if (postId) {
       getData();
+      getMyCourse();
     }
   }, [postId]);
 
@@ -107,27 +130,21 @@ const clientComponent = ({ postId }: ClientComponentProps) => {
   if (error) return <div>Error: {error}</div>;
 
   const { board, trip }: any = data;
-  console.log("🚀 ~ clientComponent ~ trip:", trip);
-  console.log("🚀 ~ clientComponent ~ board:", board);
 
   if (!data) return <div>No data available</div>;
 
   const handleSubmit = async () => {
     const token = localStorage.getItem("token");
-    console.log("🚀 ~ handleSubmit ~ token:", token);
     const formDataToSend = new FormData();
 
-    formDataToSend.append("routeId", "8");
+    formDataToSend.append("routeId", String(tripId));
     formDataToSend.append("title", String(title));
     formDataToSend.append("summary", String(summary));
     formDataToSend.append("content", String(content));
     formDataToSend.append("category", String(category));
     images.forEach((image, index) => {
       if (typeof image === "string") {
-        // base64 문자열에서 실제 데이터만 추출
         const base64Data = removeBase64Prefix(image);
-
-        // base64를 Blob으로 변환
         const byteCharacters = atob(base64Data);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
@@ -136,7 +153,6 @@ const clientComponent = ({ postId }: ClientComponentProps) => {
         const byteArray = new Uint8Array(byteNumbers);
         const blob = new Blob([byteArray], { type: "image/jpeg" });
 
-        // Blob을 File 객체로 변환
         const file = new File([blob], `image${index}.jpg`, {
           type: "image/jpeg",
         });
@@ -174,8 +190,8 @@ const clientComponent = ({ postId }: ClientComponentProps) => {
           Authorization: token,
         },
       });
-      console.log("🚀 ~ handleSubmit ~ formDataToSend:", formDataToSend);
       console.log("Form submitted successfully", response.data);
+      handlePostView();
     } catch (error) {
       console.error("Error submitting the form", error);
     }
@@ -184,18 +200,18 @@ const clientComponent = ({ postId }: ClientComponentProps) => {
   return (
     <div className="px-20 py-10">
       <EditTitle onChange={handleChange} initialData={board} />
-      <EditList data={trips} onSelectChange={handleTripNameChange} />
+      <EditList data={courseData} onSelectChange={handleTripNameChange} />
       <Editor
         onSelectChange={category}
         onEditChange={handleEditChange}
         initialData={{
-          images: board.images || [], // 예시: board에서 images 추출
-          content: board.content || "", // 예시: board에서 content 추출
+          images: board.images || [],
+          content: board.content || "",
           checkbox: {
-            ageMin: trip.ageMin, // 예시: trip에서 ageMin 추출
-            ageMax: trip.ageMax, // 예시: trip에서 ageMax 추출
-            participants: trip.participants, // 예시: trip에서 participants 추출
-            gender: trip.gender, // 예시: trip에서 gender 추출
+            ageMin: trip.ageMin,
+            ageMax: trip.ageMax,
+            participants: trip.targetNumber,
+            gender: trip.gender,
           },
         }}
       />
