@@ -59,6 +59,7 @@ const Header: React.FC = () => {
             className={cx("header-nav", {
               "header-explore-active": pathname === "/post-view",
             })}
+            onClick={() => router.push("/post-view")}
           >
             Explore
           </div>
