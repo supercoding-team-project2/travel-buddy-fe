@@ -33,9 +33,18 @@ const InfoTable = (data: any) => {
   );
 };
 
+const translationGender: any = {
+  ALL: "무관",
+  FEMALE: "여성",
+  MALE: "남성",
+};
+
+const translateGender = (gender: any) => {
+  return translationGender[gender] || gender;
+};
+
 const DetailsTable = (data: any) => {
   const trip = data;
-  console.log("🚀 ~ DetailsTable ~ trip:", trip.data);
   return (
     <div>
       <table className="min-w-80 bg-white border border-gray-200">
@@ -54,7 +63,9 @@ const DetailsTable = (data: any) => {
           </tr>
           <tr>
             <td className="py-2 px-4 border-b">성별</td>
-            <td className="py-2 px-4 border-b">{trip.data.gender}</td>
+            <td className="py-2 px-4 border-b">
+              {translateGender(trip.data.gender)}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -89,19 +100,18 @@ const fetchData = async (postId: number): Promise<Props["data"][]> => {
 };
 
 const getToken = () => {
-  return sessionStorage.getItem("token");
+  return localStorage.getItem("token");
 };
 
-const userToken = getToken();
-const currentUserId = () => {
-  if (userToken) {
-    // token이 null이 아닐 경우에만 디코드 실행
-    const decoded: any = jwtDecode(userToken);
-    return decoded.userId;
-  } else {
-    console.error("No token found in session storage.");
-  }
-};
+// const userToken = getToken();
+// const currentUserId = () => {
+//   if (userToken) {
+//     const decoded: any = jwtDecode(userToken);
+//     return decoded.userId;
+//   } else {
+//     console.error("No token found in session storage.");
+//   }
+// };
 
 /*   clientComponent  */
 const ClientComponent = ({ postId }: ClientComponentProps) => {
@@ -120,7 +130,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
     router.push(`/post-edit/${postId}`);
   };
   const handleDelete = async () => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     console.log("🚀 ~ handleDelete ~ token:", token);
     console.log("🚀 ~ handleDelete ~ postId:", postId);
 
@@ -162,21 +172,36 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   if (error) return <div>Error: {error}</div>;
 
   const { board, route, trip }: any = data;
-  console.log("유저에 대한 토큰을 출력해보자", currentUserId());
+  //console.log("유저에 대한 토큰을 출력해보자", currentUserId());
 
   const tripId = trip.id;
 
   if (!data) return <div>No data available</div>;
 
   /*여행 취소 - delete 요청 */
+  // const onCancel = async () => {
+  //   try {
+  //     if (userToken) {
+  //       await api.delete(`/api/attend/${tripId}`, {
+  //         headers: { Authorization: userToken },
+  //       });
+  //       console.log("참여취소 성공");
+  //     }
+  //   } catch (error: any) {
+  //     console.error("참여 취소 중 오류 발생:", error);
+  //   }
+  // };
+  //const token = localStorage.getItem("token");
+
+  const token =
+    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjksImlhdCI6MTcyMjE2NzA0OCwiZXhwIjoxNzIyMTg1MDQ4fQ.yCwN7u9QMC5bqNc-sz4WNXYC9l0o48POcz2HRk57BVc";
+
   const onCancel = async () => {
     try {
-      if (userToken) {
-        await api.delete(`/api/attend/${tripId}`, {
-          headers: { Authorization: userToken },
-        });
-        console.log("참여취소 성공");
-      }
+      await api.delete(`/api/attend/${tripId}`, {
+        headers: { Authorization: token },
+      });
+      console.log("참여취소 성공");
     } catch (error: any) {
       console.error("참여 취소 중 오류 발생:", error);
     }

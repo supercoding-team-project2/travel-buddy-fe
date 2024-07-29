@@ -24,7 +24,7 @@ export const PostCard = ({ posts, onPostClick }: PostCardProps) => {
       {posts.map((post: any, id: any) => (
         <div
           key={id}
-          className="bg-white rounded-xl shadow-md overflow-hidden min-h-[25rem] min-w-[45rem]"
+          className="bg-white rounded-xl shadow-md overflow-hidden min-h-[25rem] min-w-[40rem]"
           onClick={() => onPostClick(post.id)}
         >
           <div className="relative">

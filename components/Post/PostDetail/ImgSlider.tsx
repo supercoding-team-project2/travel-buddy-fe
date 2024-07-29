@@ -5,7 +5,6 @@ const ImgSlider = ({ img }: any) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = img;
-  console.log("🚀 ~ ImgSlider ~ slides:", slides);
   const totalSlides = slides.length;
 
   const nextSlide = () => {
@@ -35,6 +34,7 @@ const ImgSlider = ({ img }: any) => {
                     alt={`Slide ${index + 1}`}
                     fill
                     style={{ objectFit: "cover" }}
+                    priority={true} // {false} | {true}
                   />
                 </div>
               </div>
