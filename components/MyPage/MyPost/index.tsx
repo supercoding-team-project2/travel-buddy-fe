@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import MyPostSort from "./MyPostSort";
 import EachMyPost from "./EachMyPost";
@@ -23,16 +23,13 @@ const MyPost: React.FC = () => {
 
   //게시글 axios get 요청
   const fetchPostData = (category: string) => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     if (token) {
       axios
-        .get(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/boards/my?category=${category}`,
-          {
-            headers: { Authorization: token },
-          }
-        )
+        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/boards/my?category=${category}`, {
+          headers: { Authorization: token },
+        })
         .then((response) => {
           console.log(`내 게시글 ${category} 조회 데이터`, response.data.data);
           setPostData(response.data.data);
@@ -91,7 +88,7 @@ const MyPost: React.FC = () => {
         {!isLoading && postData.length === 0 ? (
           <EmptyMyPost />
         ) : (
-          <div className={cx("myPost-list-container")}>
+          <div className={cx('myPost-list-container')}>
             {postData.map((element: any, index: number) => {
               return (
                 <EachMyPost

@@ -33,7 +33,6 @@ export const Editor = ({
     participants: initialData?.checkbox.participants || 1,
     gender: initialData?.checkbox.gender || "",
   });
-
   const handleCheckboxChange = (data: CheckboxData) => {
     setCheckboxData(data);
   };
@@ -72,15 +71,6 @@ export const Editor = ({
             <Checkbox onChange={handleCheckboxChange} />
           )}
         </div>
-      </div>
-
-      <div className="flex justify-end">
-        <button
-          type="submit"
-          className="px-6 py-2 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none"
-        >
-          Submit
-        </button>
       </div>
     </div>
   );

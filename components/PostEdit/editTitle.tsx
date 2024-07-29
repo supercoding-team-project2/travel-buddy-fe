@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -13,25 +13,39 @@ interface EditTitleProps {
     title: string;
     summary: string;
   };
+  onChange: (data: {
+    category: string;
+    title: string;
+    summary: string;
+  }) => void;
 }
 
-const EditTitle = ({ initialData }: EditTitleProps) => {
+const EditTitle = ({ initialData, onChange }: EditTitleProps) => {
   const [category, setCategory] = useState(initialData?.category || "");
   const [title, setTitle] = useState(initialData?.title || "");
   const [summary, setSummary] = useState(initialData?.summary || "");
+
+  useEffect(() => {
+    if (onChange) {
+      onChange({ category, title, summary });
+    }
+  }, [category, title, summary]);
 
   return (
     <>
       <div className="flex gap-3">
         <div>
-          <Select onValueChange={(value) => setCategory(value)}>
+          <Select
+            value={category}
+            onValueChange={(value) => setCategory(value)}
+          >
             <SelectTrigger className="w-[180px] border-gray-500">
               <SelectValue placeholder="동행" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="동행">동행</SelectItem>
-              <SelectItem value="후기">후기</SelectItem>
-              <SelectItem value="가이드">가이드</SelectItem>
+              <SelectItem value="COMPANION">동행</SelectItem>
+              <SelectItem value="REVIEW">후기</SelectItem>
+              <SelectItem value="GUIDE">가이드</SelectItem>
             </SelectContent>
           </Select>
         </div>

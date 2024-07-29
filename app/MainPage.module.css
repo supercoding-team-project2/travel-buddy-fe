@@ -12,9 +12,11 @@
   padding: 2%;
   display: flex;
   flex-direction: column;
-  gap: 1vh;
+  gap: 1.5vh;
+  position: relative;
+  border: solid 3px white;
   border-radius: 15px;
-  /* background: rgb(232, 242, 246); */
+  padding: 5vh 5vw;
 }
 
 .wrapper {

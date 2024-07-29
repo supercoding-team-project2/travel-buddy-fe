@@ -91,15 +91,15 @@ const Checkbox: React.FC<CheckboxProps> = ({ onChange }) => {
           className="flex"
         >
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="남성" id="option-one" />
+            <RadioGroupItem value="MALE" id="option-one" />
             <Label htmlFor="option-one">남성</Label>
           </div>
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="여성" id="option-two" />
+            <RadioGroupItem value="FEMALE" id="option-two" />
             <Label htmlFor="option-two">여성</Label>
           </div>
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="무관" id="option-third" />
+            <RadioGroupItem value="ALL" id="option-third" />
             <Label htmlFor="option-third">무관</Label>
           </div>
         </RadioGroup>

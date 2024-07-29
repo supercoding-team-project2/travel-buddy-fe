@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 
 const EmptyMyCourse: React.FC = () => {
   const router = useRouter();
-  consst [isButtonLoading, setIsButtonLoading] = useState(false);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   useEffect(() => {
     setIsButtonLoading(false)

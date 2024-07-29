@@ -2,7 +2,7 @@
   width: 100%;
   font-family: var(--font-family);
   background-color: #c3d8e6;
-  color: rgb(48, 49, 48);
+  color: black;
   font-size: 1.3rem;
   display: flex;
   justify-content: space-between;
@@ -18,27 +18,38 @@
 
 .navigatation-user-container {
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
-  gap: 30px;
-  width: 47%;
+  gap: 2.5vw;
+}
+
+.before-login {
+  display: flex;
+  align-items: center;
+  gap: 1.5vw;
 }
 
 .login-button,
+.logout-button,
 .signup-button {
-  width: 15%;
-  height: 20%;
-  padding: 7px;
+  padding: 1vh 1vw;
   font-size: 1rem;
   font-weight: 500;
   background-color: white;
   border-radius: 20px;
+  color: #85b1cc;
 }
 
 .login-button:hover,
+.logout-button:hover,
 .signup-button:hover {
   background-color: #85b1cc;
   color: white;
+}
+
+.nav-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5vw;
 }
 
 .header-nav {
@@ -57,6 +68,12 @@
 .header-nav:hover {
   color: #85b1cc;
   cursor: pointer;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5vw;
 }
 
 .account-icon,

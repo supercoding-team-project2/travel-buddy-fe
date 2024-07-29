@@ -13,9 +13,13 @@ export function LogInClient() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
 
   const router = useRouter();
+
+  const handleKakaoLogin = () => {
+    const kakaoAuthUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/oauth/authorize`;
+    window.location.href = kakaoAuthUrl;
+  };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -50,7 +54,7 @@ export function LogInClient() {
       }
       const token = response.headers.authorization;
       console.log(token);
-      sessionStorage.setItem('token', token);
+      localStorage.setItem('token', token);
     } catch (error) {
       console.log(error);
       console.log('Log In failed.');
@@ -92,7 +96,6 @@ export function LogInClient() {
               )}
             </div>
             <button className={cx('submitButton')}>Login</button>
-            {error && <div className={cx('error')}>{error}</div>}
           </form>
           <div className={cx('middleWrapper')}>
             <div className={cx('text')}>
@@ -102,7 +105,7 @@ export function LogInClient() {
             <div className={cx('text')}>소셜 계정으로 로그인 하기</div>
           </div>
           <div className={cx('socialWrapper')}>
-            <img src="/png/kakao-login.png" alt="" />
+            <img src="/png/kakao-login.png" alt="" onClick={handleKakaoLogin} />
             <img src="/png/naver-login.png" alt="" />
           </div>
         </div>
