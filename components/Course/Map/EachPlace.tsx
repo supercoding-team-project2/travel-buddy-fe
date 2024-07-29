@@ -54,7 +54,6 @@ const EachPlace = ({
   const cafe = ["cafe", "bakery", "coffee_shop"];
   const accommodation = ["lodging", "hotel", "hostel", "motel"];
   const attraction = [
-    "locality",
     "point_of_interest",
     "establishment",
     "museum",

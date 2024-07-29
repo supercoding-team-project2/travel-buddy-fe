@@ -219,6 +219,12 @@ const Map = ({
     }
   }, [selected, center, setPlaceDetails]);
 
+  useEffect(() => {
+    if (selected) {
+      setZoom(15);
+    }
+  }, [selected]);
+
   const showMarkers = () => {
     if (selected && typeof selected === "object") {
       return <MarkerF position={selected} />;
