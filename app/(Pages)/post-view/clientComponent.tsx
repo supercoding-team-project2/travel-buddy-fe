@@ -13,18 +13,21 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { DatePickerWithRange } from "@/components/PostView/DatePickerWithRange";
-import { PostCard } from "@/components/PostView/PostCard";
+import { useRouter, useSearchParams } from "next/navigation";
+import { DatePickerWithRange } from "@/components/Post/PostView/DatePickerWithRange";
+import { PostCard } from "@/components/Post/PostView/PostCard";
 import { DateRange } from "react-day-picker";
 import api from "@/app/api/api";
-import { posts } from "@/components/PostView/posts";
-import { ButtonOutlineProps, Post } from "@/components/PostView/interfaces";
+import { posts } from "@/components/Post/PostView/posts";
+import {
+  ButtonOutlineProps,
+  Post,
+} from "@/components/Post/PostView/interfaces";
 import {
   fetchData,
   fetchParticipatedPosts,
   fetchRecommendedPosts,
-} from "@/components/PostView/fetchApi";
+} from "@/components/Post/PostView/fetchApi";
 
 const cx = classNames.bind(styles);
 
@@ -43,13 +46,27 @@ export const WriteButton = () => {
   );
 };
 
-export function ButtonOutline({ text, onClick }: ButtonOutlineProps) {
+const ButtonOutline = ({ text, isActive, onClick }: any) => {
   return (
-    <Button onClick={onClick} variant="outline">
+    <Button
+      onClick={onClick}
+      variant="outline"
+      className={`min-w-[80px] px-4 py-2 border rounded text-base ${
+        isActive ? "bg-blue-500 text-white" : "bg-white text-black"
+      }`}
+    >
       {text}
     </Button>
   );
-}
+};
+
+// export function ButtonOutline({ text, onClick }: ButtonOutlineProps) {
+//   return (
+//     <Button onClick={onClick} variant="outline">
+//       {text}
+//     </Button>
+//   );
+// }
 
 export const SelectPost = ({
   sortOrder,
@@ -85,7 +102,19 @@ export const SelectPost = ({
 };
 
 export const ClientComponent = () => {
-  const [filter, setFilter] = useState("전체");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category");
+
+  const [filter, setFilter] = useState(category || "전체");
+
+  useEffect(() => {
+    if (category) {
+      setFilter(category);
+    }
+  }, [category]);
+
+  console.log("🚀 ~ ClientComponent ~ filter:", filter);
   const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
   const [selectedDateRange, setSelectedDateRange] = useState<
     DateRange | undefined
@@ -98,9 +127,9 @@ export const ClientComponent = () => {
   const [data, setData] = useState<Post[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [viewType, setViewType] = useState<"recommended" | "participated">(
-    "recommended"
-  ); // 상태 추가
+  const [viewType, setViewType] = useState<
+    "recommended" | "participated" | null
+  >("recommended"); // 상태 추가
 
   useEffect(() => {
     const getData = async () => {
@@ -171,6 +200,7 @@ export const ClientComponent = () => {
   };
 
   // useEffect(() => {
+  //   if (viewType === null) return;
   //   getMy(viewType);
   // }, [viewType, filter, selectedDateRange, sortOrder, order]);
 
@@ -187,9 +217,12 @@ export const ClientComponent = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  const router = useRouter();
   const handlePostClick = (postId: number) => {
     router.push(`/post-detail/${postId}`);
+  };
+
+  const handleFilterChange = (newFilter: any) => {
+    setFilter(newFilter);
   };
 
   return (
@@ -197,13 +230,26 @@ export const ClientComponent = () => {
       <div className={cx("post-top-container")}>
         <div className={cx("button-container")}>
           <div className={cx("category-button-group")}>
-            <ButtonOutline text="전체" onClick={() => setFilter("전체")} />
-            <ButtonOutline text="후기" onClick={() => setFilter("REVIEW")} />
+            <ButtonOutline
+              text="전체"
+              isActive={filter === "전체"}
+              onClick={() => handleFilterChange("전체")}
+            />
+            <ButtonOutline
+              text="후기"
+              isActive={filter === "REVIEW"}
+              onClick={() => handleFilterChange("REVIEW")}
+            />
             <ButtonOutline
               text="동행"
-              onClick={() => setFilter(" COMPANION")}
+              isActive={filter === "COMPANION"}
+              onClick={() => handleFilterChange("COMPANION")}
             />
-            <ButtonOutline text="가이드" onClick={() => setFilter("GUIDE")} />
+            <ButtonOutline
+              text="가이드"
+              isActive={filter === "GUIDE"}
+              onClick={() => handleFilterChange("GUIDE")}
+            />
           </div>
 
           <div className={cx("view-button-group")}>

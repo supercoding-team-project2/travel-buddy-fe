@@ -8,6 +8,16 @@
   padding: 2%;
 }
 
+.each-date-container {
+  margin-bottom: 2%;
+}
+
+.date {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 1%;
+}
+
 .memo-button-container {
   display: flex;
   flex-direction: column;

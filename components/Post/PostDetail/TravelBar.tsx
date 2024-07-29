@@ -25,8 +25,24 @@ const translationMap: any = {
   ETC: "/png/map-pin.png",
 };
 
-const translateDescription = (description: any) => {
-  return translationMap[description] || description;
+const translateCategory = (category: any) => {
+  return translationMap[category] || category;
+};
+
+const koreanCategory = (category: string) => {
+  if (category === "RESTAURANT") {
+    return "식당";
+  }
+  if (category === "CAFE") {
+    return "카페";
+  }
+  if (category === "ATTRACTION") {
+    return "명소";
+  }
+  if (category === "ACCOMMODATION") {
+    return "숙소";
+  }
+  return "기타";
 };
 
 const LocationItem = ({ name, description, isLast }: any) => {
@@ -38,7 +54,7 @@ const LocationItem = ({ name, description, isLast }: any) => {
         <div>
           <div className="flex mb-2" style={{ marginLeft: "-20px" }}>
             <Image
-              src={translateDescription(description)}
+              src={translateCategory(description)}
               alt={description}
               width={50}
               height={50}
@@ -63,11 +79,18 @@ const LocationItem = ({ name, description, isLast }: any) => {
           {name}
         </p>
         <p className="text-sm text-gray-600 dark:text-slate-400">
-          {description}
+          {koreanCategory(description)}
         </p>
       </div>
     </div>
   );
+};
+
+const formatDay = (date: any) => {
+  const shortDay = date.split("T")[0];
+  const splitDay = shortDay.split("-");
+  const [year, month, da] = splitDay;
+  return `${year}년 ${month}월 ${da}일`;
 };
 
 const TravelBar = ({ route }: { route: Route }) => {
@@ -78,11 +101,12 @@ const TravelBar = ({ route }: { route: Route }) => {
     })
   );
 
+  //날짜 또 거꾸로 들어가면 reverse 넣기 -> flex flex-col-reverse
   return (
-    <div className="flex flex-col-reverse p-4 ml-4 w-full mx-auto dark:bg-gray-800">
+    <div className="flex flex-col p-4 ml-4 max-w-4xl mx-auto dark:bg-gray-800">
       {locations.map((location: any, index: number) => (
         <div key={index} className="flex flex-col mr-8 my-3">
-          <div className="text-lg mb-3">{location.date}</div>
+          <div className="text-lg mb-3">{formatDay(location.date)}</div>
           <div className="flex ml-3">
             {location.location.map((loca: any, locIndex: number) => (
               <LocationItem

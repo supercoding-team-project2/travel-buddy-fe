@@ -36,6 +36,14 @@ const DateCourse = ({ title, dateRange, dateData, setDateData, setIsDateConfirme
     return dates;
   };
 
+  const formatDate = (date: Date) => {
+    //format date
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const dateFormatted = date.getDate();
+    return `${year}년 ${month}월 ${dateFormatted}일`;
+  };
+
   //get dates between startDate and endDate at the first render
   useEffect(() => {
     if (dateRange && dateRange.length > 0) {
@@ -120,14 +128,17 @@ const DateCourse = ({ title, dateRange, dateData, setDateData, setIsDateConfirme
       {dates.length > 0 &&
         dates.map((date: Date, index: number) => {
           return (
-            <EachDate
-              key={index}
-              date={date}
-              dateData={dateData}
-              setDateData={setDateData}
-              setIsDateConfirmed={setIsDateConfirmed}
-              setIsSaved={setIsSaved}
-            />
+            <div className={cx('each-date-container')}>
+              <div className={cx('date')}>{formatDate(date)}</div>
+              <EachDate
+                key={index}
+                date={date}
+                dateData={dateData}
+                setDateData={setDateData}
+                setIsDateConfirmed={setIsDateConfirmed}
+                setIsSaved={setIsSaved}
+              />
+            </div>
           );
         })}
       <div className={cx('memo-button-container')}>
@@ -138,7 +149,9 @@ const DateCourse = ({ title, dateRange, dateData, setDateData, setIsDateConfirme
           onChange={descriptionChangeHandler}
         ></textarea>
         <div className={cx('button-container')}>
-          <button className={cx('cancel-button')}>취소</button>
+          <button className={cx('cancel-button')} onClick={() => router.push('/my-page')}>
+            취소
+          </button>
           <button className={cx('save-button')} onClick={handleCourseSave}>
             저장
           </button>

@@ -33,6 +33,7 @@ export const Editor = ({
     participants: initialData?.checkbox.participants || 1,
     gender: initialData?.checkbox.gender || "",
   });
+
   const handleCheckboxChange = (data: CheckboxData) => {
     setCheckboxData(data);
   };

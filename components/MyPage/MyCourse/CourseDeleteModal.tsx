@@ -16,12 +16,12 @@ interface Props {
 }
 
 const CourseDeleteModal: React.FC<Props> = ({ isDeleteOpen, setIsDeleteOpen, id, getMyCourse }) => {
-  const [isDoubleDeleteOpen, setIsDoubleDeleteOpen] = useState(true);
-  const [deletePostTitle, setDeletePostTitle] = useState('');
+  const [isDoubleDeleteOpen, setIsDoubleDeleteOpen] = useState(false);
+  const [deletePostTitle, setDeletePostTitle] = useState('여행 게시글');
 
   //user clike the delete button & axios delete
   const clickDeleteHandler = async (id: number) => {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     if (token) {
       try {
@@ -34,12 +34,11 @@ const CourseDeleteModal: React.FC<Props> = ({ isDeleteOpen, setIsDeleteOpen, id,
           console.log('내 여행 경로 삭제 성공', response.status);
           setIsDeleteOpen(false);
           getMyCourse();
+        } else if (response.status === 202) {
+          setIsDoubleDeleteOpen(true);
+          setDeletePostTitle(response.data.boardTitles);
         } else {
           console.log('내 여행 경로 삭제 실패', response.status);
-          if (response.status === 403) {
-            setIsDoubleDeleteOpen(true);
-            setDeletePostTitle(response.data.title);
-          }
         }
       } catch (error) {
         console.error('내 여행 경로 삭제 요청 중 에러', error);
@@ -51,7 +50,14 @@ const CourseDeleteModal: React.FC<Props> = ({ isDeleteOpen, setIsDeleteOpen, id,
 
   return createPortal(
     isDoubleDeleteOpen ? (
-      <CourseDoubleDelete />
+      <CourseDoubleDelete
+        id={id}
+        deletePostTitle={deletePostTitle}
+        isDoubleDeleteOpen={isDoubleDeleteOpen}
+        setIsDoubleDeleteOpen={setIsDoubleDeleteOpen}
+        setIsDeleteOpen={setIsDeleteOpen}
+        getMyCourse={getMyCourse}
+      />
     ) : (
       <div className={cx('delete-overlays')}>
         <div className={cx('delete-modal-container')}>

@@ -9,23 +9,24 @@ interface Props {
   selected: any;
   placeDetails: any[];
   setPlaceDetails: React.Dispatch<React.SetStateAction<any[]>>;
+  setSelected: React.Dispatch<React.SetStateAction<any>>;
   isNewSelection: boolean;
 }
 
-const Map = ({ selected, placeDetails, setPlaceDetails, isNewSelection }: Props) => {
+const Map = ({ selected, placeDetails, setPlaceDetails, setSelected, isNewSelection }: Props) => {
   const center = useMemo(() => ({ lat: 37.56667, lng: 126.97806 }), []);
   const [zoom, setZoom] = useState(15);
 
   const types: string[] = [
+    'hotel',
     'restaurant',
     'cafe',
-    'bar',
+    'amusement_park',
     'park',
     'museum',
-    'amusement_park',
+    'bar',
     'shopping_mall',
     'locality',
-    'hotel',
   ];
 
   useEffect(() => {
@@ -161,7 +162,12 @@ const Map = ({ selected, placeDetails, setPlaceDetails, isNewSelection }: Props)
               .filter(Boolean);
 
             setPlaceDetails(placesByKeyword);
-            setZoom(6.5);
+            if (placesByKeyword.length > 1) {
+              setZoom(6.5);
+            } else {
+              setSelected(placesByKeyword[0].location);
+              setZoom(15);
+            }
           } else {
             console.error('구글 텍스트 검색 오류:', status);
           }
@@ -169,6 +175,12 @@ const Map = ({ selected, placeDetails, setPlaceDetails, isNewSelection }: Props)
       );
     }
   }, [selected, center, setPlaceDetails]);
+
+  useEffect(() => {
+    if (selected) {
+      setZoom(15);
+    }
+  }, [selected]);
 
   const showMarkers = () => {
     if (selected && typeof selected === 'object') {

@@ -53,6 +53,7 @@
   display: flex;
   justify-content: center;
   align-content: center;
+  cursor: pointer;
 }
 
 .icon-container:hover {

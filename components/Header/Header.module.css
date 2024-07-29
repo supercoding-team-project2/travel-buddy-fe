@@ -13,6 +13,7 @@
 .company-logo {
   color: white;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .navigatation-user-container {
@@ -56,7 +57,11 @@
   font-weight: 600;
 }
 
-.header-nav-active {
+.header-home-active {
+  color: #85b1cc;
+}
+
+.header-explore-active {
   color: #85b1cc;
 }
 
