@@ -56,13 +56,14 @@ const Header: React.FC = () => {
       <div className={cx('navigatation-user-container')}>
         <div
           className={cx('header-nav', {
-            'header-nav-active': pathname === '/',
+            'header-home-active': pathname === '/',
           })}
           onClick={() => router.push('/')}
         >
           Home
         </div>
-        <div className={cx('header-nav')}>Explore</div>
+        <div className={cx('header-nav', {'header-explore-active': pathname === "/post-view"})} 
+        onClick={()=> router.push("/post-view")}>Explore</div>
         <button className={cx('login-button')} onClick={() => router.push('/login')}>
           로그인
         </button>

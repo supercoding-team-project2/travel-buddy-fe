@@ -103,13 +103,17 @@ const MyCourse = () => {
                 className={cx("course-button")}
                 onClick={handleButtonClick}
               >
-                {isButtonLoading ? <img 
-                src="/gif/spinner-1.gif"
-                alt="Loading..."
-                width={20}
-                height={20}
-                className={cx("spinner-icon")}
-                /> : <div>내 경로 생성하기</div>}
+                {isButtonLoading ? (
+                  <img
+                    src="/gif/loading-1.gif"
+                    alt="Loading..."
+                    width={25}
+                    height={25}
+                    className={cx("loading-icon")}
+                  />
+                ) : (
+                  <div>내 경로 생성하기</div>
+                )}
               </button>
             </div>
           )}
