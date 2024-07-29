@@ -26,7 +26,7 @@ const CourseDeleteModal: React.FC<Props> = ({
 
   //user clike the delete button & axios delete
   const clickDeleteHandler = async (id: number) => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     if (token) {
       try {

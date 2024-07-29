@@ -30,7 +30,7 @@ const CourseDoubleDelete = ({
 
   //cofirm button handler
   const clickConfirmHandler = async () => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     if (!token) {
       throw new Error("현재 토큰이 없습니다.");

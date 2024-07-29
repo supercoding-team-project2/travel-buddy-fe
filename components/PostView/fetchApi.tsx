@@ -1,7 +1,7 @@
 import api from "@/app/api/api";
 
 const getToken = () => {
-  return sessionStorage.getItem("token");
+  return localStorage.getItem("token");
 };
 
 export const fetchRecommendedPosts = async ({

@@ -113,7 +113,7 @@ const clientComponent = ({ postId }: ClientComponentProps) => {
   if (!data) return <div>No data available</div>;
 
   const handleSubmit = async () => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     console.log("🚀 ~ handleSubmit ~ token:", token);
     const formDataToSend = new FormData();
 
