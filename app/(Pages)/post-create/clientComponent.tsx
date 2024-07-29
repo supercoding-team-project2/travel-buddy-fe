@@ -1,13 +1,13 @@
-"use client";
-import EditList from "@/components/PostCreate/editList";
-import { Editor } from "@/components/PostCreate/editor";
-import EditTitle from "@/components/PostCreate/editTitle";
-import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { TripData } from "@/components/PostCreate/interfaces";
-import { trips } from "@/components/PostEdit/data"; //임시데이터
-import api from "@/app/api/api";
-import { useRouter } from "next/router";
+'use client';
+import EditList from '@/components/PostCreate/editList';
+import { Editor } from '@/components/PostCreate/editor';
+import EditTitle from '@/components/PostCreate/editTitle';
+import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { TripData } from '@/components/PostCreate/interfaces';
+import { trips } from '@/components/PostEdit/data'; //임시데이터
+import api from '@/app/api/api';
+import { useRouter } from 'next/router';
 
 // const Editor = dynamic(() => import("@/components/PostEdit/editor"), {
 //   ssr: false,
@@ -36,13 +36,13 @@ import { useRouter } from "next/router";
 // }, []);
 
 const clientComponent = () => {
-  const [category, setCategory] = useState("");
-  const [title, setTitle] = useState("");
-  const [summary, setSummary] = useState("");
-  const [tripName, setTripName] = useState("");
+  const [category, setCategory] = useState('');
+  const [title, setTitle] = useState('');
+  const [summary, setSummary] = useState('');
+  const [tripName, setTripName] = useState('');
 
   function removeBase64Prefix(base64String: any) {
-    const base64Prefix = "base64,";
+    const base64Prefix = 'base64,';
     const base64Index = base64String.indexOf(base64Prefix);
 
     if (base64Index !== -1) {
@@ -52,18 +52,14 @@ const clientComponent = () => {
   }
 
   const [images, setImages] = useState<File[]>([]);
-  const [content, setContent] = useState("");
-  const [ageMin, setAgeMin] = useState("");
-  const [ageMax, setAgeMax] = useState("");
-  const [participants, setParticipants] = useState("");
-  const [gender, setGender] = useState("");
+  const [content, setContent] = useState('');
+  const [ageMin, setAgeMin] = useState('');
+  const [ageMax, setAgeMax] = useState('');
+  const [participants, setParticipants] = useState('');
+  const [gender, setGender] = useState('');
 
   /* 제목 변경 핸들러 */
-  const handleChange = (newData: {
-    category: string;
-    title: string;
-    summary: string;
-  }) => {
+  const handleChange = (newData: { category: string; title: string; summary: string }) => {
     setCategory(newData.category);
     setTitle(newData.title);
     setSummary(newData.summary);
@@ -106,18 +102,18 @@ const clientComponent = () => {
 
   const handleSubmit = async () => {
     //const router = useRouter();
-    const token = sessionStorage.getItem("token");
+    const token = sessionStorage.getItem('token');
 
     const formDataToSend = new FormData();
 
     // FormData에 값 추가
-    formDataToSend.append("routeId", "8");
-    formDataToSend.append("title", title);
-    formDataToSend.append("summary", summary);
-    formDataToSend.append("content", content);
-    formDataToSend.append("category", category);
+    formDataToSend.append('routeId', '8');
+    formDataToSend.append('title', title);
+    formDataToSend.append('summary', summary);
+    formDataToSend.append('content', content);
+    formDataToSend.append('category', category);
     images.forEach((image, index) => {
-      if (typeof image === "string") {
+      if (typeof image === 'string') {
         // base64 문자열에서 실제 데이터만 추출
         const base64Data = removeBase64Prefix(image);
 
@@ -128,51 +124,51 @@ const clientComponent = () => {
           byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
         const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: "image/jpeg" });
+        const blob = new Blob([byteArray], { type: 'image/jpeg' });
 
         // Blob을 File 객체로 변환
         const file = new File([blob], `image${index}.jpg`, {
-          type: "image/jpeg",
+          type: 'image/jpeg',
         });
 
-        formDataToSend.append("images", file);
+        formDataToSend.append('images', file);
       } else if (image instanceof File) {
-        formDataToSend.append("images", image);
+        formDataToSend.append('images', image);
       }
     });
 
-    formDataToSend.append("ageMin", String(ageMin));
-    formDataToSend.append("ageMax", String(ageMax));
-    formDataToSend.append("targetNumber", String(participants));
-    formDataToSend.append("gender", gender);
+    formDataToSend.append('ageMin', String(ageMin));
+    formDataToSend.append('ageMax', String(ageMax));
+    formDataToSend.append('targetNumber', String(participants));
+    formDataToSend.append('gender', gender);
 
     formDataToSend.forEach((value, key) => {
       let valueType;
       if (value instanceof File) {
-        valueType = "File";
-      } else if (typeof value === "string") {
-        valueType = "String";
-      } else if (typeof value === "number") {
-        valueType = "Number";
+        valueType = 'File';
+      } else if (typeof value === 'string') {
+        valueType = 'String';
+      } else if (typeof value === 'number') {
+        valueType = 'Number';
       } else {
-        valueType = "Unknown";
+        valueType = 'Unknown';
       }
 
       console.log(`${key}:`, value, `(Type: ${valueType})`);
     });
 
     try {
-      const response = await api.post("/api/boards", formDataToSend, {
+      const response = await api.post('/api/boards', formDataToSend, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
           Authorization: token,
         },
       });
 
-      console.log("Form submitted successfully", response.data);
+      console.log('Form submitted successfully', response.data);
       //router.push("/post-view");
     } catch (error) {
-      console.error("Error submitting the form", error);
+      console.error('Error submitting the form', error);
     }
   };
 

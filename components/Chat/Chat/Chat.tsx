@@ -5,18 +5,12 @@ import { Message } from '../Message/Message';
 import styles from './Chat.module.css';
 import classNames from 'classnames/bind';
 import axios from 'axios';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
 const cx = classNames.bind(styles);
 
 interface ChatProps {
   ChatRoomId: number;
-}
-
-interface MessageProps {
-  senderId: string;
-  recipientId: string;
-  content: string;
-  timestamp: string;
 }
 
 export function Chat({ ChatRoomId }: ChatProps) {
@@ -25,36 +19,61 @@ export function Chat({ ChatRoomId }: ChatProps) {
 
   const [chatHistory, setChatHistory] = useState<MessageProps[] | null>(null);
   const [inputValue, setInputValue] = useState('');
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [myId, setMyId] = useState('');
+  const [opponentName, setOpponentName] = useState('');
+  const [opponentProfile, setOpponentProfile] = useState('');
 
-  const getChatHistory = async (token: string | null) => {
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const getChatRoomData = async (token: string | null) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/room/history/${ChatRoomId}`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/room/${ChatRoomId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response.data.data.messageHistory;
+      setMyId(response.data.myId);
+      setOpponentName(response.data.opponentName);
+      setOpponentProfile(response.data.opponentProfile);
+      setChatHistory(response.data.messages);
     } catch (error) {
       console.error('채팅 내역 조회 에러', error);
     }
   };
 
-  const connectHandler = () => {
-    // SockJS 클라이언트 객체를 생성, 웹 소켓을 연결
-    const socket = new SockJS(`${process.env.NEXT_PUBLIC_SERVER_URL}/ws`);
+  useEffect(() => {
+    getChatRoomData;
+  }, []);
 
-    // SockJS 클라이언트 객체 socket를 STOMP 프로토콜로 오버랩하여 client.current에 할당
-    client.current = Stomp.over(socket);
+  // const loadMoreMessages = useCallback(() => {
+  //   const newMessages = [
+  //     { roomId: ChatRoomId, senderId: myId, content: 'new content', timestamp: '4 : 47' },
+  //     { roomId: ChatRoomId, senderId: opponentId, content: 'new content', timestamp: '4 : 47' },
+  //   ];
+
+  //   setChatHistory((prevChatHistory) => (prevChatHistory ? [...newMessages, ...prevChatHistory] : []));
+  // }, []);
+
+  // const { scrollRef, isFetching, setIsFetching } = useInfiniteScroll(loadMoreMessages);
+
+  const connectHandler = () => {
+    if (!token) return;
+
+    client.current = Stomp.over(function () {
+      return new WebSocket('ws://localhost:8080/ws');
+    });
+
     // 클라이언트 객체를 서버와 연결
     client.current.connect(
       {
-        Authorization: 'Bearer ' + token,
+        Authorization: token,
         'Content-Type': 'application/json',
       },
       () => {
         // 연결 성공 시 해당 방을 구독하면 서버로부터 새로운 매시지를 수신 한다.
         client.current?.subscribe(
-          `/sub/chat/room/${ChatRoomId}`,
+          `/subscribe/${ChatRoomId}/queue/messages/`,
           (message) => {
             // 기존 대화 내역에 새로운 메시지 추가
             setChatHistory((prevHistory) => {
@@ -62,7 +81,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
             });
           },
           {
-            Authorization: 'Bearer ' + token,
+            Authorization: token,
             'Content-Type': 'application/json',
           }
         );
@@ -78,16 +97,17 @@ export function Chat({ ChatRoomId }: ChatProps) {
     // client.current가 존재하고 연결되었다면 메시지 전송
     if (client.current && client.current.connected) {
       client.current.send(
-        '/pub/chat/message',
+        '/publish/chat/send',
         {
-          Authorization: 'Bearer ' + token,
+          Authorization: token,
           'Content-Type': 'application/json',
         },
         // JSON 형식으로 전송한다
         JSON.stringify({
-          type: 'TALK',
           roomId: ChatRoomId,
-          message: inputValue,
+          senderId: myId,
+          content: inputValue,
+          timeStamp: new Date(),
         })
       );
     }
@@ -97,13 +117,45 @@ export function Chat({ ChatRoomId }: ChatProps) {
     sendHandler(inputValue);
   }, [inputValue]);
 
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+      setIsLoaded(true);
+    }
+  }, [chatHistory]);
+
   return (
-    <div className="Chat">
-      <div className="messageHeader"></div>
-      <div className="messages">
-        {chatHistory?.map((message) => (
-          <Message senderId={''} recipientId={''} content={''} timestamp={''} currentUser={''} opponentProfile={''} />
+    <div className={cx('Chat')}>
+      <div className={cx('messageHeader')}>
+        <img src="/png/hamster2.png" alt="" className={cx('opponentProfile')} />
+        <div className={cx('opponentName')}>Hamster{ChatRoomId}</div>
+        <div className={cx('menu')}>
+          <div className={cx('dot')}></div>
+          <div className={cx('dot')}></div>
+          <div className={cx('dot')}></div>
+        </div>
+      </div>
+      <div
+        className={cx('messages')}
+        // ref={scrollRef}
+        style={{ overflowY: 'auto', maxHeight: '500px', visibility: isLoaded ? 'visible' : 'hidden' }}
+      >
+        {chatHistory?.map((msg, index) => (
+          <Message
+            key={index}
+            content={msg.content}
+            timestamp={msg.timestamp}
+            opponentProfile={opponentProfile}
+            senderId={msg.senderId}
+            currentUserId={myId}
+            opponentName={opponentName}
+          />
         ))}
+        <div ref={messagesEndRef}></div>
+      </div>
+      <div className={cx('messageFooter')}>
+        <input value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Type a message" />
+        <button onClick={() => sendHandler}>Send</button>
       </div>
     </div>
   );

@@ -89,10 +89,6 @@ interface Props {
 /* 메인 프로필 포스트 */
 export const ProfilePost = ({ data }: Props) => {
   const board = data;
-<<<<<<< HEAD
-  console.log('🚀 ~ ProfilePost ~ board:', board);
-=======
->>>>>>> develop
 
   const [showComments, setShowComments] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]); // 댓글 상태 관리
