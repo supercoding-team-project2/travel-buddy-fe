@@ -41,7 +41,7 @@ const Profile: React.FC<Props> = ({
 
   //axios get when rendered
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     if (token) {
       axios

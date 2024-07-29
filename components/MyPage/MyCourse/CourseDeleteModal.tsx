@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import axios from 'axios';
-import { createPortal } from 'react-dom';
-
-import classNames from 'classnames/bind';
-import styles from './CourseDeleteModal.module.css';
-
-import Image from 'next/image';
-import exit from '../../../assets/exit.png';
-=======
 import React, { useState } from "react";
 import axios from "axios";
 import { createPortal } from "react-dom";
@@ -17,7 +6,6 @@ import classNames from "classnames/bind";
 import styles from "./CourseDeleteModal.module.css";
 import Image from "next/image";
 import exit from "@/assets/exit.png";
->>>>>>> develop
 
 const cx = classNames.bind(styles);
 interface Props {
@@ -27,54 +15,41 @@ interface Props {
   getMyCourse: () => void;
 }
 
-<<<<<<< HEAD
-const CourseDeleteModal: React.FC<Props> = ({ isDeleteOpen, setIsDeleteOpen, id, getMyCourse }) => {
-  //user clike the delete button & axios delete
-  const clickDeleteHandler = async () => {
-    const token = localStorage.getItem('token');
-=======
 const CourseDeleteModal: React.FC<Props> = ({
   isDeleteOpen,
   setIsDeleteOpen,
   id,
   getMyCourse,
 }) => {
-  const [isDoubleDeleteOpen, setIsDoubleDeleteOpen] = useState(true);
-  const [deletePostTitle, setDeletePostTitle] = useState("");
+  const [isDoubleDeleteOpen, setIsDoubleDeleteOpen] = useState(false);
+  const [deletePostTitle, setDeletePostTitle] = useState("여행 게시글");
 
   //user clike the delete button & axios delete
   const clickDeleteHandler = async (id: number) => {
-    const token = sessionStorage.getItem("token");
->>>>>>> develop
+    const token = localStorage.getItem("token");
 
     if (token) {
       try {
-        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/delete/${id}`, {
-          headers: {
-            Authorization: token,
-          },
-        });
+        const response = await axios.delete(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/delete/${id}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
         if (response.status === 200) {
-<<<<<<< HEAD
-          console.log('내 여행 경로 삭제 성공', response.status);
-          setIsDeleteOpen(true);
-          getMyCourse();
-        } else {
-          console.log('내 여행 경로 삭제 실패', response.status);
-=======
           console.log("내 여행 경로 삭제 성공", response.status);
           setIsDeleteOpen(false);
           getMyCourse();
+        } else if (response.status === 202) {
+          setIsDoubleDeleteOpen(true);
+          setDeletePostTitle(response.data.boardTitles);
         } else {
           console.log("내 여행 경로 삭제 실패", response.status);
-          if (response.status === 403) {
-            setIsDoubleDeleteOpen(true);
-            setDeletePostTitle(response.data.title);
-          }
->>>>>>> develop
         }
       } catch (error) {
-        console.error('내 여행 경로 삭제 요청 중 에러', error);
+        console.error("내 여행 경로 삭제 요청 중 에러", error);
       }
     }
   };
@@ -82,28 +57,14 @@ const CourseDeleteModal: React.FC<Props> = ({
   if (!isDeleteOpen) return null;
 
   return createPortal(
-<<<<<<< HEAD
-    <div className={cx('delete-overlays')}>
-      <div className={cx('delete-modal-container')}>
-        <div className={cx('delete-exit-icon')}>
-          <Image src={exit} alt="exit" className={cx('exit-icon')} onClick={() => setIsDeleteOpen(false)} />
-        </div>
-        <div className={cx('check-deletion')}>이 여행 경로를 삭제하시겠어요?</div>
-        <div className={cx('delete-buttons-container')}>
-          <button className={cx('cancel-button')} onClick={() => setIsDeleteOpen(false)}>
-            취소
-          </button>
-          <button className={cx('delete-button')} onClick={clickDeleteHandler}>
-            삭제
-          </button>
-        </div>
-      </div>
-    </div>,
-    document.getElementById('overlays-modal')!
-=======
     isDoubleDeleteOpen ? (
-      <CourseDoubleDelete 
-      
+      <CourseDoubleDelete
+        id={id}
+        deletePostTitle={deletePostTitle}
+        isDoubleDeleteOpen={isDoubleDeleteOpen}
+        setIsDoubleDeleteOpen={setIsDoubleDeleteOpen}
+        setIsDeleteOpen={setIsDeleteOpen}
+        getMyCourse={getMyCourse}
       />
     ) : (
       <div className={cx("delete-overlays")}>
@@ -137,7 +98,6 @@ const CourseDeleteModal: React.FC<Props> = ({
       </div>
     ),
     document.getElementById("overlays-modal")!
->>>>>>> develop
   );
 };
 

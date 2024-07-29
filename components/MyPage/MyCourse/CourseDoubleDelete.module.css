@@ -1,0 +1,77 @@
+.double-delete-overlays {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.4);
+  font-family: var(--font-family);
+}
+
+.double-delete-container {
+  position: fixed;
+  background-color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  padding: 3%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+.delete-alert-cotainer {
+  margin-bottom: 8%;
+  width: 100%;
+}
+.delete-statement {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+.delete-title {
+  color: #5198c4;
+}
+
+.buttons-container {
+  width: 50%;
+  display: flex;
+  gap: 10px;
+}
+
+.button-cancel,
+.button-confirm {
+  width: 50%;
+  height: 2.25rem;
+  padding: 2%;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-cancel {
+  border: 1px solid #a9adb1;
+}
+
+.button-confirm {
+  background-color: #85b1cc;
+  color: white;
+  border: none;
+}
+
+.button-cancel:hover,
+.button-confirm:hover {
+  border: 2px solid #698da4;
+}

@@ -149,7 +149,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   if (!data) return <div>No data available</div>;
 
   const getToken = () => {
-    return sessionStorage.getItem("token");
+    return localStorage.getItem("token");
   };
   const token = getToken();
 

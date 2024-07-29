@@ -1,11 +1,15 @@
 .MainPage {
   display: flex;
   flex-direction: column;
-  gap: 10vh;
+  gap: 3vh;
   background: white;
+  padding: 2% 0%;
 }
 
 .MainPage section {
+  width: 92%;
+  margin: auto;
+  padding: 2%;
   display: flex;
   flex-direction: column;
   gap: 1.5vh;
@@ -15,71 +19,38 @@
   padding: 5vh 5vw;
 }
 
-.topWrapper {
-  background: #c3d8e6;
-  width: 100%;
-  height: 40vh;
-  border-radius: 0 0 50% 0;
-  position: relative;
+.wrapper {
   display: flex;
-  align-items: end;
-}
-.topWrapper img {
-  position: relative;
-  left: -7.5vw;
-  width: 35vw;
-}
-
-.topWrapperReverse {
-  background: #c3d8e6;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2.5%;
   width: 100%;
-  height: 40vh;
-  border-radius: 0 0 0 50%;
-  position: relative;
-  display: flex;
-  align-items: end;
-}
-.topWrapperReverse img {
-  position: relative;
-  right: -7.5vw;
-  width: 35vw;
 }
 
 .title {
-  position: relative;
-  left: -5vw;
-  font-size: 3.5rem;
-  font-weight: 650;
-  width: 100%;
-}
-.titleReverse {
-  position: relative;
-  right: -7.5vw;
-  font-size: 3.5rem;
-  font-weight: 650;
-  width: 100%;
-  text-align: end;
-}
-
-.container {
-  padding: 2.5vh 1.5vw;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  column-gap: 1.5vw;
-  position: relative;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 2px;
 }
 
 .link {
-  font-size: 1.8rem;
+  font-size: 1rem;
   color: #85b1cc;
-  white-space: nowrap;
-  position: relative;
-  right: 2vw;
+  margin-left: 0%;
+  left: 20;
+  text-decoration: none;
+  display: flex;
+  justify-content: flex-end;
 }
-.linkReverse {
-  font-size: 1.8rem;
-  color: #85b1cc;
-  white-space: nowrap;
-  position: relative;
-  left: 2vw;
+
+.link:hover {
+  color: #3287bb;
+  font-size: 1.05rem;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5vw;
+  padding: 2% 2.5vw;
 }

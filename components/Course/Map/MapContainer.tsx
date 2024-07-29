@@ -71,6 +71,7 @@ const MapContainer = ({
         />
         <Map
           selected={selected}
+          setSelected={setSelected}
           setPlaceDetails={setPlaceDetails}
           placeDetails={placeDetails}
           isNewSelection={isNewSelection}
