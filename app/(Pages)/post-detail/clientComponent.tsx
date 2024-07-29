@@ -89,18 +89,19 @@ const isUserSame = (currentUserId: number, postUserId: number): boolean => {
   return currentUserId === postUserId;
 };
 
-/*   axios 요청하는 부분 */
+/* 전체 조회 - GET */
 const fetchData = async (postId: number): Promise<Props["data"][]> => {
+  const token = localStorage.getItem("token");
   try {
-    const response = await api.get(`/api/boards/${postId}`);
+    const response = await api.get(`/api/boards/${postId}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || "An error occurred");
   }
-};
-
-const getToken = () => {
-  return localStorage.getItem("token");
 };
 
 // const userToken = getToken();
@@ -150,6 +151,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
     }
   };
 
+  /* 전체 조회 - GET */
   const getData = async () => {
     try {
       const responseData = await fetchData(postId);
@@ -171,31 +173,14 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  const { board, route, trip }: any = data;
-  //console.log("유저에 대한 토큰을 출력해보자", currentUserId());
+  const { board, route, trip, likeStatus }: any = data;
 
   const tripId = trip.id;
 
   if (!data) return <div>No data available</div>;
 
+  const token = localStorage.getItem("token");
   /*여행 취소 - delete 요청 */
-  // const onCancel = async () => {
-  //   try {
-  //     if (userToken) {
-  //       await api.delete(`/api/attend/${tripId}`, {
-  //         headers: { Authorization: userToken },
-  //       });
-  //       console.log("참여취소 성공");
-  //     }
-  //   } catch (error: any) {
-  //     console.error("참여 취소 중 오류 발생:", error);
-  //   }
-  // };
-  //const token = localStorage.getItem("token");
-
-  const token =
-    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjksImlhdCI6MTcyMjE2NzA0OCwiZXhwIjoxNzIyMTg1MDQ4fQ.yCwN7u9QMC5bqNc-sz4WNXYC9l0o48POcz2HRk57BVc";
-
   const onCancel = async () => {
     try {
       await api.delete(`/api/attend/${tripId}`, {
@@ -293,7 +278,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
           <TravelBar route={route} />
         </div>
 
-        <ProfilePost data={board} />
+        <ProfilePost data={board} likeStatus={likeStatus} getData={getData} />
       </div>
       <ModalWrapper
         tripId={tripId}

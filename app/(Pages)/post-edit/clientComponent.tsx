@@ -35,7 +35,7 @@ const clientComponent = ({ postId }: ClientComponentProps) => {
   };
 
   const getMyCourse = () => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (token) {
       api
         .get(`/api/routes/list`, {
@@ -134,7 +134,7 @@ const clientComponent = ({ postId }: ClientComponentProps) => {
   if (!data) return <div>No data available</div>;
 
   const handleSubmit = async () => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const formDataToSend = new FormData();
 
     formDataToSend.append("routeId", String(tripId));

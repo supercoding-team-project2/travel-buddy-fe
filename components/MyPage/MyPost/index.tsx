@@ -4,7 +4,7 @@ import axios from "axios";
 import MyPostSort from "./MyPostSort";
 import EachMyPost from "./EachMyPost";
 import EmptyMyPost from "./EmptyMyPost";
-import Loading from "@/components/Loading"
+import Loading from "@/components/Loading";
 
 import classNames from "classnames/bind";
 import styles from "./MyPost.module.css";
@@ -23,7 +23,7 @@ const MyPost: React.FC = () => {
 
   //게시글 axios get 요청
   const fetchPostData = (category: string) => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     if (token) {
       axios
@@ -65,7 +65,7 @@ const MyPost: React.FC = () => {
 
   return (
     <>
-    {isLoading && <Loading />}
+      {isLoading && <Loading />}
       <div className={cx("myPost-container")}>
         {isUparrowVisible && (
           <div

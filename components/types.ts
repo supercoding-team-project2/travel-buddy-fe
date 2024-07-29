@@ -1,7 +1,7 @@
 interface MessageProps {
-  isMine: boolean;
-  content: string;
-  timestamp: string;
+  type: string;
+  sender: string;
+  message: string;
 }
 
 interface ChatRoomSummaryProps {
@@ -10,15 +10,6 @@ interface ChatRoomSummaryProps {
   lastMessage: string;
   lastTime: string;
   setChatIndex: (arg0: number) => void;
-}
-
-interface MessageProps {
-  senderId: string;
-  recipientId: string;
-  content: string;
-  timestamp: string;
-  currentUser: string;
-  opponentProfile: string;
 }
 
 interface ErrorProps {

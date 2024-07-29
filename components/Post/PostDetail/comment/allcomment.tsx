@@ -15,9 +15,7 @@ interface Comment {
   id: number;
 }
 
-//const token = localStorage.getItem("token");
-const token =
-  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjksImlhdCI6MTcyMjE2NzA0OCwiZXhwIjoxNzIyMTg1MDQ4fQ.yCwN7u9QMC5bqNc-sz4WNXYC9l0o48POcz2HRk57BVc";
+const token = localStorage.getItem("token");
 
 /* 댓글 입력 섹션 */
 export const MycommentSection: React.FC<MycommentSectionProps> = ({

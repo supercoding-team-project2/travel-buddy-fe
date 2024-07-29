@@ -12,7 +12,7 @@ const Modal = ({ isOpen, onClose, title, content, tripId }: any) => {
   const [isFailed, setIsFailed] = useState(false);
 
   const getToken = () => {
-    return sessionStorage.getItem("token");
+    return localStorage.getItem("token");
   };
 
   /*여행 참가 - post 요청 */

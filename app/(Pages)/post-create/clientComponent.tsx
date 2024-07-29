@@ -23,7 +23,7 @@ const clientComponent = () => {
   };
 
   const getMyCourse = () => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     if (token) {
       api
@@ -98,7 +98,7 @@ const clientComponent = () => {
   };
 
   const handleSubmit = async () => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     const formDataToSend = new FormData();
 

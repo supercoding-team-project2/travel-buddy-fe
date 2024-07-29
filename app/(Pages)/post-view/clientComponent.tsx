@@ -127,9 +127,9 @@ export const ClientComponent = () => {
   const [data, setData] = useState<Post[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [viewType, setViewType] = useState<"recommended" | "participated">(
-    "recommended"
-  ); // 상태 추가
+  const [viewType, setViewType] = useState<
+    "recommended" | "participated" | null
+  >("recommended"); // 상태 추가
 
   useEffect(() => {
     const getData = async () => {
@@ -200,6 +200,7 @@ export const ClientComponent = () => {
   };
 
   // useEffect(() => {
+  //   if (viewType === null) return;
   //   getMy(viewType);
   // }, [viewType, filter, selectedDateRange, sortOrder, order]);
 

@@ -26,7 +26,7 @@ const MyPostDeleteModal = ({
 }: Props) => {
   //게시글 axios delete 요청 & url에 id 넣어서 요청보내기
   const handleDelete = (id: number) => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     axios
       .delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/boards/${id}`, {
         headers: { Authorization: token },

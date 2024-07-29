@@ -108,7 +108,7 @@ const DateCourse = ({
       console.log("tranformedDateData", transformedDateData);
 
       //axios post 요청
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       axios
         .post(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/add`,

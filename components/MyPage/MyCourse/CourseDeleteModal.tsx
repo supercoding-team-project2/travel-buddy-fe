@@ -59,9 +59,7 @@ const CourseDeleteModal: React.FC<Props> = ({
 
   return createPortal(
     isDoubleDeleteOpen ? (
-      <CourseDoubleDelete 
-      
-      />
+      <CourseDoubleDelete />
     ) : (
       <div className={cx("delete-overlays")}>
         <div className={cx("delete-modal-container")}>

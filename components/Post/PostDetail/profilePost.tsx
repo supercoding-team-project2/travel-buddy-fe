@@ -5,6 +5,7 @@ import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import { CommentSection, MycommentSection } from "./comment/allcomment";
 import api from "@/app/api/api";
+import axios from "axios";
 const cx = classNames.bind(styles);
 
 /* 버튼 컴포넌트 */
@@ -67,17 +68,21 @@ interface Props {
     likeCount: number;
     images: string[];
   };
+  likeStatus: {
+    status: boolean;
+  };
+  getData: () => Promise<void>;
 }
 
 /* 메인 프로필 포스트 */
-export const ProfilePost = ({ data }: Props) => {
+export const ProfilePost = ({ data, likeStatus, getData }: Props) => {
   const board = data;
   const postId = board.id;
-
   const [showComments, setShowComments] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]); // 댓글 상태 관리
+  const [commentCount, setCommentCount] = useState<number>(0); // 댓글 수 상태
   const [likeCount, setLikeCount] = useState<number>(board?.likeCount || 0);
-  const [isLiked, setIsLiked] = useState<boolean>(false); // 좋아요 버튼 상태
+  const [isLiked, setIsLiked] = useState<boolean>(likeStatus.status);
 
   interface Comment {
     userName: string;
@@ -86,16 +91,54 @@ export const ProfilePost = ({ data }: Props) => {
     id: number;
   }
 
-  //const token = localStorage.getItem("token");
-  const token =
-    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjksImlhdCI6MTcyMjE2NzA0OCwiZXhwIjoxNzIyMTg1MDQ4fQ.yCwN7u9QMC5bqNc-sz4WNXYC9l0o48POcz2HRk57BVc";
+  const enterChatRoom = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("로그인 정보가 없습니다.");
+        return;
+      }
+      // const myId = JSON.parse(atob(token.split('.')[1])).id;
+      // const opponentID = data.id;
+      const myId = 1;
+      const opponentId = 2;
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/room/enter`,
+        {
+          myId,
+          opponentId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        const chatRoomId = response.data.chatRoomId;
+        window.open(
+          `/chat/${chatRoomId}`,
+          "_blank",
+          "noopener,noreferrer,width=540,height=640"
+        );
+      } else {
+        console.error("방 생성 실패:", response.data.message);
+      }
+    } catch (error) {
+      console.error("방 생성 에러:", error);
+    }
+  };
+
   const fetchComments = async () => {
+    const token = localStorage.getItem("token");
     try {
       const response = await api.get(`/api/comment/${postId}`, {
         headers: { Authorization: token },
       });
       const { commentList } = response.data;
       setComments(commentList);
+      setCommentCount(commentList.length);
       console.log("조회성공");
     } catch (error: any) {
       if (error.response && error.response.status === 403) {
@@ -106,25 +149,17 @@ export const ProfilePost = ({ data }: Props) => {
       }
     }
   };
-  //  const toggleComments = () => {
-  //     setShowComments((prev) => !prev);
-  //   };
-  //   useEffect(() => {
-  //     if (!showComments) return;
-  //     fetchComments();
-  //   }, [showComments]);
-
-  // const toggleComments = async () => {
-  //   const newShowComments = !showComments;
-  //   setShowComments(newShowComments);
-  //   if (newShowComments) {
-  //     await fetchComments();
-  //   }
-  // };
 
   const toggleComments = () => {
     setShowComments(!showComments);
   };
+
+  useEffect(() => {
+    fetchComments(); // 컴포넌트가 처음 마운트될 때 댓글 가져오기
+  }, []);
+
+  useEffect(() => {}, [isLiked]);
+
   useEffect(() => {
     if (showComments) {
       fetchComments();
@@ -138,31 +173,14 @@ export const ProfilePost = ({ data }: Props) => {
     }
   };
 
-  /*좋아요 클릭 시 */
-  // const handleLike = async () => {
-  //   setIsLiked(true);
-  //   try {
-  //     const response = await api.post(
-  //       `/api/likes/${postId}`,
-  //       {},
-  //       {
-  //         headers: {
-  //           Authorization: token,
-  //         },
-  //       }
-  //     );
-  //     console.log("좋아요 성공:", response.data);
-  //   } catch (error) {
-  //     console.error("Error like the post:", error);
-  //   }
-  // };
-
   const handleLike = async () => {
+    const token = localStorage.getItem("token");
     if (isLiked) {
       console.log("이미 좋아요를 누른 상태입니다.");
       return;
     }
     setIsLiked(true);
+    setLikeCount(likeCount + 1);
     try {
       const response = await api.post(
         `/api/likes/${postId}`,
@@ -177,31 +195,18 @@ export const ProfilePost = ({ data }: Props) => {
     } catch (error) {
       console.error("Error like the post:", error);
       setIsLiked(false);
+      setLikeCount(likeCount - 1);
     }
   };
 
-  /*좋아요 취소 클릭 시 */
-  // const handleDislike = async () => {
-  //   setIsLiked(false); // 좋아요 상태를 취소로 변경
-  //   //const token = localStorage.getItem("token");
-  //   try {
-  //     const response = await api.delete(`/api/likes/${postId}`, {
-  //       headers: {
-  //         Authorization: token,
-  //       },
-  //     });
-  //     console.log("좋아요 취소 성공.");
-  //   } catch (error) {
-  //     console.error("Error handling dislike request:", error);
-  //   }
-  // };
-
   const handleDislike = async () => {
+    const token = localStorage.getItem("token");
     if (!isLiked) {
       console.log("이미 좋아요를 취소한 상태입니다.");
       return;
     }
     setIsLiked(false);
+    setLikeCount(likeCount - 1);
     try {
       const response = await api.delete(`/api/likes/${postId}`, {
         headers: {
@@ -212,6 +217,7 @@ export const ProfilePost = ({ data }: Props) => {
     } catch (error) {
       console.error("Error handling dislike request:", error);
       setIsLiked(true);
+      setLikeCount(likeCount + 1);
     }
   };
 
@@ -223,8 +229,8 @@ export const ProfilePost = ({ data }: Props) => {
           <Image
             src={board?.userProfile}
             alt="image"
-            width={56}
-            height={56}
+            width={30}
+            height={30}
             className="flex-none w-14 h-14 rounded-full object-cover"
             loading="lazy"
             decoding="async"
@@ -240,11 +246,7 @@ export const ProfilePost = ({ data }: Props) => {
               width={25}
               height={25}
               onClick={() => {
-                window.open(
-                  "/chat",
-                  "_blank",
-                  "noopener,noreferrer,width=540,height=640"
-                );
+                enterChatRoom();
               }}
             />
           </div>
@@ -280,7 +282,7 @@ export const ProfilePost = ({ data }: Props) => {
                     height={25}
                   />
                   {/* 댓글개수 */}
-                  <div className="flex items-center ml-1">20</div>
+                  <div className="flex items-center ml-1">{commentCount}</div>
                 </div>
                 {/* 댓글 관리하기 */}
                 <MycommentSection
