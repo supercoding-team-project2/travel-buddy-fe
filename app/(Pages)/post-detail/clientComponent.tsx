@@ -180,6 +180,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   if (!data) return <div>No data available</div>;
 
   const token = localStorage.getItem("token");
+
   /*여행 취소 - delete 요청 */
   const onCancel = async () => {
     try {

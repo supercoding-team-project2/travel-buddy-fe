@@ -56,12 +56,6 @@ const EachDate = ({
 
   const [isConfirmed, setIsConfirmed] = useState(false);
 
-  //format date
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const dateFormatted = date.getDate();
-  const formattedDate = `${year}년 ${month}월 ${dateFormatted}일`;
-
   const settings = {
     dots: true,
     infinite: false,
@@ -100,8 +94,7 @@ const EachDate = ({
   if (places.length === 0) return null;
 
   return (
-    <div className={cx("each-date-container")}>
-      <div className={cx("date")}>{formattedDate}</div>
+    <>
       <div className={cx("slider-container")}>
         <Slider {...settings}>
           {places.map((place) => (
@@ -141,7 +134,7 @@ const EachDate = ({
           </button>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

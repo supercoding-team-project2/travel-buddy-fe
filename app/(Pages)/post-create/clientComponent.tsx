@@ -98,6 +98,7 @@ const clientComponent = () => {
   };
 
   const handleSubmit = async () => {
+    //const router = useRouter();
     const token = localStorage.getItem("token");
 
     const formDataToSend = new FormData();

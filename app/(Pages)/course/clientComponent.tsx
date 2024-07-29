@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { DateRangePickerProps } from "react-date-range";
 
 import MapContainer from "@/components/Course/Map/MapContainer";
@@ -20,6 +21,15 @@ const CourseClient = () => {
   ]);
   const [dateData, setDateData] = useState<{ [date: string]: any[] }>({});
   const [isDateConfirmed, setIsDateConfirmed] = useState({});
+  const router = useRouter();
+
+// useEffect(() => {
+//   const token = localStorage.getItem("token");
+
+//   if(!token) {
+//     router.push("/login")
+//   }
+// }, [])
 
   return (
     <>

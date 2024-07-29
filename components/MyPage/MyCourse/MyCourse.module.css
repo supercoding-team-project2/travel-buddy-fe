@@ -53,6 +53,9 @@
   border: 1px solid #e6ebf2;
   font-size: 0.9rem;
   font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .course-button:hover {
