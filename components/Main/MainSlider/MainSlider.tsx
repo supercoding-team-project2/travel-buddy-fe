@@ -6,17 +6,7 @@ import Link from 'next/link';
 
 const cx = classNames.bind(styles);
 
-const images = [
-  '/png/travel1.png',
-  '/png/travel2.png',
-  '/png/travel3.png',
-  '/png/travel4.png',
-  '/png/travel5.png',
-  '/png/travel6.png',
-  '/png/travel7.png',
-  '/png/travel8.png',
-  '/png/travel9.png',
-];
+const images = ['/png/travel1.png', '/png/travel3.png', '/png/travel4.png', '/png/travel9.png'];
 
 export function MainSlider() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

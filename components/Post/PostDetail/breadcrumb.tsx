@@ -1,5 +1,5 @@
-import Link from "next/link";
-import React from "react";
+import Link from 'next/link';
+import React from 'react';
 
 import {
   Breadcrumb,
@@ -8,7 +8,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from '@/components/ui/breadcrumb';
 
 export function BreadcrumbWithCustomSeparator() {
   return (
@@ -21,7 +21,7 @@ export function BreadcrumbWithCustomSeparator() {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <Link href="/PostView" passHref legacyBehavior>
+          <Link href="/post-view" passHref legacyBehavior>
             <BreadcrumbLink>PostView</BreadcrumbLink>
           </Link>
         </BreadcrumbItem>
