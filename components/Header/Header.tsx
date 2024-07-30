@@ -9,7 +9,7 @@ import chat from '../../assets/chat.png';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { noLayoutRoutes } from '@/lib/constants';
-import axios from 'axios';
+import axiosInstance from '@/lib/axiosInstance';
 
 const cx = classNames.bind(styles);
 
@@ -29,7 +29,7 @@ const Header: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/logout`, {
+      await axiosInstance.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/logout`, {
         headers: { Authorization: token },
       });
 
