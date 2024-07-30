@@ -126,7 +126,6 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   const { isOpen, openModal, closeModal, ModalWrapper } = useModal();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [data, setData] = useState<Props["data"][] | null>(null);
-  console.log("🚀 ~ ClientComponent ~ data:", data);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -139,8 +138,6 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
       throw new Error("localStorage is not available on the server.");
     }
     const token = localStorage.getItem("token");
-    console.log("🚀 ~ handleDelete ~ token:", token);
-    console.log("🚀 ~ handleDelete ~ postId:", postId);
 
     try {
       if (token) {
@@ -253,20 +250,6 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
         <div className="flex justify-around">
           <InfoTable data={board} />
           <div className="flex flex-col pt-24  ">
-            {/* {!result && (
-              <>
-                <DetailsTable data={data[0]} />
-                <div className="flex items-center justify-center mt-4">
-                  <TogetherBtn onClick={openModal} />
-                  <TogetherBtn
-                    onClick={() => {
-                      openModal();
-                      setModalOpen(true); 
-                    }}
-                  />
-                </div>
-              </>
-            )} */}
             <DetailsTable data={trip} />
             <div className="flex items-center justify-center mt-4">
               {!result && !UserResult && (
