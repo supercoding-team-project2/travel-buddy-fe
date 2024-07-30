@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
 
-import classNames from "classnames/bind";
-import styles from "./Profile.module.css";
-import Image from "next/image";
-import { StaticImageData } from "next/image";
-import downArrow from "@/assets/down-arrow.png";
+import classNames from 'classnames/bind';
+import styles from './Profile.module.css';
+import Image from 'next/image';
+import { StaticImageData } from 'next/image';
+import downArrow from '@/assets/down-arrow.png';
+import axiosInstance from '@/lib/axiosInstance';
 
 const cx = classNames.bind(styles);
 
@@ -32,100 +32,79 @@ const Profile: React.FC<Props> = ({
   setProfilePic,
   token,
 }) => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   // 네브 중 하나 눌렀을 때 true 변환 로직
   const clickNavHandler = (nav: string) => {
-    setIsMyCourseOpen(nav === "course");
-    setIsMyPostOpen(nav === "post");
-    setIsMyInfoOpen(nav === "info");
+    setIsMyCourseOpen(nav === 'course');
+    setIsMyPostOpen(nav === 'post');
+    setIsMyInfoOpen(nav === 'info');
     window.scrollTo({ top: 0 });
   };
 
   //axios get when rendered
   useEffect(() => {
     if (token) {
-      axios
+      axiosInstance
         .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user`, {
           headers: { Authorization: token },
         })
         .then((response) => {
           const userData = response.data;
-          console.log("회원 프로필 사진 조회 성공");
+          console.log('회원 프로필 사진 조회 성공');
           setProfilePic(userData.profilePictureUrl);
           setName(userData.name);
         })
         .catch((error) => {
-          console.error("회원 프로필 사진 조회 요청 실패", error);
+          console.error('회원 프로필 사진 조회 요청 실패', error);
         });
-    } 
+    }
   }, []);
 
   return (
-    <div className={cx("profile-container")}>
-      <div className={cx("name-photo-container")}>
-        <Image
-          src={profilePic}
-          alt="user photo"
-          className={cx("user-photo")}
-          width={90}
-          height={90}
-        />
-        <div className={cx("name")}>{name}</div>
+    <div className={cx('profile-container')}>
+      <div className={cx('name-photo-container')}>
+        <Image src={profilePic} alt="user photo" className={cx('user-photo')} width={90} height={90} />
+        <div className={cx('name')}>{name}</div>
       </div>
-      <div className={cx("navigation-container")}>
-        <div className={cx("each-navigation")}>
-          <div
-            className={cx("each-navigation-container")}
-            onClick={() => clickNavHandler("course")}
-          >
+      <div className={cx('navigation-container')}>
+        <div className={cx('each-navigation')}>
+          <div className={cx('each-navigation-container')} onClick={() => clickNavHandler('course')}>
             <Image
               src={downArrow}
               alt="down arrow"
-              className={cx("down-arrow", {
-                "down-arrow-active": isMyCourseOpen,
+              className={cx('down-arrow', {
+                'down-arrow-active': isMyCourseOpen,
               })}
             />
             내 경로 목록
           </div>
-          <div
-            className={cx("underline", { "underline-active": isMyCourseOpen })}
-          ></div>
+          <div className={cx('underline', { 'underline-active': isMyCourseOpen })}></div>
         </div>
-        <div className={cx("each-navigation")}>
-          <div
-            className={cx("each-navigation-container")}
-            onClick={() => clickNavHandler("post")}
-          >
+        <div className={cx('each-navigation')}>
+          <div className={cx('each-navigation-container')} onClick={() => clickNavHandler('post')}>
             <Image
               src={downArrow}
               alt="down arrow"
-              className={cx("down-arrow", {
-                "down-arrow-active": isMyPostOpen,
+              className={cx('down-arrow', {
+                'down-arrow-active': isMyPostOpen,
               })}
             />
             내가 작성한 게시글
           </div>
-          <div
-            className={cx("underline", { "underline-active": isMyPostOpen })}
-          ></div>
+          <div className={cx('underline', { 'underline-active': isMyPostOpen })}></div>
         </div>
-        <div className={cx("each-navigation")}>
-          <div
-            className={cx("each-navigation-container")}
-            onClick={() => clickNavHandler("info")}
-          >
+        <div className={cx('each-navigation')}>
+          <div className={cx('each-navigation-container')} onClick={() => clickNavHandler('info')}>
             <Image
               src={downArrow}
               alt="down arrow"
-              className={cx("down-arrow", {
-                "down-arrow-active": isMyInfoOpen,
+              className={cx('down-arrow', {
+                'down-arrow-active': isMyInfoOpen,
               })}
             />
             내 정보
           </div>
-          <div
-            className={cx("underline", { "underline-active": isMyInfoOpen })}
-          ></div>
+          <div className={cx('underline', { 'underline-active': isMyInfoOpen })}></div>
         </div>
       </div>
     </div>
