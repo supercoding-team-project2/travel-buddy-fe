@@ -18,6 +18,7 @@ interface Props {
   setIsMyPostOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsMyInfoOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setProfilePic: React.Dispatch<React.SetStateAction<string | StaticImageData>>;
+  token: string | null;
 }
 
 const Profile: React.FC<Props> = ({
@@ -29,6 +30,7 @@ const Profile: React.FC<Props> = ({
   setIsMyPostOpen,
   setIsMyInfoOpen,
   setProfilePic,
+  token,
 }) => {
   const [name, setName] = useState("");
   // 네브 중 하나 눌렀을 때 true 변환 로직
@@ -41,8 +43,6 @@ const Profile: React.FC<Props> = ({
 
   //axios get when rendered
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
     if (token) {
       axios
         .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user`, {
@@ -57,6 +57,8 @@ const Profile: React.FC<Props> = ({
         .catch((error) => {
           console.error("회원 프로필 사진 조회 요청 실패", error);
         });
+    } else {
+      throw new Error("토큰이 없습니다.");
     }
   }, []);
 

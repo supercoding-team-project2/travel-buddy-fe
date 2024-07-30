@@ -12,6 +12,7 @@ interface Props {
   setIsDoubleDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsDeleteOpen: React.Dispatch<React.SetStateAction<boolean>>;
   getMyCourse: () => void;
+  token: string | null;
 }
 
 const CourseDoubleDelete = ({
@@ -21,6 +22,7 @@ const CourseDoubleDelete = ({
   setIsDoubleDeleteOpen,
   setIsDeleteOpen,
   getMyCourse,
+  token,
 }: Props) => {
   //cancel button hanlder
   const clickCancelHandler = () => {
@@ -30,7 +32,6 @@ const CourseDoubleDelete = ({
 
   //cofirm button handler
   const clickConfirmHandler = async () => {
-    const token = localStorage.getItem("token");
 
     if (!token) {
       throw new Error("현재 토큰이 없습니다.");
