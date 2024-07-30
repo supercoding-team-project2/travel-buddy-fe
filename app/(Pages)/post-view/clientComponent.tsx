@@ -60,14 +60,6 @@ const ButtonOutline = ({ text, isActive, onClick }: any) => {
   );
 };
 
-// export function ButtonOutline({ text, onClick }: ButtonOutlineProps) {
-//   return (
-//     <Button onClick={onClick} variant="outline">
-//       {text}
-//     </Button>
-//   );
-// }
-
 export const SelectPost = ({
   sortOrder,
   onSortChange,
@@ -129,7 +121,7 @@ export const ClientComponent = () => {
   const [loading, setLoading] = useState(true);
   const [viewType, setViewType] = useState<
     "recommended" | "participated" | null
-  >("recommended"); // 상태 추가
+  >(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -161,58 +153,97 @@ export const ClientComponent = () => {
     getData();
   }, [filter, selectedDateRange, sortOrder]);
 
-  const getMy = async (type: "recommended" | "participated") => {
-    try {
-      setLoading(true);
-      const fromDate = selectedDateRange?.from
-        ? selectedDateRange.from.toISOString()
-        : undefined;
-      const toDate = selectedDateRange?.to
-        ? selectedDateRange.to.toISOString()
-        : undefined;
+  // const getMy = async (type: "recommended" | "participated") => {
+  //   try {
+  //     setLoading(true);
+  //     const fromDate = selectedDateRange?.from
+  //       ? selectedDateRange.from.toISOString()
+  //       : undefined;
+  //     const toDate = selectedDateRange?.to
+  //       ? selectedDateRange.to.toISOString()
+  //       : undefined;
 
-      let response;
-      if (type === "recommended") {
-        response = await fetchRecommendedPosts({
-          category: filter === "전체" ? undefined : filter,
-          startDate: fromDate,
-          endDate: toDate,
-          sortBy: sortOrder,
-          order: order,
-        });
-      } else if (type === "participated") {
-        response = await fetchParticipatedPosts({
-          category: filter === "전체" ? undefined : filter,
-          startDate: fromDate,
-          endDate: toDate,
-          sortBy: sortOrder,
-          order: order,
-        });
-      }
+  //     let response;
+  //     if (type === "recommended") {
+  //       response = await fetchRecommendedPosts({
+  //         category: filter === "전체" ? undefined : filter,
+  //         startDate: fromDate,
+  //         endDate: toDate,
+  //         sortBy: sortOrder,
+  //         order: order,
+  //       });
+  //     } else if (type === "participated") {
+  //       response = await fetchParticipatedPosts({
+  //         category: filter === "전체" ? undefined : filter,
+  //         startDate: fromDate,
+  //         endDate: toDate,
+  //         sortBy: sortOrder,
+  //         order: order,
+  //       });
+  //     }
 
-      setData(response.data);
-      setFilteredPosts(response.data);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     setData(response.data);
+  //     setFilteredPosts(response.data);
+  //   } catch (err: any) {
+  //     setError(err.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   // useEffect(() => {
   //   if (viewType === null) return;
   //   getMy(viewType);
   // }, [viewType, filter, selectedDateRange, sortOrder, order]);
 
+  // viewType에 따른 데이터 로딩
+  useEffect(() => {
+    const getMy = async (type: "recommended" | "participated") => {
+      try {
+        setLoading(true);
+        const fromDate = selectedDateRange?.from
+          ? selectedDateRange.from.toISOString()
+          : undefined;
+        const toDate = selectedDateRange?.to
+          ? selectedDateRange.to.toISOString()
+          : undefined;
+
+        let response;
+        if (type === "recommended") {
+          response = await fetchRecommendedPosts({
+            category: filter === "전체" ? undefined : filter,
+            startDate: fromDate,
+            endDate: toDate,
+            sortBy: sortOrder,
+            order: order,
+          });
+        } else if (type === "participated") {
+          response = await fetchParticipatedPosts({
+            category: filter === "전체" ? undefined : filter,
+            startDate: fromDate,
+            endDate: toDate,
+            sortBy: sortOrder,
+            order: order,
+          });
+        }
+
+        setData(response.data);
+        setFilteredPosts(response.data);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (viewType !== null) {
+      getMy(viewType);
+    }
+  }, [viewType, filter, selectedDateRange, sortOrder, order]);
+
   const handleButtonClick = (type: "recommended" | "participated") => {
     setViewType(type);
   };
-
-  // 버튼 클릭 시
-  // const handleButtonClick = (type: "recommended" | "participated") => {
-  //   setViewType(type); //이거 없어도 될듯
-  //   getMy(type);
-  // };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -223,6 +254,7 @@ export const ClientComponent = () => {
 
   const handleFilterChange = (newFilter: any) => {
     setFilter(newFilter);
+    setViewType(null);
   };
 
   return (
@@ -255,10 +287,12 @@ export const ClientComponent = () => {
           <div className={cx("view-button-group")}>
             <ButtonOutline
               text="추천한 게시물"
+              isActive={viewType === "recommended"}
               onClick={() => handleButtonClick("recommended")}
             />
             <ButtonOutline
               text="참여한 여행"
+              isActive={viewType === "participated"}
               onClick={() => handleButtonClick("participated")}
             />
           </div>
