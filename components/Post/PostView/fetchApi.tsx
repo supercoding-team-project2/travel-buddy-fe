@@ -1,9 +1,5 @@
 import api from "@/app/api/api";
 
-const getToken = () => {
-  return localStorage.getItem("token");
-};
-
 export const fetchRecommendedPosts = async ({
   category,
   startDate,
@@ -28,7 +24,7 @@ export const fetchRecommendedPosts = async ({
     if (sortBy) params.sortBy = sortBy;
     if (order) params.order = order;
 
-    const token = getToken();
+    const token = localStorage.getItem("token");
     console.log("🚀 ~ token:", token);
 
     const response = await api.get("/api/boards/liked", {
@@ -68,7 +64,7 @@ export const fetchParticipatedPosts = async ({
     if (sortBy) params.sortBy = sortBy;
     if (order) params.order = order;
 
-    const token = getToken();
+    const token = localStorage.getItem("token");
 
     const response = await api.get("/api/boards/participated", {
       params,
