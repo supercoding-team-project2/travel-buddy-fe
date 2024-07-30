@@ -19,9 +19,10 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ posts, onPostClick }: PostCardProps) => {
+  console.log("동행인지 후기인지", posts);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 p-10 md:px-20">
-      {posts.map((post: any, id: any) => (
+      {posts?.map((post: any, id: any) => (
         <div
           key={id}
           className="bg-white rounded-xl shadow-md overflow-hidden min-h-[25rem] min-w-[40rem]"
@@ -33,8 +34,8 @@ export const PostCard = ({ posts, onPostClick }: PostCardProps) => {
               src={post.representativeImage}
               alt="Placeholder"
             />
-            <div className="absolute bottom-0 right-0 bg-gray-800 text-white px-3 py-1 m-2 rounded-md text-xs">
-              {translateCategory(post.categoryEnum)}
+            <div className="absolute bottom-0 right-0  bg-gray-800 text-white px-3 py-1 m-2 rounded-md text-xs">
+              {translateCategory(post.category)}
             </div>
           </div>
           <div className="p-4">
