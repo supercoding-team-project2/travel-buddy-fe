@@ -16,7 +16,6 @@ import {
 import api from "@/app/api/api";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
-import { brotliCompress } from "zlib";
 
 const InfoTable = (data: any) => {
   const board = data;

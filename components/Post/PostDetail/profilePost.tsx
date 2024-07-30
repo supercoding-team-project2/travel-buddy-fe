@@ -65,6 +65,7 @@ interface Props {
     category: string;
     userProfile: string;
     author: string;
+    authorID: string;
     likeCount: number;
     images: string[];
   };
@@ -78,6 +79,7 @@ interface Props {
 export const ProfilePost = ({ data, getData }: Props) => {
   const board = data;
   const postId = board.id;
+  const authorID = board.authorID;
   const [showComments, setShowComments] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]); // 댓글 상태 관리
   const [commentCount, setCommentCount] = useState<number>(0); // 댓글 수 상태
@@ -113,6 +115,21 @@ export const ProfilePost = ({ data, getData }: Props) => {
     }
   };
 
+  function parseJwt(token: string) {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+
+    return JSON.parse(jsonPayload);
+  }
+
   const enterChatRoom = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -120,19 +137,19 @@ export const ProfilePost = ({ data, getData }: Props) => {
         console.error("로그인 정보가 없습니다.");
         return;
       }
-      // const myId = JSON.parse(atob(token.split('.')[1])).id;
-      // const opponentID = data.id;
-      const myId = 1;
-      const opponentId = 2;
+      const senderId = parseJwt(token).userId;
+      const opponentId = authorID;
+      // const senderId = 1;
+      // const opponentId = 2;
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/room/enter`,
         {
-          myId,
+          senderId,
           opponentId,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: token,
           },
         }
       );
@@ -191,7 +208,9 @@ export const ProfilePost = ({ data, getData }: Props) => {
   }, [showComments, postId]);
 
   const handleCommentSubmit = (newComment: Comment) => {
-    setComments((prevComments) => [newComment, ...prevComments]);
+    setComments((prevComments) =>
+      prevComments ? [newComment, ...prevComments] : [newComment]
+    );
     if (!showComments) {
       setShowComments(true); // 댓글 작성 후 댓글 섹션이 표시되도록 설정
     }

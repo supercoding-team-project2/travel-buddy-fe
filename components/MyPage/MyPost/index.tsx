@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-import MyPostSort from "./MyPostSort";
-import EachMyPost from "./EachMyPost";
-import EmptyMyPost from "./EmptyMyPost";
-import Loading from "@/components/Loading";
+import MyPostSort from './MyPostSort';
+import EachMyPost from './EachMyPost';
+import EmptyMyPost from './EmptyMyPost';
+import Loading from '@/components/Loading';
 
-import classNames from "classnames/bind";
-import styles from "./MyPost.module.css";
-import Image from "next/image";
-import upArrow from "@/assets/up-arrow.png";
+import classNames from 'classnames/bind';
+import styles from './MyPost.module.css';
+import Image from 'next/image';
+import upArrow from '@/assets/up-arrow.png';
 
 const cx = classNames.bind(styles);
 
@@ -23,16 +23,13 @@ const MyPost: React.FC = () => {
 
   //게시글 axios get 요청
   const fetchPostData = (category: string) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     if (token) {
       axios
-        .get(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/boards/my?category=${category}`,
-          {
-            headers: { Authorization: token },
-          }
-        )
+        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/boards/my?category=${category}`, {
+          headers: { Authorization: token },
+        })
         .then((response) => {
           console.log(`내 게시글 ${category} 조회 데이터`, response.data.data);
           setPostData(response.data.data);
@@ -46,7 +43,7 @@ const MyPost: React.FC = () => {
 
   //디폴트로 후기글 get
   useEffect(() => {
-    fetchPostData("REVIEW");
+    fetchPostData('REVIEW');
 
     //Top arrow
     const handleScroll = () => {
@@ -57,26 +54,19 @@ const MyPost: React.FC = () => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   return (
     <>
       {isLoading && <Loading />}
-      <div className={cx("myPost-container")}>
+      <div className={cx('myPost-container')}>
         {isUparrowVisible && (
-          <div
-            className={cx("upArrow-container")}
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          >
-            <Image
-              src={upArrow}
-              alt="up-arrow"
-              className={cx("upArrow-icon")}
-            />
+          <div className={cx('upArrow-container')} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <Image src={upArrow} alt="up-arrow" className={cx('upArrow-icon')} />
           </div>
         )}
         <MyPostSort
@@ -91,7 +81,7 @@ const MyPost: React.FC = () => {
         {!isLoading && postData.length === 0 ? (
           <EmptyMyPost />
         ) : (
-          <div className={cx("myPost-list-container")}>
+          <div className={cx('myPost-list-container')}>
             {postData.map((element: any, index: number) => {
               return (
                 <EachMyPost

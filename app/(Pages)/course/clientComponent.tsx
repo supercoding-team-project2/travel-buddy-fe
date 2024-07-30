@@ -23,13 +23,13 @@ const CourseClient = () => {
   const [isDateConfirmed, setIsDateConfirmed] = useState({});
   const router = useRouter();
 
-// useEffect(() => {
-//   const token = localStorage.getItem("token");
+useEffect(() => {
+  const token = localStorage.getItem("token");
 
-//   if(!token) {
-//     router.push("/login")
-//   }
-// }, [])
+  if(!token) {
+    router.push("/login")
+  }
+}, [])
 
   return (
     <>
