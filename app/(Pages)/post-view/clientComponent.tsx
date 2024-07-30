@@ -95,16 +95,7 @@ export const SelectPost = ({
 
 export const ClientComponent = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const category = searchParams.get("category");
-
-  const [filter, setFilter] = useState(category || "전체");
-
-  useEffect(() => {
-    if (category) {
-      setFilter(category);
-    }
-  }, [category]);
+  const [filter, setFilter] = useState("전체");
 
   console.log("🚀 ~ ClientComponent ~ filter:", filter);
   const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
