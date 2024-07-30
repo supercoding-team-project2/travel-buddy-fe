@@ -41,8 +41,6 @@ const MyPostDeleteModal = ({
         .catch((error) => {
           console.error("해당 게시글 삭제 요청 실패", error);
         });
-    } else {
-      throw new Error("토큰이 없습니다.");
     }
   };
 

@@ -43,9 +43,7 @@ const MyPost = ({ token }: Props) => {
         .catch((error) => {
           console.error(`내 게시글 ${category} 조회 요청 실패`, error);
         });
-    } else {
-      throw new Error("토큰이 없습니다.");
-    }
+    } 
   };
 
   //디폴트로 후기글 get

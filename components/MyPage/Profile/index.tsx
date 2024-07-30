@@ -57,9 +57,7 @@ const Profile: React.FC<Props> = ({
         .catch((error) => {
           console.error("회원 프로필 사진 조회 요청 실패", error);
         });
-    } else {
-      throw new Error("토큰이 없습니다.");
-    }
+    } 
   }, []);
 
   return (

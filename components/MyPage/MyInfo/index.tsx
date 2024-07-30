@@ -46,9 +46,7 @@ const MyInfo = ({ profilePic, setProfilePic, token }: Props) => {
         .catch((error) => {
           console.error("회원 정보 조회 요청 실패", error);
         });
-    } else {
-      throw new Error("토큰이 없습니다.");
-    }
+    } 
   }, []);
 
   //when userData.residentNum exists, set the resident number states

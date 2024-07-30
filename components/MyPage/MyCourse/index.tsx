@@ -44,8 +44,6 @@ const MyCourse = ({ token }: Props) => {
         .catch((error) => {
           console.error("경로 조회 요청 실패", error);
         });
-    } else {
-      throw new Error("토큰이 없습니다.");
     }
   };
 

@@ -137,9 +137,7 @@ const DateCourse = ({
         .catch((error) => {
           console.error("여행 경로 등록 실패", error);
         });
-    } else {
-      throw new Error("토큰이 없습니다.")
-    }
+    } 
     }
   };
 
