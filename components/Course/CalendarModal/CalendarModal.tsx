@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-
 import { DateRange, DateRangePickerProps } from "react-date-range";
-
 import classnames from "classnames/bind";
 import styles from "./CalendarModal.module.css";
 import "./DateRange.css";
@@ -26,14 +24,17 @@ const CalendarModal = ({
   dateRange,
   setDateRange,
 }: Props) => {
-  const modalRoot: HTMLElement = document.getElementById("overlays-modal")!;
+  const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
 
-  //set calendar modal state to true when rendered
   useEffect(() => {
-    setIsCalendarOpen(true);
+    // 클라이언트 사이드에서만 modalRoot를 설정
+    setModalRoot(document.getElementById("overlays-modal"));
   }, []);
 
-  //if this modal is open, disable body overflow
+  useEffect(() => {
+    setIsCalendarOpen(true);
+  }, [setIsCalendarOpen]);
+
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
 
@@ -48,7 +49,6 @@ const CalendarModal = ({
     };
   }, [isCalendarOpen]);
 
-  //modal selection handler
   const selectionClickHandler = () => {
     if (dateRange) {
       if (
@@ -62,7 +62,7 @@ const CalendarModal = ({
     }
   };
 
-  if (!isCalendarOpen) return null;
+  if (!isCalendarOpen || !modalRoot) return null;
 
   return createPortal(
     <div className={cx("calendar-overlays")}>
@@ -86,7 +86,7 @@ const CalendarModal = ({
       </div>
     </div>,
     modalRoot
-  )!;
+  );
 };
 
 export default CalendarModal;
