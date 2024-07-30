@@ -1,9 +1,5 @@
 import api from "@/app/api/api";
 
-const getToken = () => {
-  return localStorage.getItem("token");
-};
-
 export const fetchRecommendedPosts = async ({
   category,
   startDate,
@@ -18,6 +14,9 @@ export const fetchRecommendedPosts = async ({
   order?: string;
 }) => {
   try {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const params: Record<string, string> = {};
 
     if (category && category !== "전체") {
@@ -28,7 +27,7 @@ export const fetchRecommendedPosts = async ({
     if (sortBy) params.sortBy = sortBy;
     if (order) params.order = order;
 
-    const token = getToken();
+    const token = localStorage.getItem("token");
     console.log("🚀 ~ token:", token);
 
     const response = await api.get("/api/boards/liked", {
@@ -55,6 +54,9 @@ export const fetchParticipatedPosts = async ({
   sortBy?: string;
   order?: string;
 }) => {
+  if (typeof window === "undefined") {
+    throw new Error("localStorage is not available on the server.");
+  }
   try {
     const params: Record<string, string> = {};
 
@@ -68,7 +70,7 @@ export const fetchParticipatedPosts = async ({
     if (sortBy) params.sortBy = sortBy;
     if (order) params.order = order;
 
-    const token = getToken();
+    const token = localStorage.getItem("token");
 
     const response = await api.get("/api/boards/participated", {
       params,

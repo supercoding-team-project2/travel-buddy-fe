@@ -94,6 +94,9 @@ export const ProfilePost = ({ data, getData }: Props) => {
     id: number;
   }
   const fetchLikes = async () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
 
     try {
@@ -131,6 +134,9 @@ export const ProfilePost = ({ data, getData }: Props) => {
   }
 
   const enterChatRoom = async () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -170,6 +176,9 @@ export const ProfilePost = ({ data, getData }: Props) => {
   };
 
   const fetchComments = async () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
     try {
       const response = await api.get(`/api/comment/${postId}`, {
@@ -217,6 +226,9 @@ export const ProfilePost = ({ data, getData }: Props) => {
   };
 
   const handleLike = async () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
     if (isLiked) {
       console.log("이미 좋아요를 누른 상태입니다.");
@@ -243,6 +255,9 @@ export const ProfilePost = ({ data, getData }: Props) => {
   };
 
   const handleDislike = async () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
     if (!isLiked) {
       console.log("이미 좋아요를 취소한 상태입니다.");

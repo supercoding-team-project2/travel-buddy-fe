@@ -16,11 +16,16 @@ const cx = classNames.bind(styles);
 const Header: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const [token, setToken] = useState<string | null>(null);
 
   const noLayout = noLayoutRoutes.includes(pathname);
   if (noLayout) return <></>;
 
-  const token = localStorage.getItem('token');
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setToken(localStorage.getItem('token'));
+    }
+  }, []);
 
   const handleLogout = async () => {
     try {

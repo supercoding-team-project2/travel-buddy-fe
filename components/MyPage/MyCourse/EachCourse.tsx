@@ -24,6 +24,7 @@ interface Props {
   getMyCourse: () => void;
   setEditingCourseId: React.Dispatch<React.SetStateAction<number | null>>;
   setOpenId: React.Dispatch<React.SetStateAction<number | null>>;
+  token: string | null;
 }
 
 const EachCourse: React.FC<Props> = ({
@@ -40,6 +41,7 @@ const EachCourse: React.FC<Props> = ({
   getMyCourse,
   setEditingCourseId,
   setOpenId,
+  token,
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -81,7 +83,6 @@ const EachCourse: React.FC<Props> = ({
       return;
     }
 
-    const token = localStorage.getItem("token");
     if (!token) {
       throw new Error("토큰이 없습니다.");
     }
@@ -136,6 +137,7 @@ const EachCourse: React.FC<Props> = ({
         setIsDeleteOpen={setIsDeleteModalOpen}
         id={id}
         getMyCourse={getMyCourse}
+        token={token}
       />
       <div
         className={cx("each-course-container", {
