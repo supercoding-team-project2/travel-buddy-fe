@@ -7,6 +7,7 @@ import { DateRangePickerProps } from "react-date-range";
 import MapContainer from "@/components/Course/Map/MapContainer";
 import CalendarModal from "@/components/Course/CalendarModal/CalendarModal";
 import DateCourse from "@/components/Course/DateCourse/DateCourse";
+import { devNull } from "os";
 
 const CourseClient = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -21,15 +22,19 @@ const CourseClient = () => {
   ]);
   const [dateData, setDateData] = useState<{ [date: string]: any[] }>({});
   const [isDateConfirmed, setIsDateConfirmed] = useState({});
+  const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
 
-useEffect(() => {
-  const token = localStorage.getItem("token");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const localToken = localStorage.getItem("token");
+      setToken(localToken);
 
-  if(!token) {
-    router.push("/login")
-  }
-}, [])
+      if (!localToken) {
+        router.push("/login");
+      }
+    }
+  }, []);
 
   return (
     <>
@@ -56,6 +61,7 @@ useEffect(() => {
         dateRange={dateRange}
         setIsDateConfirmed={setIsDateConfirmed}
         setIsSaved={setIsSaved}
+        token={token}
       />
     </>
   );
