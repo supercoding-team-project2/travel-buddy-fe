@@ -26,6 +26,9 @@ export const MycommentSection: React.FC<MycommentSectionProps> = ({
   /*댓글 등록 요청 */
   const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
     const newComment: any = {
       userName: "유저 이름",
@@ -122,6 +125,9 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
 
   /*댓글 수정 요청 */
   const handleEditSubmit = async (commentId: number) => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
     try {
       setLoading(true);
@@ -148,6 +154,9 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
 
   /*댓글 삭제 요청  */
   const handleDelete = async (commentId: number) => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
     try {
       setLoading(true);
