@@ -17,6 +17,7 @@ interface Props {
   setIsSaved: React.Dispatch<
     React.SetStateAction<{ [placeId: string]: boolean }>
   >;
+  token: string | null;
 }
 
 const DateCourse = ({
@@ -26,6 +27,7 @@ const DateCourse = ({
   setDateData,
   setIsDateConfirmed,
   setIsSaved,
+  token,
 }: Props) => {
   const router = useRouter();
   const [dates, setDates] = useState<Date[]>([]);
@@ -116,7 +118,7 @@ const DateCourse = ({
       console.log("tranformedDateData", transformedDateData);
 
       //axios post 요청
-      const token = localStorage.getItem("token");
+    if(token) {
       axios
         .post(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/add`,
@@ -135,6 +137,7 @@ const DateCourse = ({
         .catch((error) => {
           console.error("여행 경로 등록 실패", error);
         });
+    } 
     }
   };
 

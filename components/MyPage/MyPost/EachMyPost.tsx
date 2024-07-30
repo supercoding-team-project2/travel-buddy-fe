@@ -19,6 +19,7 @@ interface Props {
   introduction: string;
   createdAt: string;
   category: string;
+  token: string | null;
   fetchPostData: (category: string) => void;
 }
 
@@ -30,6 +31,7 @@ const EachMyPost = ({
   introduction,
   category,
   createdAt,
+  token,
   fetchPostData,
 }: Props) => {
   const router = useRouter();
@@ -60,6 +62,7 @@ const EachMyPost = ({
         id={id}
         category={category}
         fetchPostData={fetchPostData}
+        token={token}
       />
       <div className={cx("each-post-container")}>
         <div className={cx("post-picture-container")}>
