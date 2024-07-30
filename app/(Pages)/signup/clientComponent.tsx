@@ -1,11 +1,11 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import axios from 'axios';
 import classNames from 'classnames/bind';
 import styles from './SignUp.module.css';
 import { useRouter } from 'next/navigation';
 import { Alert } from '../../../components/Alert/Alert';
+import axiosInstance from '@/lib/axiosInstance';
 
 const cx = classNames.bind(styles);
 
@@ -105,7 +105,7 @@ export function SignUpClient({ phoneNum }: { phoneNum: string }) {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/signup`, formData, {
+      const response = await axiosInstance.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/signup`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

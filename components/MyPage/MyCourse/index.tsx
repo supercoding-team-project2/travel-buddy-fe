@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
 
-import classNames from "classnames/bind";
-import styles from "./MyCourse.module.css";
+import classNames from 'classnames/bind';
+import styles from './MyCourse.module.css';
 
-import Image from "next/image";
-import upArrow from "@/assets/up-arrow.png";
+import Image from 'next/image';
+import upArrow from '@/assets/up-arrow.png';
 
-import EachCourse from "./EachCourse";
-import EmptyMyCourse from "./EmptyMyCourse";
-import Loading from "@/components/Loading";
+import EachCourse from './EachCourse';
+import EmptyMyCourse from './EmptyMyCourse';
+import Loading from '@/components/Loading';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
+import axiosInstance from '@/lib/axiosInstance';
 
 const cx = classNames.bind(styles);
 
@@ -32,17 +32,17 @@ const MyCourse = ({ token }: Props) => {
 
   const getMyCourse = () => {
     if (token) {
-      axios
+      axiosInstance
         .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/list`, {
           headers: { Authorization: token },
         })
         .then((response) => {
-          console.log("경로 조회 데이터", response.data);
+          console.log('경로 조회 데이터', response.data);
           setCourseData(response.data);
           setIsLoading(false);
         })
         .catch((error) => {
-          console.error("경로 조회 요청 실패", error);
+          console.error('경로 조회 요청 실패', error);
         });
     }
   };
@@ -61,15 +61,15 @@ const MyCourse = ({ token }: Props) => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   const handleButtonClick = () => {
     setIsButtonLoading(true);
-    router.push("/course");
+    router.push('/course');
   };
 
   const clickEachCourseHandler = (id: number) => {
@@ -86,32 +86,22 @@ const MyCourse = ({ token }: Props) => {
       {!isLoading && courseData.length === 0 ? (
         <EmptyMyCourse />
       ) : (
-        <main className={cx("my-course-container")}>
+        <main className={cx('my-course-container')}>
           {isUparrowVisible && (
-            <div
-              className={cx("upArrow-container")}
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            >
-              <Image
-                src={upArrow}
-                alt="up-arrow"
-                className={cx("upArrow-icon")}
-              />
+            <div className={cx('upArrow-container')} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <Image src={upArrow} alt="up-arrow" className={cx('upArrow-icon')} />
             </div>
           )}
           {!isLoading && (
-            <div className={cx("course-button-container")}>
-              <button
-                className={cx("course-button")}
-                onClick={handleButtonClick}
-              >
+            <div className={cx('course-button-container')}>
+              <button className={cx('course-button')} onClick={handleButtonClick}>
                 {isButtonLoading ? (
                   <img
                     src="/gif/loading-1.gif"
                     alt="Loading..."
                     width={25}
                     height={25}
-                    className={cx("loading-icon")}
+                    className={cx('loading-icon')}
                   />
                 ) : (
                   <div>내 경로 생성하기</div>
@@ -119,7 +109,7 @@ const MyCourse = ({ token }: Props) => {
               </button>
             </div>
           )}
-          <div className={cx("courses-container")}>
+          <div className={cx('courses-container')}>
             {courseData.map((element: any, index: number) => (
               <EachCourse
                 key={element.routeId}

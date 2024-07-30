@@ -1,6 +1,6 @@
 'use client';
 
-import axios from 'axios';
+import axiosInstance from '@/lib/axiosInstance';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -13,7 +13,7 @@ export default function OAuth2RedirectHandler() {
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const response = await axios.post(
+        const response = await axiosInstance.post(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/oauth2-jwt-header`,
           {},
           {
