@@ -48,9 +48,7 @@ export function LogInClient() {
       if (response.status === 200) {
         console.log('Log In successful');
         const token = response.headers.authorization;
-        const refreshToken = response.data;
         localStorage.setItem('token', token);
-        localStorage.setItem('refreshToken', refreshToken);
         router.push('/');
       } else {
         console.error('Log In failed');
