@@ -1,0 +1,10 @@
+.places-container {
+  width: 39%;
+  height: 100%;
+}
+
+.place-list-container {
+  width: 100%;
+  height: 90%;
+  overflow-y: auto;
+}

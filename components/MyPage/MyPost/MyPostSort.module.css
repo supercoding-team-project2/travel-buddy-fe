@@ -1,0 +1,36 @@
+.mySort-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 50%;
+  margin-top: 1%;
+  margin-left: 10%;
+  margin-bottom: 1%;
+}
+
+.review-button,
+.accompany-button,
+.guide-button {
+  background-color: white;
+  color: black;
+  width: 12%;
+  padding: 1.25%;
+  border-radius: 10px;
+  border: 1px solid #e6ebf2;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.review-button:hover,
+.accompany-button:hover,
+.guide-button:hover {
+  background-color: #b6d6ec;
+  color: white;
+}
+
+.review-button-active,
+.accompany-button-active,
+.guide-button-active {
+  background-color: #85b1cc;
+  color: white;
+}

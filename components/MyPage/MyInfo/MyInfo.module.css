@@ -1,0 +1,127 @@
+.myinfo-container {
+  width: 100%;
+  font-family: var(--font-family);
+  padding: 2%;
+}
+
+.myinfo-statement {
+  font-size: 1.75rem;
+  font-weight: 700;
+  padding: 1%;
+  margin-left: 15%;
+}
+
+.myinfo-div {
+  border: 1.5px solid #bbbdbe;
+  border-radius: 10px;
+  padding: 3% 5%;
+  width: 60%;
+  margin-top: 2%;
+  margin-bottom: 5%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.myinfo-details {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.email-container,
+.name-container,
+.password-container,
+.password-check-container,
+.socialNum-container,
+.picture-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.gender-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.email-label,
+.name-label,
+.socialNum-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.email,
+.name {
+  width: 100%;
+  height: 2.5rem;
+  font-size: 1.1rem;
+}
+
+.gender-input {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  outline: none;
+  margin-right: 5px;
+}
+
+.gender-input:checked {
+  background-color: rgb(43, 43, 43);
+}
+
+.picture-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 50%;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.modify-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.modify-button {
+  width: 50%;
+  height: 2.5rem;
+  border: 1px solid #bbbdbe;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.modify-button:hover {
+  background-color: #85b1cc;
+  color: white;
+}
+
+.modify-label {
+  cursor: pointer;
+}

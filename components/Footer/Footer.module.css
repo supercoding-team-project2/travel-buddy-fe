@@ -1,0 +1,55 @@
+.Footer {
+  width: 100%;
+  background: #c3d8e6;
+  display: flex;
+  padding: 30px 20px 20px 50px;
+  position: relative;
+  transform: translateY(0%);
+  margin-top: auto;
+}
+
+.Footer-name-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.Footer-name {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.Footer-github {
+  margin-top: 1rem;
+}
+
+.Footer-link-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  margin-left: 60%;
+}
+
+.link-home,
+.link-guide,
+.link-together {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: medium;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.link-home:hover,
+.link-guide:hover,
+.link-together:hover {
+  text-decoration: underline;
+}
+
+.copyright {
+  margin-top: 1rem;
+  color: #ffffff;
+  font-size: 14px;
+}

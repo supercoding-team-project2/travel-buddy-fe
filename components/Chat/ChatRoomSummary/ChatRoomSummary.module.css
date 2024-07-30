@@ -1,0 +1,23 @@
+.ChatRoomSummary {
+  display: flex;
+  flex-direction: column;
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 1.8vh 1.2vw;
+  gap: 1vh;
+  cursor: pointer;
+}
+
+.opponentName {
+  font-size: 1.2rem;
+  font-weight: 650;
+}
+
+.bottomWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.lastTime {
+  color: darkgray;
+}

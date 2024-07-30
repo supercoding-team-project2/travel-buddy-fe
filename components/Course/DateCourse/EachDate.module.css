@@ -1,0 +1,91 @@
+.prev-container,
+.next-container {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.slider-container {
+  width: 100%;
+}
+
+.place-container {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  height: 130px;
+  border: 1px solid #e6ebf2;
+  border-radius: 5px;
+  padding: 3% !important;
+  padding-top: 6%;
+  position: relative;
+}
+
+.cancel-icon {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  top: 5%;
+  left: 93%;
+  cursor: pointer;
+}
+
+.place-image {
+  width: 40%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.place-detail-container {
+  width: 60%;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px;
+  margin-left: 4%;
+}
+
+.place-name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.place-category {
+  font-size: 0.8rem;
+  color: rgb(94, 94, 92);
+}
+
+.place-address {
+  font-size: 0.9rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 5%;
+}
+
+.confirm-button,
+.confirmed-button {
+  width: 7%;
+  height: 0%;
+  border: 1px solid #e6ebf2;
+  border-radius: 5px;
+  margin-top: 1.25%;
+  padding: 0.5%;
+  font-weight: 700;
+  font-size: 0.8rem;
+  background-color: #c3d8e6;
+  color: white;
+}
+
+.confirm-button:hover {
+  border: 1px solid #698da4;
+}
+
+.confirmed-button {
+  border: 1px solid #e6ebf2;
+  background-color: white;
+  color: black;
+}

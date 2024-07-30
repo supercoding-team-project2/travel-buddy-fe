@@ -1,0 +1,111 @@
+.Header {
+  width: 100%;
+  font-family: var(--font-family);
+  background-color: #c3d8e6;
+  color: black;
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.5%;
+}
+
+.company-logo {
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.navigatation-user-container {
+  display: flex;
+  align-items: center;
+  gap: 2.5vw;
+}
+
+.before-login {
+  display: flex;
+  align-items: center;
+  gap: 1.5vw;
+}
+
+.login-button,
+.logout-button,
+.signup-button {
+  padding: 1vh 1vw;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: white;
+  border-radius: 20px;
+  color: #85b1cc;
+}
+
+.login-button:hover,
+.logout-button:hover,
+.signup-button:hover {
+  background-color: #85b1cc;
+  color: white;
+}
+
+.nav-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5vw;
+}
+
+.header-nav {
+  color: white;
+  font-weight: 600;
+}
+
+.header-home-active {
+  color: #85b1cc;
+}
+
+.header-explore-active {
+  color: #85b1cc;
+}
+
+.header-nav:hover {
+  color: #85b1cc;
+  cursor: pointer;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5vw;
+}
+
+.account-icon,
+.chat-icon {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.account-dropbox {
+  position: absolute;
+  top: 9.5%;
+  right: 0;
+  left: 83%;
+  width: 8%;
+  height: 10%;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  gap: 10%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropbox-div:hover {
+  color: #85b1cc;
+  cursor: pointer;
+}

@@ -1,0 +1,25 @@
+.slick-slider {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100%;
+}
+
+.slick-list {
+  position: relative;
+  outline: none;
+  width: 90%;
+}
+
+.slick-track {
+  display: flex !important;
+  gap: 1vw;
+}
+.slick-track::after,
+.slick-track::before {
+  display: none !important;
+}
+
+.slick-slide {
+  width: 26.2vw !important;
+}
