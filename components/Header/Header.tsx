@@ -18,14 +18,14 @@ const Header: React.FC = () => {
   const pathname = usePathname();
   const [token, setToken] = useState<string | null>(null);
 
-  const noLayout = noLayoutRoutes.includes(pathname);
-  if (noLayout) return <></>;
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setToken(localStorage.getItem('token'));
     }
   }, []);
+
+  const noLayout = noLayoutRoutes.includes(pathname);
+  if (noLayout) return <></>;
 
   const handleLogout = async () => {
     try {
