@@ -43,22 +43,24 @@ const Profile: React.FC<Props> = ({
 
   //axios get when rendered
   useEffect(() => {
-    if (token) {
-      axios
-        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user`, {
-          headers: { Authorization: token },
-        })
-        .then((response) => {
-          const userData = response.data;
-          console.log("회원 프로필 사진 조회 성공");
-          setProfilePic(userData.profilePictureUrl);
-          setName(userData.name);
-        })
-        .catch((error) => {
-          console.error("회원 프로필 사진 조회 요청 실패", error);
-        });
-    } 
-  }, []);
+    if (!token) {
+      return;
+    }
+
+    axios
+      .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user`, {
+        headers: { Authorization: token },
+      })
+      .then((response) => {
+        const userData = response.data;
+        console.log("회원 프로필 사진 조회 성공");
+        setProfilePic(userData.profilePictureUrl);
+        setName(userData.name);
+      })
+      .catch((error) => {
+        console.error("회원 프로필 사진 조회 요청 실패", error);
+      });
+  }, [token]);
 
   return (
     <div className={cx("profile-container")}>

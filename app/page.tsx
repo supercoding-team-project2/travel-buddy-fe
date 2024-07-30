@@ -7,6 +7,8 @@ import styles from "./MainPage.module.css";
 import { MainSlider } from "../components/Main/MainSlider/MainSlider";
 import { CourseCard } from "../components/Main/CourseCard/CourseCard";
 
+import SuccessSignUp from "../components/SuccessSignUp";
+
 const cx = classNames.bind(styles);
 
 interface Post {
@@ -132,5 +134,6 @@ export default function MainPage() {
         </div>
       </section>
     </div>
+    // <SuccessSignUp />
   );
 }
