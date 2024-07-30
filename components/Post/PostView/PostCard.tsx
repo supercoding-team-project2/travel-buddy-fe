@@ -19,7 +19,6 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ posts, onPostClick }: PostCardProps) => {
-  console.log("동행인지 후기인지", posts);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 p-10 md:px-20">
       {posts?.map((post: any, id: any) => (
