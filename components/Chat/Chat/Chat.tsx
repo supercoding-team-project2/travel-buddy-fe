@@ -14,7 +14,6 @@ interface ChatProps {
 }
 
 export function Chat({ ChatRoomId }: ChatProps) {
-  const token = localStorage.getItem('token');
   const client = useRef<CompatClient | null>(null);
 
   const [chatHistory, setChatHistory] = useState<MessageProps[] | null>(null);
@@ -24,8 +23,15 @@ export function Chat({ ChatRoomId }: ChatProps) {
   const [opponentId, setOpponentId] = useState('');
   const [opponentName, setOpponentName] = useState('');
   const [opponentProfile, setOpponentProfile] = useState('');
+  const [token, setToken] = useState<string | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setToken(localStorage.getItem('token'));
+    }
+  }, []);
 
   const getChatRoomData = async (token: string | null) => {
     try {
