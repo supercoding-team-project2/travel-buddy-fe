@@ -23,8 +23,10 @@ const ClientComponent = () => {
   };
 
   const getMyCourse = () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
-
     if (token) {
       api
         .get(`/api/routes/list`, {
@@ -99,6 +101,9 @@ const ClientComponent = () => {
 
   const handleSubmit = async () => {
     //const router = useRouter();
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
 
     const formDataToSend = new FormData();

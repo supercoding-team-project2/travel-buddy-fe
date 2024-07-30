@@ -91,6 +91,9 @@ const isUserSame = (currentUserId: number, postUserId: number): boolean => {
 
 /* 전체 조회 - GET */
 const fetchData = async (postId: number): Promise<Props["data"][]> => {
+  if (typeof window === "undefined") {
+    throw new Error("localStorage is not available on the server.");
+  }
   const token = localStorage.getItem("token");
   try {
     const response = await api.get(`/api/boards/${postId}`, {
@@ -105,6 +108,9 @@ const fetchData = async (postId: number): Promise<Props["data"][]> => {
 };
 
 const currentUserId = () => {
+  if (typeof window === "undefined") {
+    throw new Error("localStorage is not available on the server.");
+  }
   const userToken = localStorage.getItem("token");
   if (userToken) {
     const decoded: any = jwtDecode(userToken);
@@ -129,6 +135,9 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   };
 
   const handleDelete = async () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
     console.log("🚀 ~ handleDelete ~ token:", token);
     console.log("🚀 ~ handleDelete ~ postId:", postId);
@@ -182,6 +191,9 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
 
   /*여행 취소 - delete 요청 */
   const onCancel = async () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
 
     try {

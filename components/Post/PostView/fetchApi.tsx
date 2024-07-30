@@ -14,6 +14,9 @@ export const fetchRecommendedPosts = async ({
   order?: string;
 }) => {
   try {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const params: Record<string, string> = {};
 
     if (category && category !== "전체") {
@@ -51,6 +54,9 @@ export const fetchParticipatedPosts = async ({
   sortBy?: string;
   order?: string;
 }) => {
+  if (typeof window === "undefined") {
+    throw new Error("localStorage is not available on the server.");
+  }
   try {
     const params: Record<string, string> = {};
 
