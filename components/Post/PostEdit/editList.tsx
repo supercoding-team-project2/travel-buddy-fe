@@ -6,33 +6,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import TravelBar from "../PostDetail/TravelBar";
-import { TripData } from "./interfaces";
 import formatDateString from "../PostDetail/formatDateString";
+import TripBar from "@/components/MyPage/MyCourse/TripBar";
 
 const EditList = ({
   data,
   onSelectChange,
 }: {
-  data: TripData[];
+  data: any[];
   onSelectChange: any;
 }) => {
-  const [selectedTrip, setSelectedTrip] = useState<TripData | null>(null);
+  const [selectedTrip, setSelectedTrip] = useState<any | null>(null);
   const [selectedTripName, setSelectedTripName] = useState<string | null>(null);
+  const [selectedTripId, setSelectedTripId] = useState<string | null>(null);
 
   const handleSelectChange = (tripName: string) => {
-    const selected = data.find((trip) => trip.tripName === tripName);
+    const selected = data.find((trip) => trip.title === tripName);
     setSelectedTrip(selected || null);
     setSelectedTripName(tripName);
+    if (selected) {
+      setSelectedTripId(selected.routeId);
+    } else {
+      setSelectedTripId(null);
+    }
   };
 
   useEffect(() => {
     if (selectedTrip) {
-      const startDate = formatDateString(selectedTrip.route.startAt);
-      const endDate = formatDateString(selectedTrip.route.endAt);
+      const startDate = formatDateString(selectedTrip.startAt);
+      const endDate = formatDateString(selectedTrip.endAt);
     }
     if (onSelectChange) {
-      onSelectChange(selectedTripName);
+      onSelectChange(selectedTripId);
     }
   }, [selectedTrip]);
 
@@ -46,8 +51,8 @@ const EditList = ({
             </SelectTrigger>
             <SelectContent>
               {data.map((trip) => (
-                <SelectItem key={trip.tripName} value={trip.tripName}>
-                  {trip.tripName}
+                <SelectItem key={trip.title} value={trip.title}>
+                  {trip.title}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -56,14 +61,23 @@ const EditList = ({
         {selectedTrip && (
           <div>
             <p>
-              {formatDateString(selectedTrip.route.startAt)} ~{" "}
-              {formatDateString(selectedTrip.route.endAt)}
+              {formatDateString(selectedTrip.startAt)} ~{" "}
+              {formatDateString(selectedTrip.endAt)}
             </p>
           </div>
         )}
       </div>
       <div className="border">
-        {selectedTrip && <TravelBar route={selectedTrip.route} />}
+        {selectedTrip &&
+          selectedTrip.days.map((eachDay: { day: string; places: any[] }) => {
+            return (
+              <TripBar
+                key={eachDay.day}
+                day={eachDay.day}
+                places={eachDay.places}
+              />
+            );
+          })}
       </div>
     </div>
   );

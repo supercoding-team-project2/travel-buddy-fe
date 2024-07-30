@@ -1,15 +1,16 @@
 interface MessageProps {
-  type: string;
-  sender: string;
-  message: string;
+  roomId: string;
+  senderId: string;
+  content: string;
+  timestamp: string;
 }
 
 interface ChatRoomSummaryProps {
-  roomId: number;
+  roomId: string;
   opponentName: string;
   lastMessage: string;
   lastTime: string;
-  setChatIndex: (arg0: number) => void;
+  setChatRoomId: (arg0: string) => void;
 }
 
 interface ErrorProps {

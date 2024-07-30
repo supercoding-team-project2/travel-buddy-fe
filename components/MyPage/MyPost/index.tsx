@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import MyPostSort from "./MyPostSort";
-import EachMyPost from "./EachMyPost";
-import EmptyMyPost from "./EmptyMyPost";
-import Loading from "@/components/Loading"
+import MyPostSort from './MyPostSort';
+import EachMyPost from './EachMyPost';
+import EmptyMyPost from './EmptyMyPost';
+import Loading from '@/components/Loading';
 
-import classNames from "classnames/bind";
-import styles from "./MyPost.module.css";
-import Image from "next/image";
-import upArrow from "@/assets/up-arrow.png";
+import classNames from 'classnames/bind';
+import styles from './MyPost.module.css';
+import Image from 'next/image';
+import upArrow from '@/assets/up-arrow.png';
 
 const cx = classNames.bind(styles);
 
@@ -43,7 +43,7 @@ const MyPost: React.FC = () => {
 
   //디폴트로 후기글 get
   useEffect(() => {
-    fetchPostData("REVIEW");
+    fetchPostData('REVIEW');
 
     //Top arrow
     const handleScroll = () => {
@@ -54,26 +54,19 @@ const MyPost: React.FC = () => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   return (
     <>
-    {isLoading && <Loading />}
-      <div className={cx("myPost-container")}>
+      {isLoading && <Loading />}
+      <div className={cx('myPost-container')}>
         {isUparrowVisible && (
-          <div
-            className={cx("upArrow-container")}
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          >
-            <Image
-              src={upArrow}
-              alt="up-arrow"
-              className={cx("upArrow-icon")}
-            />
+          <div className={cx('upArrow-container')} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <Image src={upArrow} alt="up-arrow" className={cx('upArrow-icon')} />
           </div>
         )}
         <MyPostSort

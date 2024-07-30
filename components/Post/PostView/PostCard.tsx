@@ -19,19 +19,17 @@ interface PostCardProps {
 }
 
 export const PostCard = ({ posts, onPostClick }: PostCardProps) => {
-  console.log("🚀 ~ PostCard ~ posts:", posts);
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 p-10 md:px-20">
       {posts.map((post: any, id: any) => (
         <div
           key={id}
-          className="bg-white rounded-xl shadow-md overflow-hidden min-h-[22rem] min-w-[40rem]"
+          className="bg-white rounded-xl shadow-md overflow-hidden min-h-[25rem] min-w-[40rem]"
           onClick={() => onPostClick(post.id)}
         >
           <div className="relative">
             <img
-              className="w-full h-64 object-cover"
+              className="w-full h-72 object-cover"
               src={post.representativeImage}
               alt="Placeholder"
             />
