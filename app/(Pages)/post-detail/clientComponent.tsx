@@ -104,8 +104,8 @@ const fetchData = async (postId: number): Promise<Props["data"][]> => {
   }
 };
 
-const userToken = localStorage.getItem("token");
 const currentUserId = () => {
+  const userToken = localStorage.getItem("token");
   if (userToken) {
     const decoded: any = jwtDecode(userToken);
     return decoded.userId;
@@ -127,6 +127,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   const handlePostClick = () => {
     router.push(`/post-edit/${postId}`);
   };
+
   const handleDelete = async () => {
     const token = localStorage.getItem("token");
     console.log("🚀 ~ handleDelete ~ token:", token);
@@ -179,10 +180,10 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
 
   if (!data) return <div>No data available</div>;
 
-  const token = localStorage.getItem("token");
-
   /*여행 취소 - delete 요청 */
   const onCancel = async () => {
+    const token = localStorage.getItem("token");
+
     try {
       await api.delete(`/api/attend/${tripId}`, {
         headers: { Authorization: token },

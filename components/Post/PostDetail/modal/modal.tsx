@@ -8,14 +8,10 @@ const Modal = ({ isOpen, onClose, title, content, tripId }: any) => {
   const [hasJoined, setHasJoined] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
 
-  const getToken = () => {
-    return localStorage.getItem("token");
-  };
-
   /*여행 참가 - post 요청 */
   const onJoin = async () => {
     try {
-      const token = getToken();
+      const token = localStorage.getItem("token");
 
       if (token) {
         await api.post(
@@ -45,7 +41,7 @@ const Modal = ({ isOpen, onClose, title, content, tripId }: any) => {
   /*여행 취소 - delete 요청 */
   const onCancel = async () => {
     try {
-      const token = getToken();
+      const token = localStorage.getItem("token");
 
       if (token) {
         await api.delete(`/api/attend/${tripId}`, {
