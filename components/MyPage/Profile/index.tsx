@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 import classNames from "classnames/bind";
 import styles from "./Profile.module.css";
 import Image from "next/image";
 import { StaticImageData } from "next/image";
 import downArrow from "@/assets/down-arrow.png";
+import axiosInstance from "@/lib/axiosInstance";
 
 const cx = classNames.bind(styles);
 
@@ -47,7 +47,7 @@ const Profile: React.FC<Props> = ({
       return;
     }
 
-    axios
+    axiosInstance
       .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user`, {
         headers: { Authorization: token },
       })

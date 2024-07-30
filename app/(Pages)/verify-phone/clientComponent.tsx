@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames/bind';
-import axios from 'axios';
 import styles from './VerifyPhone.module.css';
+import axiosInstance from '@/lib/axiosInstance';
 
 const cx = classNames.bind(styles);
 
@@ -18,7 +18,7 @@ export function VerifyPhoneClient() {
 
   const sendVerificationCode = async () => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/signup/sms/send`, {
+      const response = await axiosInstance.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/signup/sms/send`, {
         phoneNum,
       });
       if ((response.status = 200)) {
@@ -34,7 +34,7 @@ export function VerifyPhoneClient() {
 
   const verifyCodeAndProceed = async () => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/signup/sms/check`, {
+      const response = await axiosInstance.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/signup/sms/check`, {
         phoneNum,
         code: verificationCode,
       });

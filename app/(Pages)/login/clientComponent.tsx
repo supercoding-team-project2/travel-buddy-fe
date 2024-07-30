@@ -4,8 +4,8 @@ import classNames from 'classnames/bind';
 import styles from './LogIn.module.css';
 import Link from 'next/link';
 import { useState } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import axiosInstance from '@/lib/axiosInstance';
 
 const cx = classNames.bind(styles);
 
@@ -39,7 +39,7 @@ export function LogInClient() {
       const formData = new FormData();
       formData.append('email', email);
       formData.append('password', password);
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/login`, formData, {
+      const response = await axiosInstance.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/login`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -47,14 +47,14 @@ export function LogInClient() {
       console.log(response);
       if (response.status === 200) {
         console.log('Log In successful');
+        const token = response.headers.authorization;
+        const refreshToken = response.data;
+        localStorage.setItem('token', token);
+        localStorage.setItem('refreshToken', refreshToken);
         router.push('/');
       } else {
         console.error('Log In failed');
-        return;
       }
-      const token = response.headers.authorization;
-      console.log(token);
-      localStorage.setItem('token', token);
     } catch (error) {
       console.log(error);
       console.log('Log In failed.');
@@ -89,11 +89,11 @@ export function LogInClient() {
                 value={password}
                 onChange={handlePasswordChange}
               />
-              {showPassword ? (
-                <img src="/svg/eye-open.svg" onClick={togglePasswordVisibility} className={cx('showPasswordButton')} />
-              ) : (
-                <img src="/svg/eye-close.svg" onClick={togglePasswordVisibility} className={cx('showPasswordButton')} />
-              )}
+              <img
+                src={showPassword ? '/svg/eye-open.svg' : '/svg/eye-close.svg'}
+                onClick={togglePasswordVisibility}
+                className={cx('showPasswordButton')}
+              />
             </div>
             <button className={cx('submitButton')}>Login</button>
           </form>

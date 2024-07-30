@@ -1,7 +1,7 @@
-import React from "react";
-import axios from "axios";
-import classnames from "classnames/bind";
-import styles from "./CourseDoubleDelete.module.css";
+import React from 'react';
+import classnames from 'classnames/bind';
+import styles from './CourseDoubleDelete.module.css';
+import axiosInstance from '@/lib/axiosInstance';
 
 const cx = classnames.bind(styles);
 
@@ -32,13 +32,12 @@ const CourseDoubleDelete = ({
 
   //cofirm button handler
   const clickConfirmHandler = async () => {
-
     if (!token) {
-      throw new Error("현재 토큰이 없습니다.");
+      throw new Error('현재 토큰이 없습니다.');
     }
 
     try {
-      const response = await axios.delete(
+      const response = await axiosInstance.delete(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/delete-boards/${id}`,
         {
           headers: {
@@ -48,38 +47,34 @@ const CourseDoubleDelete = ({
       );
 
       if (response.status === 200) {
-        console.log("여행 경로/게시글 함께 삭제 성공", response.data);
+        console.log('여행 경로/게시글 함께 삭제 성공', response.data);
         setIsDoubleDeleteOpen(false);
         setIsDeleteOpen(false);
         getMyCourse();
       } else {
-        console.log("여행 경로/게시글 함께 삭제 실패", response.data);
+        console.log('여행 경로/게시글 함께 삭제 실패', response.data);
       }
     } catch (error) {
-      console.error("여행 경로와 게시글 함께 삭제 요청 중 에러 발생", error);
+      console.error('여행 경로와 게시글 함께 삭제 요청 중 에러 발생', error);
     }
   };
 
   if (!isDoubleDeleteOpen) return null;
 
   return (
-    <div className={cx("double-delete-overlays")}>
-      <div className={cx("double-delete-container")}>
-        <div className={cx("delete-alert-cotainer")}>
-          <p className={cx("delete-statement")}>
-            이 여행 경로 삭제 시, 내 게시글 중{" "}
-            <span className={cx("delete-title")}>{deletePostTitle}</span>도 함께
+    <div className={cx('double-delete-overlays')}>
+      <div className={cx('double-delete-container')}>
+        <div className={cx('delete-alert-cotainer')}>
+          <p className={cx('delete-statement')}>
+            이 여행 경로 삭제 시, 내 게시글 중 <span className={cx('delete-title')}>{deletePostTitle}</span>도 함께
             삭제됩니다.
           </p>
         </div>
-        <div className={cx("buttons-container")}>
-          <button className={cx("button-cancel")} onClick={clickCancelHandler}>
+        <div className={cx('buttons-container')}>
+          <button className={cx('button-cancel')} onClick={clickCancelHandler}>
             취소
           </button>
-          <button
-            className={cx("button-confirm")}
-            onClick={clickConfirmHandler}
-          >
+          <button className={cx('button-confirm')} onClick={clickConfirmHandler}>
             확인
           </button>
         </div>
