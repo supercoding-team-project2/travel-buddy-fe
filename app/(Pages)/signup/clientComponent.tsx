@@ -197,8 +197,8 @@ export function SignUpClient({ phoneNum }: { phoneNum: string }) {
                     onKeyDown={handleKeyDown}
                     maxLength={1}
                   />
-                  {six.map(() => (
-                    <div className={cx('passwordDot')}></div>
+                  {six.map((index) => (
+                    <div key={index} className={cx('passwordDot')}></div>
                   ))}
                 </div>
               </div>
