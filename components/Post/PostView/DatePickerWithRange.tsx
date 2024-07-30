@@ -23,7 +23,6 @@ export function DatePickerWithRange({
   dateRange,
 }: DatePickerWithRangeProps) {
   const [date, setDate] = useState<DateRange | undefined>(dateRange);
-  console.log("🚀 ~ date:", date);
 
   useEffect(() => {
     setDate(dateRange);
@@ -35,8 +34,6 @@ export function DatePickerWithRange({
       onDateChange(newDate);
     }
   };
-
-  console.log("이건 날짜컴포넌트에서 가져온 데이터", date?.from);
 
   return (
     <div className={cn("grid gap-2", className)}>
