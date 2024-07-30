@@ -35,6 +35,9 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   };
 
   const getMyCourse = () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
     if (token) {
       api
@@ -134,6 +137,9 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   if (!data) return <div>No data available</div>;
 
   const handleSubmit = async () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
     const token = localStorage.getItem("token");
     const formDataToSend = new FormData();
 

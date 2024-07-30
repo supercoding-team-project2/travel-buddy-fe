@@ -15,8 +15,6 @@ interface Comment {
   id: number;
 }
 
-const token = localStorage.getItem("token");
-
 /* 댓글 입력 섹션 */
 export const MycommentSection: React.FC<MycommentSectionProps> = ({
   onSubmit,
@@ -28,7 +26,10 @@ export const MycommentSection: React.FC<MycommentSectionProps> = ({
   /*댓글 등록 요청 */
   const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
+    const token = localStorage.getItem("token");
     const newComment: any = {
       userName: "유저 이름",
       profileImgUrl: "/png/hamster.png",
@@ -124,6 +125,10 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
 
   /*댓글 수정 요청 */
   const handleEditSubmit = async (commentId: number) => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
+    const token = localStorage.getItem("token");
     try {
       setLoading(true);
       await api.put(
@@ -149,6 +154,10 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
 
   /*댓글 삭제 요청  */
   const handleDelete = async (commentId: number) => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
+    const token = localStorage.getItem("token");
     try {
       setLoading(true);
       await api.delete(`/api/comment/delete/${postId}/${commentId}`, {
