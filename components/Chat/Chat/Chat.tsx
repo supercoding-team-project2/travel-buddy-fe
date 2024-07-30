@@ -10,7 +10,7 @@ import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 const cx = classNames.bind(styles);
 
 interface ChatProps {
-  ChatRoomId: number;
+  ChatRoomId: string;
 }
 
 export function Chat({ ChatRoomId }: ChatProps) {
@@ -20,7 +20,8 @@ export function Chat({ ChatRoomId }: ChatProps) {
   const [chatHistory, setChatHistory] = useState<MessageProps[] | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
-  const [myId, setMyId] = useState('');
+  const [senderId, setSenderId] = useState('');
+  const [opponentId, setOpponentId] = useState('');
   const [opponentName, setOpponentName] = useState('');
   const [opponentProfile, setOpponentProfile] = useState('');
 
@@ -30,10 +31,11 @@ export function Chat({ ChatRoomId }: ChatProps) {
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/room/${ChatRoomId}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: token,
         },
       });
-      setMyId(response.data.myId);
+      setSenderId(response.data.senderId);
+      setOpponentId(response.data.opponentId);
       setOpponentName(response.data.opponentName);
       setOpponentProfile(response.data.opponentProfile);
       setChatHistory(response.data.messages);
@@ -43,12 +45,12 @@ export function Chat({ ChatRoomId }: ChatProps) {
   };
 
   useEffect(() => {
-    getChatRoomData;
+    getChatRoomData(token);
   }, []);
 
   // const loadMoreMessages = useCallback(() => {
   //   const newMessages = [
-  //     { roomId: ChatRoomId, senderId: myId, content: 'new content', timestamp: '4 : 47' },
+  //     { roomId: ChatRoomId, senderId: senderId, content: 'new content', timestamp: '4 : 47' },
   //     { roomId: ChatRoomId, senderId: opponentId, content: 'new content', timestamp: '4 : 47' },
   //   ];
 
@@ -94,6 +96,8 @@ export function Chat({ ChatRoomId }: ChatProps) {
   }, [token, ChatRoomId]);
 
   const sendHandler = (inputValue: string) => {
+    console.log('메시지 보냄');
+    const timeStamp = new Date().toISOString();
     // client.current가 존재하고 연결되었다면 메시지 전송
     if (client.current && client.current.connected) {
       client.current.send(
@@ -104,18 +108,19 @@ export function Chat({ ChatRoomId }: ChatProps) {
         },
         // JSON 형식으로 전송한다
         JSON.stringify({
-          roomId: ChatRoomId,
-          senderId: myId,
+          chatId: ChatRoomId,
+          senderId: senderId,
+          opponentId: opponentId,
           content: inputValue,
-          timeStamp: new Date(),
+          timeStamp: timeStamp,
         })
       );
     }
   };
 
-  useEffect(() => {
-    sendHandler(inputValue);
-  }, [inputValue]);
+  // useEffect(() => {
+  //   sendHandler(inputValue);
+  // }, [inputValue]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -147,7 +152,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
             timestamp={msg.timestamp}
             opponentProfile={opponentProfile}
             senderId={msg.senderId}
-            currentUserId={myId}
+            currentUserId={senderId}
             opponentName={opponentName}
           />
         ))}
@@ -155,7 +160,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
       </div>
       <div className={cx('messageFooter')}>
         <input value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Type a message" />
-        <button onClick={() => sendHandler}>Send</button>
+        <button onClick={() => sendHandler(inputValue)}>Send</button>
       </div>
     </div>
   );

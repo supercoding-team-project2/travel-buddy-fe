@@ -9,7 +9,7 @@ import axios from 'axios';
 const cx = classNames.bind(styles);
 
 export function ChatRoomListClient() {
-  const [chatRoomId, setChatRoomId] = useState<number | null>();
+  const [chatRoomId, setChatRoomId] = useState<string | null>();
   const [chatRooms, setChatRooms] = useState<ChatRoomSummaryProps[]>([]);
 
   useEffect(() => {

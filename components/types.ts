@@ -6,11 +6,11 @@ interface MessageProps {
 }
 
 interface ChatRoomSummaryProps {
-  roomId: number;
+  roomId: string;
   opponentName: string;
   lastMessage: string;
   lastTime: string;
-  setChatRoomId: (arg0: number) => void;
+  setChatRoomId: (arg0: string) => void;
 }
 
 interface ErrorProps {
