@@ -4,9 +4,6 @@ import React, { useState } from "react";
 
 // 모달 컴포넌트
 const Modal = ({ isOpen, onClose, title, content, tripId }: any) => {
-  console.log("🚀 ~ Modal ~ tripId:", tripId);
-  if (!isOpen) return null;
-
   const [participants, setParticipants] = useState(1);
   const [hasJoined, setHasJoined] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
@@ -64,6 +61,8 @@ const Modal = ({ isOpen, onClose, title, content, tripId }: any) => {
       setHasJoined(false);
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

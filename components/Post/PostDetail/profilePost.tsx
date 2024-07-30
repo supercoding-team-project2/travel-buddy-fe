@@ -68,21 +68,22 @@ interface Props {
     likeCount: number;
     images: string[];
   };
-  likeStatus: {
-    status: boolean;
-  };
+  // likeStatus: {
+  //   status: boolean;
+  // };
   getData: () => Promise<void>;
 }
 
 /* 메인 프로필 포스트 */
-export const ProfilePost = ({ data, likeStatus, getData }: Props) => {
+export const ProfilePost = ({ data, getData }: Props) => {
   const board = data;
   const postId = board.id;
   const [showComments, setShowComments] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]); // 댓글 상태 관리
   const [commentCount, setCommentCount] = useState<number>(0); // 댓글 수 상태
   const [likeCount, setLikeCount] = useState<number>(board?.likeCount || 0);
-  const [isLiked, setIsLiked] = useState<boolean>(likeStatus.status);
+  //const [isLiked, setIsLiked] = useState<boolean>(likeStatus.status);
+  const [isLiked, setIsLiked] = useState<boolean>(true);
 
   interface Comment {
     userName: string;
@@ -90,6 +91,27 @@ export const ProfilePost = ({ data, likeStatus, getData }: Props) => {
     comment: string;
     id: number;
   }
+  const fetchLikes = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await api.get(`/api/likes/info/${postId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(response.data);
+    } catch (error: any) {
+      if (error.response) {
+        // 서버에서 응답이 있었지만 오류가 발생했을 때
+        console.error("Server responded with error:", error.response);
+      } else if (error.request) {
+        // 서버에 요청이 전달되지 않았을 때
+        console.error("No response received from server:", error.request);
+      } else {
+        // 요청을 설정할 때 오류가 발생했을 때
+        console.error("Error setting up the request:", error.message);
+      }
+    }
+  };
 
   const enterChatRoom = async () => {
     try {
@@ -137,6 +159,7 @@ export const ProfilePost = ({ data, likeStatus, getData }: Props) => {
         headers: { Authorization: token },
       });
       const { commentList } = response.data;
+      console.log("🚀 ~ fetchComments ~ commentList:", commentList);
       setComments(commentList);
       setCommentCount(commentList.length);
       console.log("조회성공");
@@ -155,6 +178,7 @@ export const ProfilePost = ({ data, likeStatus, getData }: Props) => {
   };
 
   useEffect(() => {
+    fetchLikes();
     fetchComments(); // 컴포넌트가 처음 마운트될 때 댓글 가져오기
   }, []);
 

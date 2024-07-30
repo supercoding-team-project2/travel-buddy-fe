@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 //const [trips, setTrips] = useState<TripData[]>([]); //여행데이터 저장하는 trips
 
-const clientComponent = () => {
+const ClientComponent = () => {
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
@@ -180,4 +180,4 @@ const clientComponent = () => {
   );
 };
 
-export default clientComponent;
+export default ClientComponent;

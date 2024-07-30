@@ -16,6 +16,7 @@ import {
 import api from "@/app/api/api";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { brotliCompress } from "zlib";
 
 const InfoTable = (data: any) => {
   const board = data;
@@ -104,15 +105,15 @@ const fetchData = async (postId: number): Promise<Props["data"][]> => {
   }
 };
 
-// const userToken = getToken();
-// const currentUserId = () => {
-//   if (userToken) {
-//     const decoded: any = jwtDecode(userToken);
-//     return decoded.userId;
-//   } else {
-//     console.error("No token found in session storage.");
-//   }
-// };
+const userToken = localStorage.getItem("token");
+const currentUserId = () => {
+  if (userToken) {
+    const decoded: any = jwtDecode(userToken);
+    return decoded.userId;
+  } else {
+    console.error("No token found in session storage.");
+  }
+};
 
 /*   clientComponent  */
 const ClientComponent = ({ postId }: ClientComponentProps) => {
@@ -120,12 +121,9 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   const { isOpen, openModal, closeModal, ModalWrapper } = useModal();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [data, setData] = useState<Props["data"][] | null>(null);
+  console.log("🚀 ~ ClientComponent ~ data:", data);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  // let currentUserId = 123;
-  // const postUserId = data[0].board.userId;
-  // const result = isUserSame(currentUserId, postUserId);
 
   const handlePostClick = () => {
     router.push(`/post-edit/${postId}`);
@@ -175,7 +173,10 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
 
   const { board, route, trip, likeStatus }: any = data;
 
-  const tripId = trip.id;
+  const tripId = trip.id; //여행 아이디
+  const authorId = board.authorID; //작성자 아이디
+  let userCurrentId = currentUserId(); //현재 유저 아이디
+  const UserResult = isUserSame(userCurrentId, authorId); //비교해서 같으면 true or false
 
   if (!data) return <div>No data available</div>;
 
@@ -220,26 +221,20 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
             </div>
           </div>
           <div className="flex">
-            {/* {result && (
+            {UserResult && (
               <>
                 <IconButton
                   src="/svg/write-icon.svg"
                   alt="글쓰기버튼"
                   onClick={handlePostClick}
                 />
-                <IconButton src="/svg/trash.svg" alt="삭제버튼" />
+                <IconButton
+                  src="/svg/trash.svg"
+                  alt="삭제버튼"
+                  onClick={handleDelete}
+                />
               </>
-            )} */}
-            <IconButton
-              src="/svg/write-icon.svg"
-              alt="글쓰기버튼"
-              onClick={handlePostClick}
-            />
-            <IconButton
-              src="/svg/trash.svg"
-              alt="삭제버튼"
-              onClick={handleDelete}
-            />
+            )}
           </div>
         </div>
 
@@ -262,7 +257,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
             )} */}
             <DetailsTable data={trip} />
             <div className="flex items-center justify-center mt-4">
-              {!result && (
+              {!result && !UserResult && (
                 <TogetherBtn
                   onClick={() => {
                     openModal();
@@ -271,7 +266,9 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
                   label="참여신청"
                 />
               )}
-              {result && <TogetherBtn onClick={onCancel} label="참여취소" />}
+              {result && !UserResult && (
+                <TogetherBtn onClick={onCancel} label="참여취소" />
+              )}
             </div>
           </div>
         </div>
@@ -279,7 +276,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
           <TravelBar route={route} />
         </div>
 
-        <ProfilePost data={board} likeStatus={likeStatus} getData={getData} />
+        <ProfilePost data={board} getData={getData} />
       </div>
       <ModalWrapper
         tripId={tripId}

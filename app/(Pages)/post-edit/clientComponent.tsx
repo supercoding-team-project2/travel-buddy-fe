@@ -11,7 +11,7 @@ export interface ClientComponentProps {
   postId: number;
 }
 
-const clientComponent = ({ postId }: ClientComponentProps) => {
+const ClientComponent = ({ postId }: ClientComponentProps) => {
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
@@ -228,4 +228,4 @@ const clientComponent = ({ postId }: ClientComponentProps) => {
   );
 };
 
-export default clientComponent;
+export default ClientComponent;
