@@ -87,6 +87,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
             setChatHistory((prevHistory) => {
               return prevHistory ? [...prevHistory, JSON.parse(message.body)] : null;
             });
+            console.log(JSON.parse(message.body));
           },
           {
             Authorization: token,
@@ -118,6 +119,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
 
     // client.current가 존재하고 연결되었다면 메시지 전송
     if (client.current && client.current.connected) {
+      console.log(newMessage);
       client.current.send(
         '/publish/chat/send',
         {
