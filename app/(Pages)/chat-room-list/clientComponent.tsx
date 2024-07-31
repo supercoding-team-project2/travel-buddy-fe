@@ -4,7 +4,7 @@ import { ChatRoomSummary } from '../../../components/Chat/ChatRoomSummary/ChatRo
 import classNames from 'classnames/bind';
 import styles from './ChatRoomList.module.css';
 import { Chat } from '@/components/Chat/Chat/Chat';
-import axios from 'axios';
+import axiosInstance from '@/lib/axiosInstance';
 
 const cx = classNames.bind(styles);
 
@@ -16,7 +16,7 @@ export function ChatRoomListClient() {
     // 채팅방 데이터를 백엔드에서 가져옵니다.
     const fetchChatRooms = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatRooms`); // 백엔드의 채팅방 목록 API 엔드포인트로 수정하세요.
+        const response = await axiosInstance.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatRooms`); // 백엔드의 채팅방 목록 API 엔드포인트로 수정하세요.
         setChatRooms(response.data);
       } catch (error) {
         console.log('채팅방 데이터를 불러오는 중 오류가 발생했습니다.');

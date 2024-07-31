@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 import MyPostSort from "./MyPostSort";
 import EachMyPost from "./EachMyPost";
@@ -10,6 +9,7 @@ import classNames from "classnames/bind";
 import styles from "./MyPost.module.css";
 import Image from "next/image";
 import upArrow from "@/assets/up-arrow.png";
+import axiosInstance from "@/lib/axiosInstance";
 
 const cx = classNames.bind(styles);
 
@@ -28,7 +28,7 @@ const MyPost = ({ token }: Props) => {
   //게시글 axios get 요청
   const fetchPostData = (category: string) => {
     if (token) {
-      axios
+      axiosInstance
         .get(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/boards/my?category=${category}`,
           {
@@ -43,7 +43,7 @@ const MyPost = ({ token }: Props) => {
         .catch((error) => {
           console.error(`내 게시글 ${category} 조회 요청 실패`, error);
         });
-    } 
+    }
   };
 
   //디폴트로 후기글 get
@@ -81,15 +81,17 @@ const MyPost = ({ token }: Props) => {
             />
           </div>
         )}
-        <MyPostSort
-          isReviewClicked={isReviewClicked}
-          setIsReviewClicked={setIsReviewClicked}
-          isAccompanyClicked={isAccompanyClicked}
-          isGuideClicked={isGuideClicked}
-          setIsAccompanyClicked={setIsAccompanyClicked}
-          setIsGuideClicked={setIsGuideClicked}
-          fetchPostData={fetchPostData}
-        />
+        {!isLoading && (
+          <MyPostSort
+            isReviewClicked={isReviewClicked}
+            setIsReviewClicked={setIsReviewClicked}
+            isAccompanyClicked={isAccompanyClicked}
+            isGuideClicked={isGuideClicked}
+            setIsAccompanyClicked={setIsAccompanyClicked}
+            setIsGuideClicked={setIsGuideClicked}
+            fetchPostData={fetchPostData}
+          />
+        )}
         {!isLoading && postData.length === 0 ? (
           <EmptyMyPost />
         ) : (
@@ -115,5 +117,4 @@ const MyPost = ({ token }: Props) => {
     </>
   );
 };
-
 export default MyPost;

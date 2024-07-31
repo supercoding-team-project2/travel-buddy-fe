@@ -4,8 +4,8 @@ import { Client, CompatClient, Stomp, Message as StompMessage } from '@stomp/sto
 import { Message } from '../Message/Message';
 import styles from './Chat.module.css';
 import classNames from 'classnames/bind';
-import axios from 'axios';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import axiosInstance from '@/lib/axiosInstance';
 
 const cx = classNames.bind(styles);
 
@@ -35,7 +35,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
 
   const getChatRoomData = async (token: string | null) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/room/${ChatRoomId}`, {
+      const response = await axiosInstance.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/room/${ChatRoomId}`, {
         headers: {
           Authorization: token,
         },

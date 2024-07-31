@@ -9,7 +9,6 @@ import chat from '../../assets/chat.png';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { noLayoutRoutes } from '@/lib/constants';
-import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -28,16 +27,8 @@ const Header: React.FC = () => {
   if (noLayout) return <></>;
 
   const handleLogout = async () => {
-    try {
-      await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/logout`, {
-        headers: { Authorization: token },
-      });
-
-      localStorage.removeItem('token');
-      window.location.reload();
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
+    localStorage.removeItem('token');
+    window.location.reload();
   };
 
   return (

@@ -1,11 +1,13 @@
-"use client";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import classNames from "classnames/bind";
-import styles from "./MainPage.module.css";
-import { MainSlider } from "../components/Main/MainSlider/MainSlider";
-import { CourseCard } from "../components/Main/CourseCard/CourseCard";
+'use client';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import classNames from 'classnames/bind';
+import styles from './MainPage.module.css';
+import { MainSlider } from '../components/Main/MainSlider/MainSlider';
+import { CourseCard } from '../components/Main/CourseCard/CourseCard';
+import axiosInstance from '@/lib/axiosInstance';
+
+import SuccessSignUp from "../components/SuccessSignUp";
 
 const cx = classNames.bind(styles);
 
@@ -25,9 +27,9 @@ interface ApiResponse {
 }
 
 export default function MainPage() {
-  const sample1 = "/png/hamster.png";
-  const sample2 = "/png/hamster2.png";
-  const sample3 = "/png/hemsworth.png";
+  const sample1 = '/png/hamster.png';
+  const sample2 = '/png/hamster2.png';
+  const sample3 = '/png/hemsworth.png';
   const [topReviewData, settopReviewData] = useState<Post[]>([]);
   const [topGuideData, setTopGuideData] = useState<Post[]>([]);
   const [topCompanionData, setTopCompanionData] = useState<Post[]>([]);
@@ -35,26 +37,26 @@ export default function MainPage() {
   const router = useRouter();
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/boards/top4-categories`)
       .then((response) => {
-        console.log("메인 페이지 top 게시글 패치 성공", response.data);
+        console.log('메인 페이지 top 게시글 패치 성공', response.data);
         const data: ApiResponse = response.data;
         settopReviewData(data.top4ReviewBoards);
         setTopGuideData(data.top4GuideBoards);
         setTopCompanionData(data.top4CompanionBoards);
       })
-      .catch((error) => console.error("메인 페이지 게시글 패치 실패", error));
+      .catch((error) => console.error('메인 페이지 게시글 패치 실패', error));
   }, []);
 
   return (
-    <div className={cx("MainPage")}>
+    <div className={cx('MainPage')}>
       <MainSlider />
       <section>
-        <div className={cx("wrapper")}>
-          <div className={cx("title")}>인기있는 여행 후기</div>
+        <div className={cx('wrapper')}>
+          <div className={cx('title')}>인기있는 여행 후기</div>
         </div>
-        <div className={cx("container")}>
+        <div className={cx('container')}>
           {topReviewData.map((review) => (
             <CourseCard
               key={review.id}
@@ -68,20 +70,17 @@ export default function MainPage() {
             />
           ))}
         </div>
-        <div className={cx("read-more-container")}>
-          <div
-            className={cx("read-more")}
-            onClick={() => router.push("/post-view?category=REVIEW")}
-          >
+        <div className={cx('read-more-container')}>
+          <div className={cx('read-more')} onClick={() => router.push('/post-view?category=REVIEW')}>
             Read More
           </div>
         </div>
       </section>
       <section>
-        <div className={cx("wrapper")}>
-          <div className={cx("title")}>가이드와 함께하는 패키지 여행</div>
+        <div className={cx('wrapper')}>
+          <div className={cx('title')}>가이드와 함께하는 패키지 여행</div>
         </div>
-        <div className={cx("container")}>
+        <div className={cx('container')}>
           {topGuideData.map((guide) => (
             <CourseCard
               key={guide.id}
@@ -95,20 +94,17 @@ export default function MainPage() {
             />
           ))}
         </div>
-        <div className={cx("read-more-container")}>
-          <div
-            className={cx("read-more")}
-            onClick={() => router.push("/post-view?category=GUIDE")}
-          >
+        <div className={cx('read-more-container')}>
+          <div className={cx('read-more')} onClick={() => router.push('/post-view?category=GUIDE')}>
             Read More
           </div>
         </div>
       </section>
       <section>
-        <div className={cx("wrapper")}>
-          <div className={cx("title")}>함께하는 동행 여행</div>
+        <div className={cx('wrapper')}>
+          <div className={cx('title')}>함께하는 동행 여행</div>
         </div>
-        <div className={cx("container")}>
+        <div className={cx('container')}>
           {topCompanionData.map((companion) => (
             <CourseCard
               key={companion.id}
@@ -122,15 +118,13 @@ export default function MainPage() {
             />
           ))}
         </div>
-        <div className={cx("read-more-container")}>
-          <div
-            className={cx("read-more")}
-            onClick={() => router.push("/post-view?category=COMPANION")}
-          >
+        <div className={cx('read-more-container')}>
+          <div className={cx('read-more')} onClick={() => router.push('/post-view?category=COMPANION')}>
             Read More
           </div>
         </div>
       </section>
     </div>
+    // <SuccessSignUp />
   );
 }

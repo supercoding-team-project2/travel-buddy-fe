@@ -3,9 +3,9 @@
 import classNames from 'classnames/bind';
 import styles from './change-password.module.css';
 import { useState } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { Alert } from '@/components/Alert/Alert';
+import axiosInstance from '@/lib/axiosInstance';
 
 const cx = classNames.bind(styles);
 
@@ -29,7 +29,7 @@ export function ChangePasswordClient() {
     e.preventDefault();
     setError('');
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/password/find`, {
+      const response = await axiosInstance.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/password/find`, {
         email,
         phoneNum,
       });
@@ -48,7 +48,7 @@ export function ChangePasswordClient() {
     e.preventDefault();
     setError('');
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/sms-code/check`, {
+      const response = await axiosInstance.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/sms-code/check`, {
         phoneNum,
         code: verificationCode,
       });
@@ -76,7 +76,7 @@ export function ChangePasswordClient() {
       return;
     }
     try {
-      const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/password/update`, {
+      const response = await axiosInstance.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/password/update`, {
         newPassword,
         email,
       });
