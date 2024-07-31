@@ -56,16 +56,14 @@ export function Chat({ ChatRoomId }: ChatProps) {
     getChatRoomData(token);
   }, [token]);
 
-  // const loadMoreMessages = useCallback(() => {
-  //   const newMessages = [
-  //     { roomId: ChatRoomId, senderId: senderId, content: 'new content', timestamp: '4 : 47' },
-  //     { roomId: ChatRoomId, senderId: opponentId, content: 'new content', timestamp: '4 : 47' },
-  //   ];
-
-  //   setChatHistory((prevChatHistory) => (prevChatHistory ? [...newMessages, ...prevChatHistory] : []));
-  // }, []);
-
-  // const { scrollRef, isFetching, setIsFetching } = useInfiniteScroll(loadMoreMessages);
+  const formatTimestamp = (timestamp: string) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
+  };
 
   const connectHandler = () => {
     if (!token) return;
@@ -106,12 +104,13 @@ export function Chat({ ChatRoomId }: ChatProps) {
   const sendHandler = (inputValue: string) => {
     console.log('메시지 보냄');
     const timeStamp = new Date().toISOString();
+    const formattedTimeStamp = formatTimestamp(timeStamp);
     const newMessage = {
       roomId: ChatRoomId,
       senderId: senderId,
       opponentId: opponentId,
       content: inputValue,
-      timestamp: timeStamp,
+      timestamp: formattedTimeStamp,
     };
 
     setChatHistory((prevHistory) => (prevHistory ? [...prevHistory, newMessage] : [newMessage]));
@@ -130,10 +129,6 @@ export function Chat({ ChatRoomId }: ChatProps) {
       );
     }
   };
-
-  // useEffect(() => {
-  //   sendHandler(inputValue);
-  // }, [inputValue]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -155,7 +150,6 @@ export function Chat({ ChatRoomId }: ChatProps) {
       </div>
       <div
         className={cx('messages')}
-        // ref={scrollRef}
         style={{
           overflowY: 'auto',
           maxHeight: '500px',
