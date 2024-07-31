@@ -53,7 +53,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
 
   useEffect(() => {
     getChatRoomData(token);
-  }, []);
+  }, [token]);
 
   // const loadMoreMessages = useCallback(() => {
   //   const newMessages = [
