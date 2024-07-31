@@ -1,6 +1,9 @@
 import api from "@/app/api/api";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { useRouter } from "next/navigation";
 
 interface MycommentSectionProps {
   onSubmit: (comment: Comment) => void;
@@ -22,6 +25,8 @@ export const MycommentSection: React.FC<MycommentSectionProps> = ({
   fetchComments,
 }) => {
   const [commentBody, setCommentBody] = useState("");
+  const { toast } = useToast();
+  const router = useRouter();
 
   /*댓글 등록 요청 */
   const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -31,6 +36,25 @@ export const MycommentSection: React.FC<MycommentSectionProps> = ({
     }
     const token = localStorage.getItem("token");
     if (!token) {
+      toast({
+        variant: "destructive",
+        title: "로그인 후 이용해 주세요.",
+        description: "Please log-in and use it",
+        action: (
+          <ToastAction
+            altText="로그인"
+            onClick={() => router.push("/login")}
+            style={{ backgroundColor: "#87a7c7", color: "white" }}
+          >
+            로그인
+          </ToastAction>
+        ),
+        style: {
+          backgroundColor: "rgb(195, 216, 230)",
+          color: "#000",
+          border: "1px solid #87a7c7",
+        },
+      });
       return;
     }
     const newComment: any = {
@@ -80,7 +104,8 @@ export const MycommentSection: React.FC<MycommentSectionProps> = ({
       <div className="w-full flex justify-end px-3">
         <input
           type="submit"
-          className="px-2.5 py-1.5 rounded-md text-white text-sm bg-indigo-500"
+          className="px-2.5 py-1.5 rounded-md text-white text-sm"
+          style={{ backgroundColor: "rgb(195, 216, 230)" }}
           value="댓글 작성"
         />
       </div>
@@ -186,82 +211,88 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
     <div className="bg-white rounded-lg border mt-4 mb-1">
       <h3 className="font-bold mx-3 mt-3">댓글</h3>
       <div className="flex flex-col-reverse mt-2">
-        {comments?.map((comment, index) => (
-          <div key={index} className="border rounded-md p-3 mx-3 mb-3">
-            <div className="flex justify-between items-center">
-              <div className="flex gap-3 items-center">
-                <Image
-                  src={comment.profileImgUrl}
-                  className="object-cover w-8 h-8 rounded-full border-2"
-                  width={32}
-                  height={32}
-                  alt={comment.userName}
+        {!comments ? (
+          <p className="font-bold text-gray-600 text-center px-3 py-6 mx-3 mb-3 border rounded">
+            현재 작성된 댓글이 없습니다.
+          </p>
+        ) : (
+          comments.map((comment, index) => (
+            <div key={index} className="border rounded-md p-3 mx-3 mb-3">
+              <div className="flex justify-between items-center">
+                <div className="flex gap-3 items-center">
+                  <Image
+                    src={comment.profileImgUrl}
+                    className="object-cover w-8 h-8 rounded-full border-2"
+                    width={32}
+                    height={32}
+                    alt={comment.userName}
+                  />
+                  <h3 className="font-bold">{comment.userName}</h3>
+                </div>
+                <div className="flex gap-2">
+                  {editingCommentId === comment.id ? (
+                    <>
+                      <button
+                        onClick={() => handleEditSubmit(comment.id)}
+                        className="px-2 py-1 text-white bg-green-500 rounded"
+                        disabled={loading}
+                      >
+                        저장
+                      </button>
+                      <button
+                        onClick={handleCancelEdit}
+                        className="px-2 py-1 text-white border rounded"
+                      >
+                        <Image
+                          src="/svg/close.svg"
+                          width={17}
+                          height={17}
+                          alt="취소버튼"
+                        />
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => handleEdit(comment.id)}
+                        className="px-2 py-1 border text-white rounded"
+                        disabled={loading}
+                      >
+                        <Image
+                          src="/svg/pencil-edit.svg"
+                          width={25}
+                          height={25}
+                          alt="수정버튼"
+                        />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(comment.id)}
+                        className="px-2 py-1 border text-white rounded"
+                        disabled={loading}
+                      >
+                        <Image
+                          src="/svg/trash.svg"
+                          width={18}
+                          height={18}
+                          alt="삭제버튼"
+                        />
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+              {editingCommentId === comment.id ? (
+                <textarea
+                  value={editingContents[comment.id] || ""}
+                  onChange={(e) => handleEditChange(e, comment.id)}
+                  className="w-full mt-2 p-2 border rounded"
                 />
-                <h3 className="font-bold">{comment.userName}</h3>
-              </div>
-              <div className="flex gap-2">
-                {editingCommentId === comment.id ? (
-                  <>
-                    <button
-                      onClick={() => handleEditSubmit(comment.id)}
-                      className="px-2 py-1 text-white bg-green-500 rounded"
-                      disabled={loading}
-                    >
-                      저장
-                    </button>
-                    <button
-                      onClick={handleCancelEdit}
-                      className="px-2 py-1 text-white border rounded"
-                    >
-                      <Image
-                        src="/svg/close.svg"
-                        width={17}
-                        height={17}
-                        alt="취소버튼"
-                      />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => handleEdit(comment.id)}
-                      className="px-2 py-1 border text-white rounded"
-                      disabled={loading}
-                    >
-                      <Image
-                        src="/svg/pencil-edit.svg"
-                        width={25}
-                        height={25}
-                        alt="수정버튼"
-                      />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(comment.id)}
-                      className="px-2 py-1 border text-white rounded"
-                      disabled={loading}
-                    >
-                      <Image
-                        src="/svg/trash.svg"
-                        width={18}
-                        height={18}
-                        alt="삭제버튼"
-                      />
-                    </button>
-                  </>
-                )}
-              </div>
+              ) : (
+                <p className="text-gray-600 mt-2">{comment.comment}</p>
+              )}
             </div>
-            {editingCommentId === comment.id ? (
-              <textarea
-                value={editingContents[comment.id] || ""}
-                onChange={(e) => handleEditChange(e, comment.id)}
-                className="w-full mt-2 p-2 border rounded"
-              />
-            ) : (
-              <p className="text-gray-600 mt-2">{comment.comment}</p>
-            )}
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

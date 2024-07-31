@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
+import { Toaster } from "@/components/ui/toaster";
 
 type RootLayoutProps = {
   children: ReactNode;
@@ -26,6 +27,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => (
       <div id="overlays-modal"></div>
       <Header />
       {children}
+      <Toaster />
       <Footer />
     </body>
   </html>

@@ -16,6 +16,8 @@ import {
 import api from "@/app/api/api";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 const InfoTable = (data: any) => {
   const board = data;
@@ -43,7 +45,8 @@ const translateGender = (gender: any) => {
   return translationGender[gender] || gender;
 };
 
-const DetailsTable = (data: any) => {
+const DetailsTable = ({ data, result }: { data: any; result: boolean }) => {
+  console.log("🚀 ~ DetailsTable ~ UserResult:", result);
   const trip = data;
   return (
     <div>
@@ -52,19 +55,31 @@ const DetailsTable = (data: any) => {
           <tr>
             <td className="py-2 px-4 border-b">연령</td>
             <td className="py-2 px-4 border-b">
-              {trip.data.ageMin}~{trip.data.ageMax} 대
+              {trip.ageMin}~{trip.ageMax} 대
             </td>
           </tr>
           <tr>
             <td className="py-2 px-4 border-b">참여인원</td>
-            <td className="py-2 px-4 border-b">
-              {trip.data.participantCount}/{trip.data.targetNumber}명
-            </td>
+            {!result ? (
+              <td className="py-2 px-4 border-b">
+                {trip.participantCount}/{trip.targetNumber}명
+              </td>
+            ) : (
+              <td className="py-2 px-4 border-b">
+                <span style={{ color: "#000000" }}>
+                  {trip.participantCount}/{trip.targetNumber}명
+                </span>{" "}
+                <span style={{ color: "#FF0000", marginLeft: "5px" }}>
+                  {" "}
+                  {trip.participantCount >= trip.targetNumber && "(인원 마감)"}
+                </span>
+              </td>
+            )}
           </tr>
           <tr>
             <td className="py-2 px-4 border-b">성별</td>
             <td className="py-2 px-4 border-b">
-              {translateGender(trip.data.gender)}
+              {translateGender(trip.gender)}
             </td>
           </tr>
         </tbody>
@@ -74,11 +89,44 @@ const DetailsTable = (data: any) => {
 };
 
 const TogetherBtn = ({ onClick, label }: any) => {
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const handleClick = () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
+    const token = localStorage.getItem("token");
+    if (token) {
+      onClick();
+    } else {
+      toast({
+        variant: "destructive",
+        title: "로그인 후 이용해 주세요.",
+        description: "Please log-in and use it",
+        action: (
+          <ToastAction
+            altText="로그인"
+            onClick={() => router.push("/login")}
+            style={{ backgroundColor: "#87a7c7", color: "white" }}
+          >
+            로그인
+          </ToastAction>
+        ),
+        style: {
+          backgroundColor: "rgb(195, 216, 230)",
+          color: "#000",
+          border: "1px solid #87a7c7",
+        },
+      });
+    }
+  };
+
   return (
     <button
       className="px-4 py-2 text-white rounded"
       style={{ backgroundColor: "#c3d8e6", width: "30%" }}
-      onClick={onClick}
+      onClick={handleClick}
     >
       {label}
     </button>
@@ -90,7 +138,7 @@ const isUserSame = (currentUserId: number, postUserId: number): boolean => {
 };
 
 /* 전체 조회 - GET */
-const fetchData = async (postId: number): Promise<Props["data"][]> => {
+const fetchData = async (postId: number): Promise<any> => {
   if (typeof window === "undefined") {
     throw new Error("localStorage is not available on the server.");
   }
@@ -123,6 +171,9 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   const [data, setData] = useState<Props["data"][] | null>(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isTravel, setIsTravel] = useState<boolean>(false);
+  console.log("🚀 ~ ClientComponent ~ isTravel:", isTravel);
+  const [travelId, setTravelId] = useState<number | null>(null);
 
   const handlePostClick = () => {
     router.push(`/post-edit/${postId}`);
@@ -155,6 +206,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
     try {
       const responseData = await fetchData(postId);
       setData(responseData);
+      setTravelId(responseData.trip.id);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -162,12 +214,36 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
     }
   };
 
-  useEffect(() => {
-    if (!modalOpen) {
-      console.log("🚀 ~ ClientComponent ~ modalOpen:", modalOpen);
-      getData();
+  // 여행 정보 가져오기
+  const getTravel = async () => {
+    if (typeof window === "undefined" || !travelId) {
+      return;
     }
-  }, [postId, modalOpen]);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      return;
+    }
+    try {
+      const response = await api.get(`/api/attend/${travelId}`, {
+        headers: { Authorization: token },
+      });
+      setIsTravel(response.data.result);
+      console.log("Travel data:", response.data.result);
+    } catch (error: any) {
+      console.error("Error fetching travel data:", error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, [postId]);
+
+  useEffect(() => {
+    if (travelId) {
+      getTravel();
+    }
+  }, [travelId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -177,7 +253,11 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   const tripId = trip.id; //여행 아이디
   const authorId = board.authorID; //작성자 아이디
   let userCurrentId = currentUserId(); //현재 유저 아이디
-  const UserResult = isUserSame(userCurrentId, authorId); //비교해서 같으면 true or false
+  const UserResult = isUserSame(userCurrentId, authorId);
+
+  let tripParticipantCount = trip.participantCount;
+  let tripTargetNumber = trip.targetNumber;
+  const result = isUserSame(tripTargetNumber, tripParticipantCount);
 
   if (!data) return <div>No data available</div>;
 
@@ -197,10 +277,6 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
       console.error("참여 취소 중 오류 발생:", error);
     }
   };
-
-  let tripParticipantCount = trip.participantCount;
-  let tripTargetNumber = trip.targetNumber;
-  const result = isUserSame(tripTargetNumber, tripParticipantCount);
 
   if (!board || !route || !trip) {
     return <div>Some data is missing</div>;
@@ -245,9 +321,9 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
         <div className="flex justify-around">
           <InfoTable data={board} />
           <div className="flex flex-col pt-24  ">
-            <DetailsTable data={trip} />
+            <DetailsTable data={trip} result={result} />
             <div className="flex items-center justify-center mt-4">
-              {!result && !UserResult && (
+              {!result && !UserResult && !isTravel && (
                 <TogetherBtn
                   onClick={() => {
                     openModal();
@@ -256,7 +332,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
                   label="참여신청"
                 />
               )}
-              {result && !UserResult && (
+              {!UserResult && isTravel && (
                 <TogetherBtn onClick={onCancel} label="참여취소" />
               )}
             </div>
