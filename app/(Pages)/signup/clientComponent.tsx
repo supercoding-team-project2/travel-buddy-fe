@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './SignUp.module.css';
-import { useRouter } from 'next/navigation';
 import { Alert } from '../../../components/Alert/Alert';
 import axiosInstance from '@/lib/axiosInstance';
 
@@ -23,8 +22,6 @@ export function SignUpClient({ phoneNum }: { phoneNum: string }) {
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isSignedUp, setIsSignedUp] = useState<boolean>(false);
-
-  const router = useRouter();
 
   const handlePart1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

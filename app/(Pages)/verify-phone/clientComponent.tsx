@@ -4,16 +4,18 @@ import { useState } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames/bind';
 import styles from './VerifyPhone.module.css';
+import { useRouter } from 'next/navigation';
 import axiosInstance from '@/lib/axiosInstance';
 
 const cx = classNames.bind(styles);
 
 export function VerifyPhoneClient() {
+  const router = useRouter();
+
   const [phoneNum, setPhoneNum] = useState<string>('');
   const [verificationCode, setVerificationCode] = useState<string>('');
   const [isCodeSent, setIsCodeSent] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const sendVerificationCode = async () => {
@@ -40,13 +42,12 @@ export function VerifyPhoneClient() {
       });
 
       if (response.status === 200) {
-        setIsRegistered(response.data.isRegistered);
         setErrorMessage(null);
+        router.push(`/signup?phoneNum=${phoneNum}`);
       } else if (response.status === 400) {
         setErrorMessage('인증 실패');
       } else if (response.status === 409) {
         setErrorMessage('이미 가입된 번호입니다.');
-        setIsRegistered(true);
       }
     } catch (error) {
       console.error('Error verifying code:', error);
