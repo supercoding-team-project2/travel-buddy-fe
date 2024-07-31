@@ -7,8 +7,6 @@ import { MainSlider } from "../components/Main/MainSlider/MainSlider";
 import { CourseCard } from "../components/Main/CourseCard/CourseCard";
 import axiosInstance from "@/lib/axiosInstance";
 
-import SuccessSignUp from "../components/SuccessSignUp";
-
 const cx = classNames.bind(styles);
 
 interface Post {
@@ -76,8 +74,8 @@ export default function MainPage() {
               date={review.createdAt}
               title={truncateTitle(review.title)}
               likes={review.likeCount}
-              // url={review.representativeImage}
-              url={sample1}
+              url={review.representativeImage}
+              // url={sample1}
             />
           ))}
         </div>
@@ -103,8 +101,8 @@ export default function MainPage() {
               date={guide.createdAt}
               title={truncateTitle(guide.title)}
               likes={guide.likeCount}
-              // url={guide.representativeImage}
-              url={sample2}
+              url={guide.representativeImage}
+              // url={sample2}
             />
           ))}
         </div>
@@ -130,8 +128,8 @@ export default function MainPage() {
               date={companion.createdAt}
               title={truncateTitle(companion.title)}
               likes={companion.likeCount}
-              // url={companion.representativeImage}
-              url={sample3}
+              url={companion.representativeImage}
+              // url={sample3}
             />
           ))}
         </div>
