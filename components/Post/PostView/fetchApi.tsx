@@ -28,7 +28,6 @@ export const fetchRecommendedPosts = async ({
     if (order) params.order = order;
 
     const token = localStorage.getItem("token");
-    console.log("🚀 ~ token:", token);
 
     const response = await api.get("/api/boards/liked", {
       params,
@@ -42,7 +41,7 @@ export const fetchRecommendedPosts = async ({
 };
 
 export const fetchParticipatedPosts = async ({
-  category = "GUIDE", // 기본값을 "review"로 설정
+  category = "COMPANION", // 기본값을 "review"로 하면 안됨.
   startDate,
   endDate,
   sortBy,
@@ -61,9 +60,9 @@ export const fetchParticipatedPosts = async ({
     const params: Record<string, string> = {};
 
     params.category =
-      category && category !== "GUIDE"
+      category && category !== "COMPANION"
         ? encodeURIComponent(category.trim())
-        : "GUIDE";
+        : "COMPANION";
 
     if (startDate) params.startDate = startDate;
     if (endDate) params.endDate = endDate;

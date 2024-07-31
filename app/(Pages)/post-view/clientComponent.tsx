@@ -107,6 +107,7 @@ export const ClientComponent = () => {
   const [viewType, setViewType] = useState<
     "ALL" | "recommended" | "participated"
   >("ALL");
+  const [responseMessage, setResponseMessage] = useState<string | null>(null);
 
   const getData = async () => {
     try {
@@ -146,7 +147,8 @@ export const ClientComponent = () => {
         });
       } else if (type === "participated") {
         response = await fetchParticipatedPosts({
-          category: filter === "전체" ? undefined : filter,
+          category:
+            filter === "전체" || filter === "REVIEW" ? undefined : filter,
           startDate: fromDate,
           endDate: toDate,
           sortBy: sortOrder,
@@ -154,9 +156,17 @@ export const ClientComponent = () => {
         });
       }
 
-      setFilteredPosts(response.data);
+      if (response.status === 404) {
+        setResponseMessage("데이터가 없습니다.");
+      } else if (response.data && response.data.length === 0) {
+        setResponseMessage("데이터가 없습니다.");
+      } else {
+        setResponseMessage(null);
+      }
     } catch (err: any) {
-      setError(err.message);
+      if (err.response?.status === 400) {
+        setError(err.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -250,7 +260,11 @@ export const ClientComponent = () => {
           </div>
         </div>
       </div>
-      <PostCard posts={filteredPosts} onPostClick={handlePostClick} />
+      {!responseMessage ? (
+        <PostCard posts={filteredPosts} onPostClick={handlePostClick} />
+      ) : (
+        <div>{responseMessage}</div>
+      )}
     </div>
   );
 };

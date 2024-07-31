@@ -1,6 +1,6 @@
 import api from "@/app/api/api";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // 모달 컴포넌트
 const Modal = ({ isOpen, onClose, title, content, tripId }: any) => {
