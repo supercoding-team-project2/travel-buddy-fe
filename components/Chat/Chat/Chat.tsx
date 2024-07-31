@@ -42,16 +42,12 @@ export function Chat({ ChatRoomId }: ChatProps) {
           'Content-Type': 'application/json',
         },
       });
+      console.log(response);
       setSenderId(response.data.senderId);
       setOpponentId(response.data.opponentId);
       setOpponentName(response.data.opponentName);
       setOpponentProfile(response.data.opponentProfile);
       setChatHistory(response.data.messages);
-      console.log(response.data.senderId);
-      console.log(response.data.opponentId);
-      console.log(response.data.opponentName);
-      console.log(response.data.opponentProfile);
-      console.log(response.data.messages);
     } catch (error) {
       console.error('채팅 내역 조회 에러', error);
     }
