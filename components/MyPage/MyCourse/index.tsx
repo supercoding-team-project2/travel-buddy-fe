@@ -29,22 +29,23 @@ const MyCourse = ({ token }: Props) => {
 
   //테스트 데이터 배열
   const [courseData, setCourseData] = useState([]);
-
   const getMyCourse = () => {
-    if (token) {
-      axiosInstance
-        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/list`, {
-          headers: { Authorization: token },
-        })
-        .then((response) => {
-          console.log('경로 조회 데이터', response.data);
-          setCourseData(response.data);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error('경로 조회 요청 실패', error);
-        });
+    if (!token) {
+      return;
     }
+
+    axiosInstance
+      .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/routes/list`, {
+        headers: { Authorization: token },
+      })
+      .then((response) => {
+        console.log("경로 조회 데이터", response.data);
+        setCourseData(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("경로 조회 요청 실패", error);
+      });
   };
 
   //경로 조회 axios get 요청
@@ -65,7 +66,7 @@ const MyCourse = ({ token }: Props) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [token]);
 
   const handleButtonClick = () => {
     setIsButtonLoading(true);
