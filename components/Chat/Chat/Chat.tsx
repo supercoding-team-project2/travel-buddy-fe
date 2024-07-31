@@ -34,6 +34,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
   }, []);
 
   const getChatRoomData = async (token: string | null) => {
+    console.log(token);
     try {
       const response = await axiosInstance.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/room/${ChatRoomId}`, {
         headers: {
@@ -69,7 +70,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
     if (!token) return;
 
     client.current = Stomp.over(function () {
-      return new WebSocket('ws://localhost:8080/ws');
+      return new WebSocket('wss://localhost:8080/ws');
     });
 
     // 클라이언트 객체를 서버와 연결
@@ -104,6 +105,17 @@ export function Chat({ ChatRoomId }: ChatProps) {
   const sendHandler = (inputValue: string) => {
     console.log('메시지 보냄');
     const timeStamp = new Date().toISOString();
+    const newMessage = {
+      roomId: ChatRoomId,
+      senderId: senderId,
+      opponentId: opponentId,
+      content: inputValue,
+      timestamp: timeStamp,
+    };
+
+    setChatHistory((prevHistory) => (prevHistory ? [...prevHistory, newMessage] : [newMessage]));
+    setInputValue('');
+
     // client.current가 존재하고 연결되었다면 메시지 전송
     if (client.current && client.current.connected) {
       client.current.send(
@@ -113,13 +125,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
           'Content-Type': 'application/json',
         },
         // JSON 형식으로 전송한다
-        JSON.stringify({
-          chatId: ChatRoomId,
-          senderId: senderId,
-          opponentId: opponentId,
-          content: inputValue,
-          timeStamp: timeStamp,
-        })
+        JSON.stringify(newMessage)
       );
     }
   };
