@@ -133,6 +133,7 @@ export const ProfilePost = ({ data, getData }: Props) => {
       }
       const senderId = parseJwt(token).userId;
       const opponentId = authorID;
+      console.log(senderId);
       // const senderId = 1;
       // const opponentId = 2;
       const response = await axiosInstance.post(
