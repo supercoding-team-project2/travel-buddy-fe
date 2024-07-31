@@ -60,7 +60,7 @@ export function VerifyPhoneClient() {
         <img src="/svg/air-balloon.svg" alt="" className={cx('airBalloon')} />
       </div>
       <div className={cx('rightWrapper')}>
-        <div className={cx('title')}>Verify Phone</div>
+        <div className={cx('title')}>휴대폰 인증</div>
         <div className={cx('container')}>
           <form className={cx('formContainer')} onSubmit={(e) => e.preventDefault()}>
             <div className={cx('inputUnit')}>
@@ -105,7 +105,7 @@ export function VerifyPhoneClient() {
               </>
             ) : (
               <button className={cx('getCodeButton')} onClick={sendVerificationCode}>
-                Send Code
+                코드 전송
               </button>
             )}
           </form>

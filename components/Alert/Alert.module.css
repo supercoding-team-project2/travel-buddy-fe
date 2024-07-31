@@ -13,7 +13,9 @@
 }
 
 .Alert a {
-  border: 1px solid white;
   border-radius: 5px;
-  padding: 0.5vh 1vw;
+  padding: 1vh 3vw;
+  background-color: #85b1cc;
+  color: white;
+  font-weight: 600;
 }

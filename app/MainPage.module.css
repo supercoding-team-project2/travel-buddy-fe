@@ -1,7 +1,7 @@
 .MainPage {
   display: flex;
   flex-direction: column;
-  gap: 8vh;
+  gap: 10vh;
   margin-bottom: 8vh;
   background: white;
 }
@@ -28,7 +28,7 @@
 }
 
 .title {
-  font-size: 1.6rem;
+  font-size: 1.75rem;
   font-weight: bold;
   letter-spacing: 1px;
   text-align: center;
@@ -49,8 +49,6 @@
 }
 
 .read-more-container {
-  border: 1px solid #e6ebf2;
-  border: 1px solid rgb(96, 96, 96);
   width: 15%;
   height: 2.5rem;
   margin: auto;
@@ -59,9 +57,6 @@
   align-items: center;
   border-radius: 3px;
   cursor: pointer;
-}
-
-.read-more-container:hover {
   color: white;
   background-color: #85b1cc;
   border: none;
