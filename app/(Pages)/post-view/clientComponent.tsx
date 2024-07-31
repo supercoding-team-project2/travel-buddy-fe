@@ -47,13 +47,22 @@ export const WriteButton = () => {
 };
 
 const ButtonOutline = ({ text, isActive, onClick }: any) => {
+  const activeStyles = {
+    backgroundColor: "rgb(195,216,230)", // 원하는 RGB 색상으로 변경
+    color: "rgb(255, 255, 255)",
+  };
+
+  const inactiveStyles = {
+    backgroundColor: "rgb(255, 255, 255)",
+    color: "rgb(0, 0, 0)",
+  };
+
   return (
     <Button
       onClick={onClick}
       variant="outline"
-      className={`min-w-[80px] px-4 py-2 border rounded text-base ${
-        isActive ? "bg-blue-500 text-white" : "bg-white text-black"
-      }`}
+      className="min-w-[80px] px-4 py-2 border rounded text-base"
+      style={isActive ? activeStyles : inactiveStyles}
     >
       {text}
     </Button>
@@ -193,7 +202,6 @@ export const ClientComponent = () => {
 
   const handleFilterChange = (newFilter: string) => {
     setFilter(newFilter);
-    setViewType("ALL");
   };
 
   return (
