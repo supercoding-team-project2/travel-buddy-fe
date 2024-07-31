@@ -1,6 +1,7 @@
 interface MessageProps {
   roomId: string;
   senderId: string;
+  opponentId: string;
   content: string;
   timestamp: string;
 }
