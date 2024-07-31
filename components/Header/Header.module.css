@@ -31,7 +31,7 @@
 .login-button,
 .logout-button,
 .signup-button {
-  padding: 1vh 1vw;
+  padding: 1vh 1.25vw;
   font-size: 1rem;
   font-weight: 500;
   background-color: white;
