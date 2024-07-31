@@ -19,6 +19,7 @@
 
 .message .bottomWrapper {
   display: flex;
+  gap: 1vw;
 }
 
 .myMessage {
@@ -40,6 +41,7 @@
 .myMessage .bottomWrapper {
   display: flex;
   flex-direction: row-reverse;
+  gap: 1vw;
 }
 
 .content {
