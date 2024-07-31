@@ -81,15 +81,10 @@ export const ProfilePost = ({ data, getData }: Props) => {
   const postId = board.id;
   const authorID = board.authorID;
   const [showComments, setShowComments] = useState<boolean>(false);
-  const [comments, setComments] = useState<Comment[]>([]); // 댓글 상태 관리
   const [commentCount, setCommentCount] = useState<number>(0); // 댓글 수 상태
-  //const [likeCount, setLikeCount] = useState<number>(board?.likeCount || 0);
-  //const [isLiked, setIsLiked] = useState<boolean>(likeStatus.status);
-  //const [isLiked, setIsLiked] = useState<boolean>(true);
-
-  //이거 이름 교체
-  const [likeCount, setLikeCount] = useState<number>(0);
-  const [isLike, setIsLike] = useState<boolean>(false);
+  const [comments, setComments] = useState<Comment[]>([]); // 댓글 상태 관리
+  const [likeCount, setLikeCount] = useState<number>(board?.likeCount || 0); //좋아요 수 상태
+  const [isLike, setIsLike] = useState<boolean>(false); //좋아요 수 상태 관리
 
   interface Comment {
     userName: string;
@@ -97,27 +92,19 @@ export const ProfilePost = ({ data, getData }: Props) => {
     comment: string;
     id: number;
   }
-  const fetchLikes = async () => {
-    if (typeof window === "undefined") {
-      throw new Error("localStorage is not available on the server.");
-    }
-    const token = localStorage.getItem("token");
 
-    if (!token) {
-      console.error("Token not found in localStorage.");
-      return;
-    }
+  useEffect(() => {
+    fetchLikes();
+    fetchComments();
+  }, []);
 
-    try {
-      const response = await api.get(`/api/likes/info/${postId}`, {
-        headers: { Authorization: token },
-      });
-      setLikeCount(response.data.count);
-      setIsLike(response.data.like);
-    } catch (error: any) {
-      console.error("Server responded with error:", error.response);
+  useEffect(() => {}, [isLike]);
+
+  useEffect(() => {
+    if (showComments) {
+      fetchComments();
     }
-  };
+  }, [showComments, postId]);
 
   function parseJwt(token: string) {
     const base64Url = token.split(".")[1];
@@ -146,6 +133,7 @@ export const ProfilePost = ({ data, getData }: Props) => {
       }
       const senderId = parseJwt(token).userId;
       const opponentId = authorID;
+      console.log(senderId);
       // const senderId = 1;
       // const opponentId = 2;
       const response = await axiosInstance.post(
@@ -176,15 +164,36 @@ export const ProfilePost = ({ data, getData }: Props) => {
     }
   };
 
+  /* 좋아요 조회 요청 */
+  const fetchLikes = async () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      return;
+    }
+
+    try {
+      const response = await api.get(`/api/likes/info/${postId}`, {
+        headers: { Authorization: token },
+      });
+      setLikeCount(response.data.count);
+      setIsLike(response.data.like);
+    } catch (error: any) {
+      console.error("Server responded with error:", error.response);
+    }
+  };
+
+  /* 댓글 조회 요청 */
   const fetchComments = async () => {
     if (typeof window === "undefined") {
       throw new Error("localStorage is not available on the server.");
     }
     const token = localStorage.getItem("token");
     try {
-      const response = await api.get(`/api/comment/${postId}`, {
-        headers: { Authorization: token },
-      });
+      const response = await api.get(`/api/comment/${postId}`);
       const { commentList } = response.data;
       setComments(commentList);
       setCommentCount(commentList.length);
@@ -199,32 +208,7 @@ export const ProfilePost = ({ data, getData }: Props) => {
     }
   };
 
-  const toggleComments = () => {
-    setShowComments(!showComments);
-  };
-
-  useEffect(() => {
-    fetchLikes();
-    fetchComments();
-  }, []);
-
-  useEffect(() => {}, [isLike]);
-
-  useEffect(() => {
-    if (showComments) {
-      fetchComments();
-    }
-  }, [showComments, postId]);
-
-  const handleCommentSubmit = (newComment: Comment) => {
-    setComments((prevComments) =>
-      prevComments ? [newComment, ...prevComments] : [newComment]
-    );
-    if (!showComments) {
-      setShowComments(true); // 댓글 작성 후 댓글 섹션이 표시되도록 설정
-    }
-  };
-
+  /* 좋아요 클릭 요청 */
   const handleLike = async () => {
     if (typeof window === "undefined") {
       throw new Error("localStorage is not available on the server.");
@@ -259,6 +243,7 @@ export const ProfilePost = ({ data, getData }: Props) => {
     }
   };
 
+  /* 좋아요 취소 요청 */
   const handleDislike = async () => {
     if (typeof window === "undefined") {
       throw new Error("localStorage is not available on the server.");
@@ -284,6 +269,21 @@ export const ProfilePost = ({ data, getData }: Props) => {
       console.error("Error handling dislike request:", error);
       setIsLike(true);
       setLikeCount(likeCount + 1);
+    }
+  };
+
+  /* 댓글 토글 - 보여줄때 */
+  const toggleComments = () => {
+    setShowComments(!showComments);
+  };
+
+  /* 댓글 작성 */
+  const handleCommentSubmit = (newComment: Comment) => {
+    setComments((prevComments) =>
+      prevComments ? [newComment, ...prevComments] : [newComment]
+    );
+    if (!showComments) {
+      setShowComments(true); // 댓글 작성 후 댓글 섹션이 표시되도록 설정
     }
   };
 
