@@ -94,13 +94,8 @@ const fetchData = async (postId: number): Promise<Props["data"][]> => {
   if (typeof window === "undefined") {
     throw new Error("localStorage is not available on the server.");
   }
-  const token = localStorage.getItem("token");
   try {
-    const response = await api.get(`/api/boards/${postId}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
+    const response = await api.get(`/api/boards/${postId}`);
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || "An error occurred");
@@ -116,7 +111,7 @@ const currentUserId = () => {
     const decoded: any = jwtDecode(userToken);
     return decoded.userId;
   } else {
-    console.error("No token found in session storage.");
+    console.log("No token found in session storage.");
   }
 };
 

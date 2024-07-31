@@ -30,6 +30,9 @@ export const MycommentSection: React.FC<MycommentSectionProps> = ({
       throw new Error("localStorage is not available on the server.");
     }
     const token = localStorage.getItem("token");
+    if (!token) {
+      return;
+    }
     const newComment: any = {
       userName: "유저 이름",
       profileImgUrl: "/png/hamster.png",
