@@ -30,6 +30,9 @@ export const MycommentSection: React.FC<MycommentSectionProps> = ({
       throw new Error("localStorage is not available on the server.");
     }
     const token = localStorage.getItem("token");
+    if (!token) {
+      return;
+    }
     const newComment: any = {
       userName: "유저 이름",
       profileImgUrl: "/png/hamster.png",
@@ -208,26 +211,41 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
                     </button>
                     <button
                       onClick={handleCancelEdit}
-                      className="px-2 py-1 text-white bg-gray-500 rounded"
+                      className="px-2 py-1 text-white border rounded"
                     >
-                      취소
+                      <Image
+                        src="/svg/close.svg"
+                        width={17}
+                        height={17}
+                        alt="취소버튼"
+                      />
                     </button>
                   </>
                 ) : (
                   <>
                     <button
                       onClick={() => handleEdit(comment.id)}
-                      className="px-2 py-1 text-white bg-blue-500 rounded"
+                      className="px-2 py-1 border text-white rounded"
                       disabled={loading}
                     >
-                      수정
+                      <Image
+                        src="/svg/pencil-edit.svg"
+                        width={25}
+                        height={25}
+                        alt="수정버튼"
+                      />
                     </button>
                     <button
                       onClick={() => handleDelete(comment.id)}
-                      className="px-2 py-1 text-white bg-red-500 rounded"
+                      className="px-2 py-1 border text-white rounded"
                       disabled={loading}
                     >
-                      삭제
+                      <Image
+                        src="/svg/trash.svg"
+                        width={18}
+                        height={18}
+                        alt="삭제버튼"
+                      />
                     </button>
                   </>
                 )}
