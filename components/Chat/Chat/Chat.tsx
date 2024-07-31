@@ -39,6 +39,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
       const response = await axiosInstance.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/room/${ChatRoomId}`, {
         headers: {
           Authorization: token,
+          'Content-Type': 'application/json',
         },
       });
       setSenderId(response.data.senderId);
