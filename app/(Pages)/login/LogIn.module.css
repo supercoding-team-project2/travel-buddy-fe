@@ -1,5 +1,5 @@
 .LogIn {
-  background: #85b1cc;
+  background: #85b1cc3b;
   display: flex;
   width: 100%;
   height: 100vh;
@@ -103,22 +103,53 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 2vh;
+  gap: 3vh;
+  margin-top: 3%;
   align-items: center;
+  width: 100%;
+}
+
+.signup-forgot-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+}
+
+.text-signup {
+  color: black;
+  font-weight: 600;
 }
 
 .text {
-  color: black;
+  font-weight: 600;
 }
 
-.text a {
-  color: #85b1cc;
+.text a,
+.text-signup a {
+  color: #71a9cc;
 }
 
-.line {
+.middle-line {
+  height: 70%;
+  width: 1px;
+  background-color: lightgrey;
+}
+
+.forgot-password:hover {
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.middle-line {
+}
+
+/* .line {
   width: 50%;
   border: solid 0.5px lightgrey;
-}
+} */
 
 .socialWrapper {
   display: grid;
