@@ -42,6 +42,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
           'Content-Type': 'application/json',
         },
       });
+      console.log(response);
       setSenderId(response.data.senderId);
       setOpponentId(response.data.opponentId);
       setOpponentName(response.data.opponentName);
