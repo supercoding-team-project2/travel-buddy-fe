@@ -22,6 +22,7 @@ export function SignUpClient({ phoneNum }: { phoneNum: string }) {
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isSignedUp, setIsSignedUp] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   const handlePart1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -71,6 +72,11 @@ export function SignUpClient({ phoneNum }: { phoneNum: string }) {
     setPassword(e.target.value);
   };
 
+  const validatePassword = (password: string) => {
+    const reg_pw = /^(?=.*[0-9])(?=.*[a-zA-Z])(?!.*[^a-zA-Z0-9]).{6,12}$/;
+    return reg_pw.test(password);
+  };
+
   const validateForm = () => {
     return (
       name.trim() !== '' &&
@@ -88,6 +94,11 @@ export function SignUpClient({ phoneNum }: { phoneNum: string }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!validatePassword(password)) {
+      setError('6~12자 영문 대 소문자와 숫자를 사용하세요.');
+      return;
+    }
 
     const residentNum = part1 + part2;
 
@@ -173,6 +184,7 @@ export function SignUpClient({ phoneNum }: { phoneNum: string }) {
                   />
                 )}
               </div>
+              {error && <div className={cx('checkError')}>{error}</div>}
               <div className={cx('inputUnit')}>
                 <div className={cx('inputTitle')}>주민등록번호</div>
                 <div className={cx('idNumInput')}>
