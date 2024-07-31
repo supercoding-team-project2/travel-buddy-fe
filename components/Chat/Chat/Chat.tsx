@@ -84,7 +84,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
     if (!token) return;
 
     client.current = Stomp.over(function () {
-      return new WebSocket("wss://wanderlus.shop/ws");
+      return new WebSocket("ws://wanderlus.shop/ws");
     });
 
     // 클라이언트 객체를 서버와 연결
