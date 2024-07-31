@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import styles from './SignUp.module.css';
 import { Alert } from '../../../components/Alert/Alert';
 import axiosInstance from '@/lib/axiosInstance';
+import SuccessSignUp from '@/components/SuccessSignUp';
 
 const cx = classNames.bind(styles);
 
@@ -120,8 +121,8 @@ export function SignUpClient({ phoneNum }: { phoneNum: string }) {
 
   return (
     <>
-      {isSignedUp ? (
-        <Alert errorMessage="회원가입이 완료되었습니다" buttonText="Login" nextLink="/login" />
+      {!isSignedUp ? (
+        <SuccessSignUp />
       ) : (
         <div className={cx('SignUp')}>
           <div className={cx('leftWrapper')}>

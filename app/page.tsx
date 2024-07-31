@@ -1,11 +1,11 @@
-'use client';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import classNames from 'classnames/bind';
-import styles from './MainPage.module.css';
-import { MainSlider } from '../components/Main/MainSlider/MainSlider';
-import { CourseCard } from '../components/Main/CourseCard/CourseCard';
-import axiosInstance from '@/lib/axiosInstance';
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import classNames from "classnames/bind";
+import styles from "./MainPage.module.css";
+import { MainSlider } from "../components/Main/MainSlider/MainSlider";
+import { CourseCard } from "../components/Main/CourseCard/CourseCard";
+import axiosInstance from "@/lib/axiosInstance";
 
 import SuccessSignUp from "../components/SuccessSignUp";
 
@@ -27,9 +27,9 @@ interface ApiResponse {
 }
 
 export default function MainPage() {
-  const sample1 = '/png/hamster.png';
-  const sample2 = '/png/hamster2.png';
-  const sample3 = '/png/hemsworth.png';
+  const sample1 = "/png/hamster.png";
+  const sample2 = "/png/hamster2.png";
+  const sample3 = "/png/hemsworth.png";
   const [topReviewData, settopReviewData] = useState<Post[]>([]);
   const [topGuideData, setTopGuideData] = useState<Post[]>([]);
   const [topCompanionData, setTopCompanionData] = useState<Post[]>([]);
@@ -40,13 +40,13 @@ export default function MainPage() {
     axiosInstance
       .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/boards/top4-categories`)
       .then((response) => {
-        console.log('메인 페이지 top 게시글 패치 성공', response.data);
+        console.log("메인 페이지 top 게시글 패치 성공", response.data);
         const data: ApiResponse = response.data;
         settopReviewData(data.top4ReviewBoards);
         setTopGuideData(data.top4GuideBoards);
         setTopCompanionData(data.top4CompanionBoards);
       })
-      .catch((error) => console.error('메인 페이지 게시글 패치 실패', error));
+      .catch((error) => console.error("메인 페이지 게시글 패치 실패", error));
   }, []);
 
   return (
@@ -125,6 +125,5 @@ export default function MainPage() {
         </div>
       </section>
     </div>
-    // <SuccessSignUp />
   );
 }
