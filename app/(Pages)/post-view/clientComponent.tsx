@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DatePickerWithRange } from "@/components/Post/PostView/DatePickerWithRange";
 import { PostCard } from "@/components/Post/PostView/PostCard";
@@ -29,6 +29,8 @@ import {
 } from "@/components/Post/PostView/fetchApi";
 
 const cx = classNames.bind(styles);
+
+const Loading = () => <div>Loading...</div>;
 
 export const WriteButton = () => {
   const router = useRouter();
@@ -115,7 +117,13 @@ export const SelectPost = ({
 
 export const ClientComponent = () => {
   const router = useRouter();
-  const [filter, setFilter] = useState("전체");
+  const searchParams = useSearchParams();
+  const search = searchParams.get("category");
+  const validCategories = ["전체", "REVIEW", "COMPANION", "GUIDE"];
+  const initialFilter = validCategories.includes(search || "")
+    ? search
+    : "전체";
+  const [filter, setFilter] = useState<any>(initialFilter);
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
   const [selectedDateRange, setSelectedDateRange] = useState<
     DateRange | undefined
@@ -139,14 +147,12 @@ export const ClientComponent = () => {
         const fromDateObj = new Date(selectedDateRange.from);
         fromDateObj.setDate(fromDateObj.getDate() + 1);
         fromDate = fromDateObj.toISOString().split("T")[0];
-        console.log("🚀 ~ getData ~ fromDate:", fromDate);
       }
 
       if (selectedDateRange?.to) {
         const toDateObj = new Date(selectedDateRange.to);
         toDateObj.setDate(toDateObj.getDate() + 1);
         toDate = toDateObj.toISOString().split("T")[0];
-        console.log("🚀 ~ getData ~ toDate:", toDate);
       }
 
       const response = await fetchData({
@@ -204,7 +210,7 @@ export const ClientComponent = () => {
         });
       }
 
-      if (response.status === 404) {
+      if (response.status === 404 && response.status === 500) {
         console.log("데이터가 없습니다.");
       } else if (response.data && response.data.length === 0) {
         setResponseMessage("데이터가 없습니다.");
@@ -246,75 +252,77 @@ export const ClientComponent = () => {
   };
 
   return (
-    <div className={cx("post-container")}>
-      <div className={cx("post-top-container")}>
-        <div className={cx("button-container")}>
-          <div className={cx("category-button-group")}>
-            <ButtonOutline
-              text="전체"
-              isActive={filter === "전체"}
-              onClick={() => handleFilterChange("전체")}
-            />
-            <ButtonOutline
-              text="후기"
-              isActive={filter === "REVIEW"}
-              onClick={() => handleFilterChange("REVIEW")}
-            />
-            <ButtonOutline
-              text="동행"
-              isActive={filter === "COMPANION"}
-              onClick={() => handleFilterChange("COMPANION")}
-            />
-            <ButtonOutline
-              text="가이드"
-              isActive={filter === "GUIDE"}
-              onClick={() => handleFilterChange("GUIDE")}
-            />
+    <Suspense fallback={<Loading />}>
+      <div className={cx("post-container")}>
+        <div className={cx("post-top-container")}>
+          <div className={cx("button-container")}>
+            <div className={cx("category-button-group")}>
+              <ButtonOutline
+                text="전체"
+                isActive={filter === "전체"}
+                onClick={() => handleFilterChange("전체")}
+              />
+              <ButtonOutline
+                text="후기"
+                isActive={filter === "REVIEW"}
+                onClick={() => handleFilterChange("REVIEW")}
+              />
+              <ButtonOutline
+                text="동행"
+                isActive={filter === "COMPANION"}
+                onClick={() => handleFilterChange("COMPANION")}
+              />
+              <ButtonOutline
+                text="가이드"
+                isActive={filter === "GUIDE"}
+                onClick={() => handleFilterChange("GUIDE")}
+              />
+            </div>
+
+            <div className={cx("view-button-group")}>
+              <ButtonOutline
+                text="전체 게시물"
+                isActive={viewType === "ALL"}
+                onClick={() => handleButtonClick("ALL")}
+              />
+              <ButtonOutline
+                text="추천한 게시물"
+                isActive={viewType === "recommended"}
+                onClick={() => handleButtonClick("recommended")}
+              />
+              <ButtonOutline
+                text="참여한 여행"
+                isActive={viewType === "participated"}
+                onClick={() => handleButtonClick("participated")}
+              />
+            </div>
           </div>
 
-          <div className={cx("view-button-group")}>
-            <ButtonOutline
-              text="전체 게시물"
-              isActive={viewType === "ALL"}
-              onClick={() => handleButtonClick("ALL")}
-            />
-            <ButtonOutline
-              text="추천한 게시물"
-              isActive={viewType === "recommended"}
-              onClick={() => handleButtonClick("recommended")}
-            />
-            <ButtonOutline
-              text="참여한 여행"
-              isActive={viewType === "participated"}
-              onClick={() => handleButtonClick("participated")}
-            />
+          <div className={cx("select-write-group")}>
+            <div className={cx("select-container")}>
+              <SelectPost
+                sortOrder={sortOrder}
+                onSortChange={setSortOrder}
+                onOrderChange={setOrder}
+              />
+              <DatePickerWithRange
+                onDateChange={setSelectedDateRange}
+                dateRange={selectedDateRange}
+              />
+            </div>
+
+            <div className={cx("write-icon-container")}>
+              <WriteButton />
+            </div>
           </div>
         </div>
-
-        <div className={cx("select-write-group")}>
-          <div className={cx("select-container")}>
-            <SelectPost
-              sortOrder={sortOrder}
-              onSortChange={setSortOrder}
-              onOrderChange={setOrder}
-            />
-            <DatePickerWithRange
-              onDateChange={setSelectedDateRange}
-              dateRange={selectedDateRange}
-            />
-          </div>
-
-          <div className={cx("write-icon-container")}>
-            <WriteButton />
-          </div>
-        </div>
+        {!responseMessage ? (
+          <PostCard posts={filteredPosts} onPostClick={handlePostClick} />
+        ) : (
+          <div>{responseMessage}</div>
+        )}
       </div>
-      {!responseMessage ? (
-        <PostCard posts={filteredPosts} onPostClick={handlePostClick} />
-      ) : (
-        <div>{responseMessage}</div>
-      )}
-    </div>
+    </Suspense>
   );
 };
 export default {

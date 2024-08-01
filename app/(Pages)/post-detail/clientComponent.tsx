@@ -236,9 +236,16 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
     }
   };
 
+  // useEffect(() => {
+  //   getData();
+  // }, [postId]);
+
   useEffect(() => {
-    getData();
-  }, [postId]);
+    if (!isOpen) {
+      console.log("🚀 ~ ClientComponent ~ modalOpen:", modalOpen);
+      getData();
+    }
+  }, [postId, isOpen]);
 
   useEffect(() => {
     if (travelId) {
@@ -276,6 +283,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
         headers: { Authorization: token },
       });
       console.log("참여취소 성공");
+      getData();
     } catch (error: any) {
       console.error("참여 취소 중 오류 발생:", error);
     }
