@@ -18,7 +18,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
 
   const [chatHistory, setChatHistory] = useState<MessageProps[] | null>(null);
   const [inputValue, setInputValue] = useState('');
-  const [isLoaded, setIsLoaded] = useState(false);
+  // const [isLoaded, setIsLoaded] = useState(false);
   const [senderId, setSenderId] = useState('');
   const [opponentId, setOpponentId] = useState('');
   const [opponentName, setOpponentName] = useState('');
@@ -33,24 +33,44 @@ export function Chat({ ChatRoomId }: ChatProps) {
     }
   }, []);
 
-  const getChatRoomData = async (token: string | null) => {
-    console.log(token);
-    try {
-      const response = await axiosInstance.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/room/${ChatRoomId}`, {
+  // const getChatRoomData = async (token: string | null) => {
+  //   try {
+  //     const response = await axiosInstance.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/room/${ChatRoomId}`, {
+  //       headers: {
+  //         Authorization: token,
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+  //     console.log('채팅 내역 조회 성공', response);
+  //     setSenderId(response.data.senderId);
+  //     setOpponentId(response.data.opponentId);
+  //     setOpponentName(response.data.opponentName);
+  //     setOpponentProfile(response.data.opponentProfile);
+  //     setChatHistory(response.data.messages);
+  //   } catch (error) {
+  //     console.error('채팅 내역 조회 에러', error);
+  //   }
+  // };
+
+  const getChatRoomData = (token: string | null) => {
+    axiosInstance
+      .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/room/${ChatRoomId}`, {
         headers: {
           Authorization: token,
           'Content-Type': 'application/json',
         },
+      })
+      .then((response) => {
+        setSenderId(response.data.senderId);
+        setOpponentId(response.data.opponentId);
+        setOpponentName(response.data.opponentName);
+        setOpponentProfile(response.data.opponentProfile);
+        setChatHistory(response.data.messages);
+        console.log('채팅 내역 조회 성공', response);
+      })
+      .catch((error) => {
+        console.error('채팅 내역 조회 에러', error);
       });
-      console.log(response);
-      setSenderId(response.data.senderId);
-      setOpponentId(response.data.opponentId);
-      setOpponentName(response.data.opponentName);
-      setOpponentProfile(response.data.opponentProfile);
-      setChatHistory(response.data.messages);
-    } catch (error) {
-      console.error('채팅 내역 조회 에러', error);
-    }
   };
 
   useEffect(() => {
@@ -106,7 +126,9 @@ export function Chat({ ChatRoomId }: ChatProps) {
   const sendHandler = (inputValue: string) => {
     console.log('메시지 보냄');
     const timeStamp = new Date().toISOString();
+    console.log('timeStamp:' + timeStamp);
     const formattedTimeStamp = formatTimestamp(timeStamp);
+    console.log('formattedTimeStamp:' + formattedTimeStamp);
     const newMessage = {
       roomId: ChatRoomId,
       senderId: senderId,
@@ -133,18 +155,18 @@ export function Chat({ ChatRoomId }: ChatProps) {
     }
   };
 
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
-      setIsLoaded(true);
-    }
-  }, [chatHistory]);
+  // useEffect(() => {
+  //   if (messagesEndRef.current) {
+  //     messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+  //     setIsLoaded(true);
+  //   }
+  // }, [chatHistory]);
 
   return (
     <div className={cx('Chat')}>
       <div className={cx('messageHeader')}>
-        <img src="/png/hamster2.png" alt="" className={cx('opponentProfile')} />
-        <div className={cx('opponentName')}>Hamster{ChatRoomId}</div>
+        <img src={opponentProfile} alt="" className={cx('opponentProfile')} />
+        <div className={cx('opponentName')}>{opponentName}</div>
         <div className={cx('menu')}>
           <div className={cx('dot')}></div>
           <div className={cx('dot')}></div>
@@ -156,7 +178,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
         style={{
           overflowY: 'auto',
           maxHeight: '500px',
-          visibility: isLoaded ? 'visible' : 'hidden',
+          // visibility: isLoaded ? 'visible' : 'hidden',
         }}
       >
         {chatHistory?.map((msg, index) => (
