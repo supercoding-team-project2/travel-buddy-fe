@@ -49,7 +49,7 @@ const Header: React.FC = () => {
     <div className={cx("Header")}>
       <div className={cx("company-container")}>
         <div className={cx("company-logo")} onClick={() => router.push("/")}>
-          Travel Buddy
+          <img src="/png/travelog-3.png" className={cx("travelog-logo")} />
         </div>
       </div>
       <div className={cx("navigatation-user-container")}>
