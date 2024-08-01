@@ -18,6 +18,7 @@ export interface Trip {
   participantCount: number;
   gender: string;
   userId: number; //유저 아이디가 넘버로 설정... 나중에 스트링으로 올 수도 있음
+  id: number;
 }
 
 export interface Place {
