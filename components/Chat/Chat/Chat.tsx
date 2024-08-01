@@ -69,7 +69,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
         console.log('----------------');
         console.log(response.data.messages);
         console.log('----------------');
-        setChatHistory(response.data.messages.map((m: MessageProps) => ({ ...m, timeStamp: '시간 주세요' })));
+        setChatHistory(response.data.messages);
         console.log('채팅 내역 조회 성공', response);
       })
       .catch((error) => {
@@ -106,8 +106,9 @@ export function Chat({ ChatRoomId }: ChatProps) {
       () => {
         // 연결 성공 시 해당 방을 구독하면 서버로부터 새로운 매시지를 수신 한다.
         client.current?.subscribe(
-          `/subscribe/${ChatRoomId}/queue/messages/`,
+          `/subscribe/${ChatRoomId}/queue/messages`,
           (message) => {
+            console.log(message);
             // 기존 대화 내역에 새로운 메시지 추가
             setChatHistory((prevHistory) => {
               return prevHistory ? [...prevHistory, JSON.parse(message.body)] : null;
@@ -141,7 +142,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
       timeStamp: formattedTimeStamp,
     };
 
-    setChatHistory((prevHistory) => (prevHistory ? [...prevHistory, newMessage] : [newMessage]));
+    // setChatHistory((prevHistory) => (prevHistory ? [...prevHistory, newMessage] : [newMessage]));
     setInputValue('');
 
     // client.current가 존재하고 연결되었다면 메시지 전송
