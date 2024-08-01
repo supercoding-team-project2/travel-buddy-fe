@@ -23,7 +23,7 @@ const Header: React.FC = () => {
     }
   }, [pathname]);
 
-  const noLayout = noLayoutRoutes.includes(pathname);
+  const noLayout = noLayoutRoutes.some((route) => new RegExp(`^${route}(/|$)`).test(pathname));
   if (noLayout) return <></>;
 
   const handleLogout = async () => {
