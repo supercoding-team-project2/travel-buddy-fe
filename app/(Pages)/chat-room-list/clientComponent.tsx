@@ -11,21 +11,30 @@ const cx = classNames.bind(styles);
 export function ChatRoomListClient() {
   const [chatRoomId, setChatRoomId] = useState<string | null>();
   const [chatRooms, setChatRooms] = useState<ChatRoomSummaryProps[]>([]);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    // 채팅방 데이터를 백엔드에서 가져옵니다.
-    const fetchChatRooms = async () => {
-      try {
-        const response = await axiosInstance.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatRooms`); // 백엔드의 채팅방 목록 API 엔드포인트로 수정하세요.
-        setChatRooms(response.data);
-      } catch (error) {
-        console.log('채팅방 데이터를 불러오는 중 오류가 발생했습니다.');
-        console.log(error);
-      }
-    };
-
-    fetchChatRooms();
+    if (typeof window !== 'undefined') {
+      setToken(localStorage.getItem('token'));
+    }
   }, []);
+
+  // 채팅방 데이터를 백엔드에서 가져옵니다.
+  const fetchChatRooms = async (token: string | null) => {
+    try {
+      const response = await axiosInstance.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatRooms`, {
+        headers: { Authorization: token },
+      });
+      setChatRooms(response.data);
+    } catch (error) {
+      console.log('채팅방 데이터를 불러오는 중 오류가 발생했습니다.');
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchChatRooms(token);
+  }, [token]);
 
   return (
     <div className={cx('ChatRoomList')}>

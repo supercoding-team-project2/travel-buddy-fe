@@ -3,7 +3,7 @@ interface MessageProps {
   senderId: string;
   opponentId: string;
   content: string;
-  timestamp: string;
+  timeStamp: string;
 }
 
 interface ChatRoomSummaryProps {
