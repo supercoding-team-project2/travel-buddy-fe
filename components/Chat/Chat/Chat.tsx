@@ -69,7 +69,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
         console.log('----------------');
         console.log(response.data.messages);
         console.log('----------------');
-        setChatHistory(response.data.messages.map((m: MessageProps) => ({ ...m, timeStamp: '시간 주세요' })));
+        setChatHistory(response.data.messages);
         console.log('채팅 내역 조회 성공', response);
       })
       .catch((error) => {
