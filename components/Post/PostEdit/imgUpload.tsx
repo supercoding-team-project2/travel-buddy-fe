@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface ImgUploadProps {
   onImagesChange?: (images: string[]) => void;
+  initialImages?: string[]; // 초기 이미지를 받을 prop 추가
 }
 
-const ImgUpload = ({ onImagesChange }: ImgUploadProps) => {
-  const [previewSrcList, setPreviewSrcList] = useState<string[]>([]);
+const ImgUpload = ({ onImagesChange, initialImages = [] }: ImgUploadProps) => {
+  const [previewSrcList, setPreviewSrcList] = useState<string[]>(initialImages);
+
+  useEffect(() => {
+    if (initialImages.length > 0) {
+      setPreviewSrcList(initialImages);
+    }
+  }, [initialImages]);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();

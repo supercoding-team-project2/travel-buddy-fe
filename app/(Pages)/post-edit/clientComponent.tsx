@@ -18,6 +18,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [courseData, setCourseData] = useState([]);
+  console.log("🚀 ~ ClientComponent ~ courseData:", courseData);
   const [images, setImages] = useState<File[]>([]);
   const [content, setContent] = useState("");
   const [ageMin, setAgeMin] = useState("");
@@ -27,8 +28,8 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<any | null>(null);
+  console.log("🚀 ~ ClientComponent ~ data:", data);
   const [tripId, setTripId] = useState("");
-  console.log("🚀 ~ clientComponent ~ tripId:", tripId);
 
   const handlePostView = () => {
     router.push(`/post-detail/${postId}`);

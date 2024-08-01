@@ -19,13 +19,13 @@ interface CheckboxData {
   gender: string;
 }
 
-// onSelectChange: 내려받는 거(부모->자식) onEditChange: 올려주는 거(부모 <- 자식)
 export const Editor = ({
   initialData,
   onSelectChange,
   onEditChange,
 }: EditTextProps) => {
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<string[]>(initialData?.images || []);
+  console.log("🚀 ~ images:", images);
   const [content, setContent] = useState(initialData?.content || "");
   const [checkboxData, setCheckboxData] = useState<CheckboxData>({
     ageMin: initialData?.checkbox.ageMin,
@@ -55,7 +55,7 @@ export const Editor = ({
   return (
     <div className="relative flex flex-col bg-slate-100 rounded-lg p-6 dark:bg-slate-800 dark:highlight-white/5">
       <div className="flex flex-col p-4">
-        <ImgUpload onImagesChange={handleImagesChange} />
+        <ImgUpload onImagesChange={handleImagesChange} initialImages={images} />
         <div className="my-6">
           <textarea
             placeholder="글 내용"
@@ -68,7 +68,7 @@ export const Editor = ({
           ></textarea>
         </div>
         <div>
-          {onSelectChange !== "후기" && (
+          {onSelectChange !== "REVIEW" && (
             <Checkbox
               onChange={handleCheckboxChange}
               initialData={checkboxData}
