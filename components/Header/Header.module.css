@@ -16,6 +16,11 @@
   cursor: pointer;
 }
 
+.travelog-logo {
+  width: 180px;
+  height: 60px;
+}
+
 .navigatation-user-container {
   display: flex;
   align-items: center;
