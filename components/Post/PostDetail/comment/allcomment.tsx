@@ -289,6 +289,10 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
                   value={editingContents[comment.id] || ""}
                   onChange={(e) => handleEditChange(e, comment.id)}
                   className="w-full mt-2 p-2 border rounded"
+                  style={{
+                    resize: "none",
+                    overflow: "auto",
+                  }}
                 />
               ) : (
                 <p className="text-gray-600 mt-2">{comment.comment}</p>

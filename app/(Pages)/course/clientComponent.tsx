@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { DateRangePickerProps } from "react-date-range";
 
@@ -23,6 +23,8 @@ const CourseClient = () => {
   const [dateData, setDateData] = useState<{ [date: string]: any[] }>({});
   const [isDateConfirmed, setIsDateConfirmed] = useState({});
   const [token, setToken] = useState<string | null>(null);
+  const [titleInvalid, setTitleInvalid] = useState(false);
+  const titleRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,9 +32,10 @@ const CourseClient = () => {
       const localToken = localStorage.getItem("token");
       setToken(localToken);
 
-      if (!localToken) {
-        router.push("/login");
-      }
+      // 다시 풀기
+      // if (!localToken) {
+      //   router.push("/login");
+      // }
     }
   }, []);
 
@@ -50,6 +53,9 @@ const CourseClient = () => {
         dateRange={dateRange}
         isDateConfirmed={isDateConfirmed}
         isSaved={isSaved}
+        titleInvalid={titleInvalid}
+        setTitleInvalid={setTitleInvalid}
+        titleRef={titleRef}
         setTitle={setTitle}
         setIsSaved={setIsSaved}
         setDateData={setDateData}
@@ -62,6 +68,8 @@ const CourseClient = () => {
         setIsDateConfirmed={setIsDateConfirmed}
         setIsSaved={setIsSaved}
         token={token}
+        setTitleInvalid={setTitleInvalid}
+        titleRef={titleRef}
       />
     </>
   );
