@@ -2,7 +2,7 @@
   width: 100%;
   background: #c3d8e6;
   display: flex;
-  padding: 30px 20px 20px 50px;
+  padding: 30px 20px 30px 50px;
   position: relative;
   transform: translateY(0%);
   margin-top: auto;
@@ -33,18 +33,21 @@
 }
 
 .link-home,
+.link-review,
 .link-guide,
-.link-together {
+.link-companion {
   color: #ffffff;
   text-decoration: none;
   font-size: medium;
   font-weight: 600;
   font-size: 16px;
+  cursor: pointer;
 }
 
 .link-home:hover,
+.link-review:hover,
 .link-guide:hover,
-.link-together:hover {
+.link-companion:hover {
   text-decoration: underline;
 }
 

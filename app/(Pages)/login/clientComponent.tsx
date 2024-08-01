@@ -102,7 +102,7 @@ export function LogInClient() {
                 className={cx('showPasswordButton')}
               />
             </div>
-            <button className={cx('submitButton')}>Login</button>
+            <button className={cx("submitButton")}>로그인</button>
           </form>
           <div className={cx('middleWrapper')}>
             <div className={cx('signup-forgot-container')}>

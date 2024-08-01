@@ -29,6 +29,9 @@
 .welcome-image-container {
   width: 55%;
   margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .button-container {
