@@ -18,7 +18,6 @@ import { DatePickerWithRange } from "@/components/Post/PostView/DatePickerWithRa
 import { PostCard } from "@/components/Post/PostView/PostCard";
 import { DateRange } from "react-day-picker";
 import api from "@/app/api/api";
-import { posts } from "@/components/Post/PostView/posts";
 import {
   ButtonOutlineProps,
   Post,
@@ -33,14 +32,26 @@ const cx = classNames.bind(styles);
 
 export const WriteButton = () => {
   const router = useRouter();
+
+  const handleClick = () => {
+    if (typeof window === "undefined") {
+      throw new Error("localStorage is not available on the server.");
+    }
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/post-create");
+    } else {
+      alert("로그인 후 이용해 주세요.");
+    }
+  };
+
   return (
-    <button className={cx("writebutton")}>
+    <button className="writebutton" onClick={handleClick}>
       <Image
         src="./svg/write-icon.svg"
-        alt="글쓰기버튼"
+        alt="글쓰기 버튼"
         width={30}
         height={30}
-        onClick={() => router.push("/post-create")}
       />
     </button>
   );
@@ -48,7 +59,7 @@ export const WriteButton = () => {
 
 const ButtonOutline = ({ text, isActive, onClick }: any) => {
   const activeStyles = {
-    backgroundColor: "rgb(195,216,230)", // 원하는 RGB 색상으로 변경
+    backgroundColor: "rgb(195,216,230)",
     color: "rgb(255, 255, 255)",
   };
 
@@ -84,7 +95,7 @@ export const SelectPost = ({
       onValueChange={(value) => {
         onSortChange(value);
         if (value === "title") {
-          onOrderChange("asc"); // 가나다순일 때는 오름차순
+          onOrderChange("asc");
         } else {
           onOrderChange("desc");
         }
@@ -121,8 +132,22 @@ export const ClientComponent = () => {
   const getData = async () => {
     try {
       setLoading(true);
-      const fromDate = selectedDateRange?.from?.toISOString();
-      const toDate = selectedDateRange?.to?.toISOString();
+      let fromDate: string | undefined;
+      let toDate: string | undefined;
+
+      if (selectedDateRange?.from) {
+        const fromDateObj = new Date(selectedDateRange.from);
+        fromDateObj.setDate(fromDateObj.getDate() + 1);
+        fromDate = fromDateObj.toISOString().split("T")[0];
+        console.log("🚀 ~ getData ~ fromDate:", fromDate);
+      }
+
+      if (selectedDateRange?.to) {
+        const toDateObj = new Date(selectedDateRange.to);
+        toDateObj.setDate(toDateObj.getDate() + 1);
+        toDate = toDateObj.toISOString().split("T")[0];
+        console.log("🚀 ~ getData ~ toDate:", toDate);
+      }
 
       const response = await fetchData({
         category: filter === "전체" ? undefined : filter,
@@ -142,8 +167,22 @@ export const ClientComponent = () => {
   const getMyPosts = async (type: "recommended" | "participated") => {
     try {
       setLoading(true);
-      const fromDate = selectedDateRange?.from?.toISOString();
-      const toDate = selectedDateRange?.to?.toISOString();
+      let fromDate: string | undefined;
+      let toDate: string | undefined;
+
+      if (selectedDateRange?.from) {
+        const fromDateObj = new Date(selectedDateRange.from);
+        fromDateObj.setDate(fromDateObj.getDate() + 1);
+        fromDate = fromDateObj.toISOString().split("T")[0];
+        console.log("🚀 ~ getData ~ fromDate:", fromDate);
+      }
+
+      if (selectedDateRange?.to) {
+        const toDateObj = new Date(selectedDateRange.to);
+        toDateObj.setDate(toDateObj.getDate() + 1);
+        toDate = toDateObj.toISOString().split("T")[0];
+        console.log("🚀 ~ getData ~ toDate:", toDate);
+      }
 
       let response;
       if (type === "recommended") {
@@ -166,15 +205,17 @@ export const ClientComponent = () => {
       }
 
       if (response.status === 404) {
-        setResponseMessage("데이터가 없습니다.");
+        console.log("데이터가 없습니다.");
       } else if (response.data && response.data.length === 0) {
         setResponseMessage("데이터가 없습니다.");
       } else {
         setResponseMessage(null);
+        setFilteredPosts(response.data);
       }
     } catch (err: any) {
       if (err.response?.status === 400) {
         setError(err.message);
+        console.log("데이터없음");
       }
     } finally {
       setLoading(false);

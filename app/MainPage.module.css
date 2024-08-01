@@ -1,7 +1,7 @@
 .MainPage {
   display: flex;
   flex-direction: column;
-  gap: 10vh;
+  gap: 8vh;
   margin-bottom: 8vh;
   background: white;
 }

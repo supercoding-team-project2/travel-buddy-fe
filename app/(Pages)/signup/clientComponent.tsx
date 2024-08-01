@@ -228,9 +228,13 @@ export function SignUpClient({ phoneNum }: { phoneNum: string }) {
                   onClick={handleImageClick}
                 />
               </div>
-              <div className={cx('bottomWrapper')}>
-                <button className={cx('submitButton')} type="submit" disabled={!isFormValid}>
-                  Sign Up
+              <div className={cx("bottomWrapper")}>
+                <button
+                  className={cx("submitButton")}
+                  type="submit"
+                  disabled={!isFormValid}
+                >
+                  가입하기
                 </button>
               </div>
             </form>
