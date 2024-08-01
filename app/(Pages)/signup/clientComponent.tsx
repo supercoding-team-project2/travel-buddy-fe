@@ -235,7 +235,7 @@ export function SignUpClient({ phoneNum }: { phoneNum: string }) {
                   type="submit"
                   disabled={!isFormValid}
                 >
-                  Sign Up
+                  가입하기
                 </button>
               </div>
             </form>
