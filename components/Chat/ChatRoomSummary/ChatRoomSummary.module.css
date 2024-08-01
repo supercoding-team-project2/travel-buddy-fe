@@ -12,12 +12,3 @@
   font-size: 1.2rem;
   font-weight: 650;
 }
-
-.bottomWrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.lastTime {
-  color: darkgray;
-}
