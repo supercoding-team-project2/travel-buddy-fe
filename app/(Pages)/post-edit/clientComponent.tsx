@@ -169,10 +169,17 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
       }
     });
 
-    formDataToSend.append("ageMin", String(ageMin));
-    formDataToSend.append("ageMax", String(ageMax));
-    formDataToSend.append("targetNumber", String(participants));
-    formDataToSend.append("gender", String(gender));
+    if (category === "REVIEW") {
+      formDataToSend.append("ageMin", "");
+      formDataToSend.append("ageMax", "");
+      formDataToSend.append("targetNumber", "");
+      formDataToSend.append("gender", "");
+    } else {
+      formDataToSend.append("ageMin", String(ageMin));
+      formDataToSend.append("ageMax", String(ageMax));
+      formDataToSend.append("targetNumber", String(participants));
+      formDataToSend.append("gender", gender);
+    }
 
     formDataToSend.forEach((value, key) => {
       let valueType;
@@ -226,6 +233,7 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
           type="submit"
           onClick={handleSubmit}
           className="px-6 py-2 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 focus:outline-none"
+          style={{ backgroundColor: "#c3d8e6" }}
         >
           Submit
         </button>

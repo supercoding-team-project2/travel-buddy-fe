@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import { CommentSection, MycommentSection } from "./comment/allcomment";
 import api from "@/app/api/api";
 import axiosInstance from "@/lib/axiosInstance";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { useRouter } from "next/navigation";
 const cx = classNames.bind(styles);
 
 /* 버튼 컴포넌트 */
@@ -69,9 +72,6 @@ interface Props {
     likeCount: number;
     images: string[];
   };
-  // likeStatus: {
-  //   status: boolean;
-  // };
   getData: () => Promise<void>;
 }
 
@@ -85,7 +85,8 @@ export const ProfilePost = ({ data, getData }: Props) => {
   const [comments, setComments] = useState<Comment[]>([]); // 댓글 상태 관리
   const [likeCount, setLikeCount] = useState<number>(board?.likeCount || 0); //좋아요 수 상태
   const [isLike, setIsLike] = useState<boolean>(false); //좋아요 수 상태 관리
-
+  const { toast } = useToast();
+  const router = useRouter();
   interface Comment {
     userName: string;
     profileImgUrl: string;
@@ -216,6 +217,25 @@ export const ProfilePost = ({ data, getData }: Props) => {
 
     const token = localStorage.getItem("token");
     if (!token) {
+      toast({
+        variant: "destructive",
+        title: "로그인 후 이용해 주세요.",
+        description: "Please log-in and use it",
+        action: (
+          <ToastAction
+            altText="로그인"
+            onClick={() => router.push("/login")}
+            style={{ backgroundColor: "#87a7c7", color: "white" }}
+          >
+            로그인
+          </ToastAction>
+        ),
+        style: {
+          backgroundColor: "rgb(195, 216, 230)",
+          color: "#000",
+          border: "1px solid #87a7c7",
+        },
+      });
       return;
     }
 
@@ -283,7 +303,7 @@ export const ProfilePost = ({ data, getData }: Props) => {
       prevComments ? [newComment, ...prevComments] : [newComment]
     );
     if (!showComments) {
-      setShowComments(true); // 댓글 작성 후 댓글 섹션이 표시되도록 설정
+      setShowComments(true);
     }
   };
 
@@ -291,7 +311,6 @@ export const ProfilePost = ({ data, getData }: Props) => {
     <div className="text-sm leading-6">
       <figure className="relative flex flex-col bg-slate-100 rounded-lg p-9 dark:bg-slate-800 dark:highlight-white/5">
         <figcaption className="flex items-center space-x-4 ml-6 mb-3">
-          {/* 프로필사진 Image*/}
           <Image
             src={board?.userProfile}
             alt="image"
@@ -302,7 +321,6 @@ export const ProfilePost = ({ data, getData }: Props) => {
             decoding="async"
           />
           <div className="flex">
-            {/* 프로필 이름 */}
             <div className="text-xl text-slate-900 font-bold dark:text-slate-200 mr-2">
               {board.author}
             </div>
@@ -319,26 +337,21 @@ export const ProfilePost = ({ data, getData }: Props) => {
         </figcaption>
         <div className="flex gap-11">
           <div className="w-[60rem]">
-            {/* 여행사진들 */}
             <ImgSlider img={board?.images} />
           </div>
           <div className="w-[75rem] flex-col">
             <div>
               <div className=" bg-white rounded-lg border p-5 ">
-                {/* 본문내용 */}
                 <div className="text-lg border rounded-lg h-96 overflow-y-auto p-4">
                   {board.content}
                 </div>
-                {/* 좋아요 버튼 */}
                 <div className="flex my-5">
                   <ButtonWithHoverImage
                     onLike={handleLike}
                     onDislike={handleDislike}
                     isLiked={isLike}
                   />
-                  {/* 좋아요 개수 */}
                   <div className="flex items-center"> {likeCount}</div>
-                  {/* 댓글 개수 */}
                   <IconButton
                     src="/svg/chat.svg"
                     alt="댓글-버튼"
@@ -347,10 +360,8 @@ export const ProfilePost = ({ data, getData }: Props) => {
                     width={25}
                     height={25}
                   />
-                  {/* 댓글개수 */}
                   <div className="flex items-center ml-1">{commentCount}</div>
                 </div>
-                {/* 댓글 관리하기 */}
                 <MycommentSection
                   onSubmit={handleCommentSubmit}
                   postId={postId}
