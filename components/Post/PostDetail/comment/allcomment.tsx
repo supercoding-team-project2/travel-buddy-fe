@@ -234,7 +234,10 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
                     <>
                       <button
                         onClick={() => handleEditSubmit(comment.id)}
-                        className="px-2 py-1 text-white bg-green-500 rounded"
+                        className="px-2 py-1 text-white rounded"
+                        style={{
+                          backgroundColor: "#c3d8e6",
+                        }}
                         disabled={loading}
                       >
                         저장
@@ -287,88 +290,12 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
                   onChange={(e) => handleEditChange(e, comment.id)}
                   className="w-full mt-2 p-2 border rounded"
                 />
-<<<<<<< HEAD
               ) : (
                 <p className="text-gray-600 mt-2">{comment.comment}</p>
               )}
             </div>
           ))
         )}
-=======
-                <h3 className="font-bold">{comment.userName}</h3>
-              </div>
-              <div className="flex gap-2">
-                {editingCommentId === comment.id ? (
-                  <>
-                    <button
-                      onClick={() => handleEditSubmit(comment.id)}
-                      className="px-2 py-1 text-white rounded"
-                      style={{
-                        backgroundColor: '#c3d8e6'
-                      }}
-                      disabled={loading}
-                    >
-                      저장
-                    </button>
-                    <button
-                      onClick={handleCancelEdit}
-                      className="px-2 py-1 text-white border rounded"
-                    >
-                      <Image
-                        src="/svg/close.svg"
-                        width={17}
-                        height={17}
-                        alt="취소버튼"
-                      />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => handleEdit(comment.id)}
-                      className="px-2 py-1 border text-white rounded"
-                      disabled={loading}
-                    >
-                      <Image
-                        src="/svg/pencil-edit.svg"
-                        width={25}
-                        height={25}
-                        alt="수정버튼"
-                      />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(comment.id)}
-                      className="px-2 py-1 border text-white rounded"
-                      disabled={loading}
-                    >
-                      <Image
-                        src="/svg/trash.svg"
-                        width={18}
-                        height={18}
-                        alt="삭제버튼"
-                      />
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-            {editingCommentId === comment.id ? (
-              <textarea
-                value={editingContents[comment.id] || ""}
-                onChange={(e) => handleEditChange(e, comment.id)}
-                className="w-full mt-2 p-2 border rounded"
-                style={{
-                  overflow: "auto",
-                  resize: "none",
-                  outline: "none",
-                }}
-              />
-            ) : (
-              <p className="text-gray-600 mt-2">{comment.comment}</p>
-            )}
-          </div>
-        ))}
->>>>>>> develop
       </div>
     </div>
   );
