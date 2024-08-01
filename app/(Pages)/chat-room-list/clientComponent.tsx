@@ -26,6 +26,7 @@ export function ChatRoomListClient() {
         headers: { Authorization: token },
       });
       setChatRooms(response.data);
+      console.log(response);
     } catch (error) {
       console.log('채팅방 데이터를 불러오는 중 오류가 발생했습니다.');
       console.log(error);
@@ -47,8 +48,6 @@ export function ChatRoomListClient() {
                 key={room.roomId}
                 roomId={room.roomId}
                 opponentName={room.opponentName}
-                lastMessage={room.lastMessage}
-                lastTime={room.lastTime}
                 setChatRoomId={setChatRoomId}
               />
             ))
