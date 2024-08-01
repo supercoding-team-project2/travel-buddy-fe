@@ -102,18 +102,17 @@ export function LogInClient() {
                 className={cx('showPasswordButton')}
               />
             </div>
-            <button className={cx("submitButton")}>로그인</button>
+            <button className={cx('submitButton')}>로그인</button>
           </form>
           <div className={cx('middleWrapper')}>
             <div className={cx('signup-forgot-container')}>
               <div className={cx('text-signup')}>
-                {' '}
                 <Link href={'/signup'}>이메일 회원가입</Link>
               </div>
               <div className={cx('middle-line')}></div>
               <div className={cx('text-password-container')}>
                 <div className={cx('forgot-password')} onClick={() => router.push('/change-password')}>
-                  Forgot Password?{' '}
+                  Forgot Password?
                 </div>
               </div>
             </div>
