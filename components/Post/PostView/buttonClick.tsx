@@ -9,7 +9,8 @@ interface ButtonClickProps {
 export const ButtonWithHoverImage = ({ initialLikes }: ButtonClickProps) => {
   const [isClicked, setIsClicked] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     if (!isClicked) {
       setIsClicked(true);
     }
