@@ -34,12 +34,12 @@ export default function MainPage() {
 
   const router = useRouter();
 
-  //소개글이 정해진 글자수 27보다 넘으면 ... 띄우기
+  //소개글이 정해진 글자수 29보다 넘으면 ... 띄우기
   const truncateTitle = (title: string) => {
-    const MAX_TITLE_LENGTH = 27;
+    const MAX_TITLE_LENGTH = 29;
 
     if (title?.length > MAX_TITLE_LENGTH) {
-      return title.substring(0, MAX_TITLE_LENGTH) + " ...";
+      return title.substring(0, MAX_TITLE_LENGTH) + "...";
     }
 
     return title;

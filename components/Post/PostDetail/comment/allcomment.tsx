@@ -204,7 +204,10 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
                   <>
                     <button
                       onClick={() => handleEditSubmit(comment.id)}
-                      className="px-2 py-1 text-white bg-green-500 rounded"
+                      className="px-2 py-1 text-white rounded"
+                      style={{
+                        backgroundColor: '#c3d8e6'
+                      }}
                       disabled={loading}
                     >
                       저장
@@ -256,6 +259,11 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
                 value={editingContents[comment.id] || ""}
                 onChange={(e) => handleEditChange(e, comment.id)}
                 className="w-full mt-2 p-2 border rounded"
+                style={{
+                  overflow: "auto",
+                  resize: "none",
+                  outline: "none",
+                }}
               />
             ) : (
               <p className="text-gray-600 mt-2">{comment.comment}</p>
