@@ -21,7 +21,7 @@ const Header: React.FC = () => {
     if (typeof window !== 'undefined') {
       setToken(localStorage.getItem('token'));
     }
-  }, []);
+  }, [pathname]);
 
   const noLayout = noLayoutRoutes.includes(pathname);
   if (noLayout) return <></>;
