@@ -55,7 +55,7 @@ const Checkbox: React.FC<CheckboxProps> = ({ onChange }) => {
         <div>
           <input
             placeholder="min"
-            className="w-14 border rounded"
+            className="w-14 border border-gray-300 rounded focus:border-blue-500"
             value={ageMin ?? ""}
             onChange={handleAgeMinChange}
           />{" "}
@@ -64,7 +64,7 @@ const Checkbox: React.FC<CheckboxProps> = ({ onChange }) => {
             placeholder="max"
             value={ageMax ?? ""}
             onChange={handleAgeMaxChange}
-            className="w-14 border rounded"
+            className="w-14 border border-gray-300 rounded focus:border-blue-500"
           />
         </div>
       </div>

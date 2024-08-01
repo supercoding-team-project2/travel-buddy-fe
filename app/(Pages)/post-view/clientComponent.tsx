@@ -132,8 +132,22 @@ export const ClientComponent = () => {
   const getData = async () => {
     try {
       setLoading(true);
-      const fromDate = selectedDateRange?.from?.toISOString();
-      const toDate = selectedDateRange?.to?.toISOString();
+      let fromDate: string | undefined;
+      let toDate: string | undefined;
+
+      if (selectedDateRange?.from) {
+        const fromDateObj = new Date(selectedDateRange.from);
+        fromDateObj.setDate(fromDateObj.getDate() + 1);
+        fromDate = fromDateObj.toISOString().split("T")[0];
+        console.log("🚀 ~ getData ~ fromDate:", fromDate);
+      }
+
+      if (selectedDateRange?.to) {
+        const toDateObj = new Date(selectedDateRange.to);
+        toDateObj.setDate(toDateObj.getDate() + 1);
+        toDate = toDateObj.toISOString().split("T")[0];
+        console.log("🚀 ~ getData ~ toDate:", toDate);
+      }
 
       const response = await fetchData({
         category: filter === "전체" ? undefined : filter,
@@ -153,8 +167,22 @@ export const ClientComponent = () => {
   const getMyPosts = async (type: "recommended" | "participated") => {
     try {
       setLoading(true);
-      const fromDate = selectedDateRange?.from?.toISOString();
-      const toDate = selectedDateRange?.to?.toISOString();
+      let fromDate: string | undefined;
+      let toDate: string | undefined;
+
+      if (selectedDateRange?.from) {
+        const fromDateObj = new Date(selectedDateRange.from);
+        fromDateObj.setDate(fromDateObj.getDate() + 1);
+        fromDate = fromDateObj.toISOString().split("T")[0];
+        console.log("🚀 ~ getData ~ fromDate:", fromDate);
+      }
+
+      if (selectedDateRange?.to) {
+        const toDateObj = new Date(selectedDateRange.to);
+        toDateObj.setDate(toDateObj.getDate() + 1);
+        toDate = toDateObj.toISOString().split("T")[0];
+        console.log("🚀 ~ getData ~ toDate:", toDate);
+      }
 
       let response;
       if (type === "recommended") {

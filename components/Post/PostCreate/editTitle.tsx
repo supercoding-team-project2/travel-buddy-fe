@@ -52,7 +52,7 @@ const EditTitle = ({ initialData, onChange }: EditTitleProps) => {
             type="text"
             id="title"
             name="title"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
@@ -65,7 +65,7 @@ const EditTitle = ({ initialData, onChange }: EditTitleProps) => {
           type="text"
           id="title"
           name="title"
-          className="w-full h-[5rem] px-4 py-2 border  border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+          className="w-full h-[5rem] px-4 py-2 border  border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
           required

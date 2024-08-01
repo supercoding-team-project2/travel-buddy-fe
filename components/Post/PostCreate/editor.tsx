@@ -60,7 +60,7 @@ export const Editor = ({
             placeholder="글 내용"
             id="content"
             name="content"
-            className="w-[80rem] h-[20rem] px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+            className="w-[80rem] h-[20rem] px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
             value={content}
             onChange={handleContentChange}
             required
