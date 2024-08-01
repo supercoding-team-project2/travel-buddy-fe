@@ -142,7 +142,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
       timeStamp: formattedTimeStamp,
     };
 
-    setChatHistory((prevHistory) => (prevHistory ? [...prevHistory, newMessage] : [newMessage]));
+    // setChatHistory((prevHistory) => (prevHistory ? [...prevHistory, newMessage] : [newMessage]));
     setInputValue('');
 
     // client.current가 존재하고 연결되었다면 메시지 전송
