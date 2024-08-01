@@ -50,11 +50,15 @@ const EditList = ({
               <SelectValue placeholder="내 경로 리스트" />
             </SelectTrigger>
             <SelectContent>
-              {data.map((trip) => (
-                <SelectItem key={trip.title} value={trip.title}>
-                  {trip.title}
-                </SelectItem>
-              ))}
+              {data.length === 0 ? (
+                <div>경로를 선택해 주세요</div>
+              ) : (
+                data.map((trip) => (
+                  <SelectItem key={trip.title} value={trip.title}>
+                    {trip.title}
+                  </SelectItem>
+                ))
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -68,16 +72,23 @@ const EditList = ({
         )}
       </div>
       <div className="border">
-        {selectedTrip &&
-          selectedTrip.days.map((eachDay: { day: string; places: any[] }) => {
-            return (
+        {selectedTrip ? (
+          selectedTrip.days.length > 0 ? (
+            selectedTrip.days.map((eachDay: { day: string; places: any[] }) => (
               <TripBar
                 key={eachDay.day}
                 day={eachDay.day}
                 places={eachDay.places}
               />
-            );
-          })}
+            ))
+          ) : (
+            <p className="text-gray-600 text-center my-4">일정이 없습니다.</p>
+          )
+        ) : (
+          <p className="text-gray-600 text-center my-4">
+            경로를 선택해 주세요.
+          </p>
+        )}
       </div>
     </div>
   );

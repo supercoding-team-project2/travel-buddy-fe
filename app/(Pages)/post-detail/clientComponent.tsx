@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import bin from "@/assets/bin.png";
 
 const InfoTable = (data: any) => {
   const board = data;
@@ -249,11 +250,13 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
   if (error) return <div>Error: {error}</div>;
 
   const { board, route, trip, likeStatus }: any = data;
+  const boardCategory = board.category;
 
   const tripId = trip.id; //여행 아이디
   const authorId = board.authorID; //작성자 아이디
   let userCurrentId = currentUserId(); //현재 유저 아이디
   const UserResult = isUserSame(userCurrentId, authorId);
+  console.log("🚀 ~ ClientComponent ~ 작성자일경우 true:", UserResult);
 
   let tripParticipantCount = trip.participantCount;
   let tripTargetNumber = trip.targetNumber;
@@ -309,35 +312,44 @@ const ClientComponent = ({ postId }: ClientComponentProps) => {
                   onClick={handlePostClick}
                 />
                 <IconButton
-                  src="/svg/trash.svg"
+                  src={bin}
                   alt="삭제버튼"
                   onClick={handleDelete}
+                  width={25}
+                  height={25}
                 />
               </>
             )}
           </div>
         </div>
 
-        <div className="flex justify-around">
+        <div
+          className={`flex ${
+            boardCategory === "REVIEW" ? "justify-around" : "justify-around"
+          }`}
+        >
           <InfoTable data={board} />
-          <div className="flex flex-col pt-24  ">
-            <DetailsTable data={trip} result={result} />
-            <div className="flex items-center justify-center mt-4">
-              {!result && !UserResult && !isTravel && (
-                <TogetherBtn
-                  onClick={() => {
-                    openModal();
-                    setModalOpen(true);
-                  }}
-                  label="참여신청"
-                />
-              )}
-              {!UserResult && isTravel && (
-                <TogetherBtn onClick={onCancel} label="참여취소" />
-              )}
+          {boardCategory !== "REVIEW" && (
+            <div className="flex flex-col pt-24">
+              <DetailsTable data={trip} result={result} />
+              <div className="flex items-center justify-center mt-4">
+                {!result && !UserResult && !isTravel && (
+                  <TogetherBtn
+                    onClick={() => {
+                      openModal();
+                      setModalOpen(true);
+                    }}
+                    label="참여신청"
+                  />
+                )}
+                {!UserResult && isTravel && (
+                  <TogetherBtn onClick={onCancel} label="참여취소" />
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
+
         <div className="border items-center">
           <TravelBar route={route} />
         </div>
