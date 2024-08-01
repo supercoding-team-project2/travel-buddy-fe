@@ -1,7 +1,12 @@
+import { Suspense } from "react";
 import { ClientComponent } from "./clientComponent";
 
 const page = () => {
-  return <ClientComponent />;
+  return (
+    <Suspense>
+      <ClientComponent />
+    </Suspense>
+  );
 };
 
 export default page;
