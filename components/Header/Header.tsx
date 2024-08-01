@@ -9,6 +9,7 @@ import chat from "../../assets/chat.png";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { noLayoutRoutes } from "@/lib/constants";
+import axiosInstance from "@/lib/axiosInstance";
 
 const cx = classNames.bind(styles);
 
@@ -29,6 +30,17 @@ const Header: React.FC = () => {
   if (noLayout) return <></>;
 
   const handleLogout = async () => {
+    try {
+      const response = await axiosInstance.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chat/disconnect`,
+        {
+          headers: { Authorization: token },
+        }
+      );
+    } catch (error) {
+      console.log("로그아웃 중 오류가 발생했습니다.");
+      console.log(error);
+    }
     localStorage.removeItem("token");
     window.location.reload();
   };
@@ -37,7 +49,7 @@ const Header: React.FC = () => {
     <div className={cx("Header")}>
       <div className={cx("company-container")}>
         <div className={cx("company-logo")} onClick={() => router.push("/")}>
-          <img src="/png/travelog-3.png" className={cx("travelog-logo")} />
+          Travel Buddy
         </div>
       </div>
       <div className={cx("navigatation-user-container")}>

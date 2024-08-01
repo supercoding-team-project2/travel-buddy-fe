@@ -48,6 +48,7 @@ export function ChatRoomListClient() {
                 key={room.roomId}
                 roomId={room.roomId}
                 opponentName={room.opponentName}
+                status={room.status}
                 setChatRoomId={setChatRoomId}
               />
             ))

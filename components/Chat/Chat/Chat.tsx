@@ -79,7 +79,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
 
   useEffect(() => {
     token !== null && getChatRoomData(token);
-  }, [token]);
+  }, [token, ChatRoomId]);
 
   const formatTimestamp = (timestamp: string) => {
     const date = new Date(timestamp);
