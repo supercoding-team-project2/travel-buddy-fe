@@ -119,10 +119,7 @@ export function LogInClient() {
             {/* <hr className={cx("line")} /> */}
             <div className={cx('text')}>소셜 계정으로 로그인 하기</div>
           </div>
-          <div className={cx('socialWrapper')}>
-            <img src="/png/kakao-login.png" alt="" onClick={handleKakaoLogin} />
-            <img src="/png/naver-login.png" alt="" />
-          </div>
+          <img className={cx('social')} src="/png/kakao-login.png" alt="" onClick={handleKakaoLogin} />
         </div>
       </div>
     </div>

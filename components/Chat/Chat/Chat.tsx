@@ -106,7 +106,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
       () => {
         // 연결 성공 시 해당 방을 구독하면 서버로부터 새로운 매시지를 수신 한다.
         client.current?.subscribe(
-          `/subscribe/${ChatRoomId}/queue/messages/`,
+          `/subscribe/${ChatRoomId}/queue/messages`,
           (message) => {
             // 기존 대화 내역에 새로운 메시지 추가
             setChatHistory((prevHistory) => {
