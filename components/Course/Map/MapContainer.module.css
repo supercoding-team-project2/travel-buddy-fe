@@ -20,6 +20,12 @@
   margin-bottom: 3%;
 }
 
+.title-validation {
+  padding: 7px;
+  color: rgb(239, 73, 73);
+  font-weight: 700;
+}
+
 .place-map-container {
   display: flex;
   flex-direction: row;

@@ -23,8 +23,8 @@ export function MainSlider() {
     <div className={cx('background')} style={{ backgroundImage: `url(${images[currentImageIndex]})` }}>
       <div className={cx('content')}>
         <div className={cx('text')}>
-          Create Your Perfect <br />
-          Travel Itinerary
+          나만의 여행 이야기, <br />
+          함께 만드는 특별한 여정
         </div>
         {/* <Link className={cx('createCourse')} href={'/'}>
           여행지 짜기

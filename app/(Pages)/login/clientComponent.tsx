@@ -70,6 +70,7 @@ export function LogInClient() {
 
   return (
     <div className={cx('LogIn')}>
+      <img src="/png/travelog-2.png" className={cx("travelog-logo")} onClick={()=>router.push("/")}/>
       <div className={cx('leftWrapper')}>
         <img src="/svg/air-balloon.svg" alt="" className={cx('airBalloon')} />
       </div>

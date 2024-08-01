@@ -63,6 +63,7 @@ export default function MainPage() {
       <MainSlider />
       <section>
         <div className={cx("wrapper")}>
+          <img src="/png/travelog-4.png" className={cx("travelog-logo")}/>
           <div className={cx("title")}>인기있는 여행 후기</div>
         </div>
         <div className={cx("container")}>
@@ -90,6 +91,7 @@ export default function MainPage() {
       </section>
       <section>
         <div className={cx("wrapper")}>
+        <img src="/png/travelog-4.png" className={cx("travelog-logo")}/>
           <div className={cx("title")}>가이드와 함께하는 패키지 여행</div>
         </div>
         <div className={cx("container")}>
@@ -117,6 +119,7 @@ export default function MainPage() {
       </section>
       <section>
         <div className={cx("wrapper")}>
+        <img src="/png/travelog-4.png" className={cx("travelog-logo")}/>
           <div className={cx("title")}>함께하는 동행 여행</div>
         </div>
         <div className={cx("container")}>
