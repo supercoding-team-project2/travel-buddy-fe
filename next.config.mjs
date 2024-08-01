@@ -6,6 +6,9 @@ const nextConfig = {
       "ecommerce2nd.s3.ap-northeast-2.amazonaws.com",
     ],
   },
+  experimental: {
+    missingSuspenseWithCSRBailout: true,
+  },
 };
 
 export default nextConfig;
