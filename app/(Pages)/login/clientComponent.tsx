@@ -3,7 +3,7 @@
 import classNames from 'classnames/bind';
 import styles from './LogIn.module.css';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axiosInstance from '@/lib/axiosInstance';
 
@@ -15,6 +15,15 @@ export function LogInClient() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        router.push('/');
+      }
+    }
+  }, [router]);
 
   const handleKakaoLogin = () => {
     const kakaoAuthUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/oauth/authorize`;
@@ -93,13 +102,22 @@ export function LogInClient() {
                 className={cx('showPasswordButton')}
               />
             </div>
-            <button className={cx('submitButton')}>Login</button>
+            <button className={cx("submitButton")}>로그인</button>
           </form>
           <div className={cx('middleWrapper')}>
-            <div className={cx('text')}>
-              아직 회원이 아니세요? <Link href={'/signup'}>이메일 회원가입</Link>
+            <div className={cx('signup-forgot-container')}>
+              <div className={cx('text-signup')}>
+                {' '}
+                <Link href={'/signup'}>이메일 회원가입</Link>
+              </div>
+              <div className={cx('middle-line')}></div>
+              <div className={cx('text-password-container')}>
+                <div className={cx('forgot-password')} onClick={() => router.push('/change-password')}>
+                  Forgot Password?{' '}
+                </div>
+              </div>
             </div>
-            <hr className={cx('line')} />
+            {/* <hr className={cx("line")} /> */}
             <div className={cx('text')}>소셜 계정으로 로그인 하기</div>
           </div>
           <div className={cx('socialWrapper')}>

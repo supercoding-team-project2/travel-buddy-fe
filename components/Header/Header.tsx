@@ -6,7 +6,7 @@ import styles from './Header.module.css';
 import Image from 'next/image';
 import account from '../../assets/account.png';
 import chat from '../../assets/chat.png';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { noLayoutRoutes } from '@/lib/constants';
 
@@ -21,7 +21,7 @@ const Header: React.FC = () => {
     if (typeof window !== 'undefined') {
       setToken(localStorage.getItem('token'));
     }
-  }, []);
+  }, [pathname]);
 
   const noLayout = noLayoutRoutes.includes(pathname);
   if (noLayout) return <></>;

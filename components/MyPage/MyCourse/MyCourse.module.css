@@ -44,21 +44,16 @@
 }
 
 .course-button {
-  background-color: white;
-  color: black;
   width: 10%;
   padding: 0.8%;
   margin-left: 5%;
   border-radius: 10px;
-  border: 1px solid #e6ebf2;
+  border: none;
   font-size: 0.9rem;
   font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.course-button:hover {
   background-color: #85b1cc;
   color: white;
 }

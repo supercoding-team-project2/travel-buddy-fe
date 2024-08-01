@@ -10,12 +10,23 @@ const SuccessSignUp = () => {
   return (
     <div className={cx("success-container")}>
       <div className={cx("success")}>
-        <div className={cx("success-statement")}>Travel Buddy의 회원이 되신 걸 환영합니다!</div>
-      <div className={cx("success-introduction")}>어떤 여정들이 있는지 자세히 알아볼까요?</div>
+        <div className={cx("success-statement")}>
+          <span className={cx("success-name")}>Travel Buddy</span>의 회원이 되신 걸 환영합니다!
+        </div>
+        <div className={cx("success-introduction")}>
+          어떤 여행들이 있는지 자세히 알아볼까요?
+        </div>
+      </div>
+      <div className={cx("welcome-image-container")}>
+        <img
+          src="/png/congrats.png"
+          alt="welcome"
+          className={cx("welcome-image")}
+        />
       </div>
       <div className={cx("button-container")}>
-        <button className={cx("home-button")}>홈</button>
-        <button className={cx("login-button")}>로그인</button>
+        <button className={cx("home-button")} onClick={() => router.push("/")}>홈</button>
+        <button className={cx("login-button")} onClick={()=> router.push("/login")}>로그인</button>
       </div>
     </div>
   );

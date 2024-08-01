@@ -4,12 +4,13 @@ import styles from "./Footer.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import { noLayoutRoutes } from "@/lib/constants";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const cx = classNames.bind(styles);
 
 export function Footer() {
   const pathname = usePathname();
+  const router = useRouter();
 
   const noLayout = noLayoutRoutes.includes(pathname);
   if (noLayout) return <></>;
@@ -40,18 +41,18 @@ export function Footer() {
         </div>
 
         <div className={cx("Footer-link-container")}>
-          <Link href="/" className={cx("link-home")}>
+          <div className={cx("link-home")} onClick={() => router.push("/")}>
             Home
-          </Link>
-          <Link href="/" className={cx("link-guide")}>
-            인기있는 코스
-          </Link>
-          <Link href="/" className={cx("link-guide")}>
-            패키지 여행
-          </Link>
-          <Link href="/" className={cx("link-guide")}>
-            동행자 찾기
-          </Link>
+          </div>
+          <div className={cx("link-review")} onClick={()=> router.push("/post-view?category=REVIEW")}>
+            여행 후기 
+          </div>
+          <div className={cx("link-guide")} onClick={()=> router.push("/post-view?category=GUIDE")}>
+            가이드 여행
+          </div>
+          <div className={cx("link-companion")} onClick={()=>router.push("/post-view?category=COMPANION")}>
+            동행자 여행
+          </div>
         </div>
       </div>
     </>

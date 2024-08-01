@@ -1,7 +1,6 @@
 .success-container {
   height: 100vh;
   width: 70%;
-  border: 1px solid black;
   margin: auto;
   padding: 5%;
   display: flex;
@@ -17,26 +16,46 @@
   align-items: center;
 }
 
+.success-name {
+  color: rgb(101, 159, 195);
+}
+
 .success-statement {
   font-size: 2rem;
   font-weight: 700;
-  /* margin-bottom: 10%; */
+  margin-bottom: 3%;
 }
 
-.success-introduction {
+.welcome-image-container {
+  width: 55%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .button-container {
   width: 50%;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 .home-button,
 .login-button {
   width: 40%;
+  font-weight: 600;
   padding: 2%;
-  border: 1px solid black;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.home-button {
+  border: 1px solid rgb(174, 180, 182);
+}
+
+.login-button {
+  background-color: #85b1cc;
+  color: white;
+  border: none;
 }
