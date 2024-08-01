@@ -34,7 +34,7 @@ export function ChatRoomListClient() {
   };
 
   useEffect(() => {
-    fetchChatRooms(token);
+    token !== null && fetchChatRooms(token);
   }, [token]);
 
   return (
