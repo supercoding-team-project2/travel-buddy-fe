@@ -19,7 +19,11 @@ export function CourseCard({ id, author, date, title, likes, url }: Props) {
   const formatDate = (date: string) => {
     const firstSplitDate = date.split(" ")[0];
     const [year, month, day] = firstSplitDate.split("-");
-    return `${year}년 ${month}월 ${day}일`;
+
+    const monthNum = parseInt(month, 10);
+    const dayNum = parseInt(day, 10);
+
+    return `${year}년 ${monthNum}월 ${dayNum}일`;
   };
 
   return (

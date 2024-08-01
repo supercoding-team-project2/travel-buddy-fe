@@ -3,14 +3,11 @@ import styles from './ChatRoomSummary.module.css';
 
 const cx = classNames.bind(styles);
 
-export function ChatRoomSummary({ roomId, opponentName, lastMessage, lastTime, setChatRoomId }: ChatRoomSummaryProps) {
+export function ChatRoomSummary({ roomId, opponentName, status, setChatRoomId }: ChatRoomSummaryProps) {
   return (
     <div className={cx('ChatRoomSummary')} onClick={() => setChatRoomId(roomId)}>
       <div className={cx('opponentName')}>{opponentName}</div>
-      <div className={cx('bottomWrapper')}>
-        <div className={cx('lastMessage')}>{lastMessage}</div>
-        <div className={cx('lastTime')}>{lastTime}</div>
-      </div>
+      {status === 'ONLINE' ? <div className={cx('online')}>현재 활동 중</div> : <></>}
     </div>
   );
 }

@@ -3,14 +3,13 @@ interface MessageProps {
   senderId: string;
   opponentId: string;
   content: string;
-  timestamp: string;
+  timeStamp: string;
 }
 
 interface ChatRoomSummaryProps {
   roomId: string;
   opponentName: string;
-  lastMessage: string;
-  lastTime: string;
+  status: 'ONLINE' | 'OFFLINE';
   setChatRoomId: (arg0: string) => void;
 }
 

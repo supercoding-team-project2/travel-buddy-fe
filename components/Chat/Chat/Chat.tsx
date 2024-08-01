@@ -6,6 +6,7 @@ import styles from './Chat.module.css';
 import classNames from 'classnames/bind';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import axiosInstance from '@/lib/axiosInstance';
+import { timeStamp } from 'console';
 
 const cx = classNames.bind(styles);
 
@@ -65,6 +66,9 @@ export function Chat({ ChatRoomId }: ChatProps) {
         setOpponentId(response.data.opponentId);
         setOpponentName(response.data.opponentName);
         setOpponentProfile(response.data.opponentProfile);
+        console.log('----------------');
+        console.log(response.data.messages);
+        console.log('----------------');
         setChatHistory(response.data.messages);
         console.log('채팅 내역 조회 성공', response);
       })
@@ -74,8 +78,8 @@ export function Chat({ ChatRoomId }: ChatProps) {
   };
 
   useEffect(() => {
-    getChatRoomData(token);
-  }, [token]);
+    token !== null && getChatRoomData(token);
+  }, [token, ChatRoomId]);
 
   const formatTimestamp = (timestamp: string) => {
     const date = new Date(timestamp);
@@ -102,8 +106,9 @@ export function Chat({ ChatRoomId }: ChatProps) {
       () => {
         // 연결 성공 시 해당 방을 구독하면 서버로부터 새로운 매시지를 수신 한다.
         client.current?.subscribe(
-          `/subscribe/${ChatRoomId}/queue/messages/`,
+          `/subscribe/${ChatRoomId}/queue/messages`,
           (message) => {
+            console.log(message);
             // 기존 대화 내역에 새로운 메시지 추가
             setChatHistory((prevHistory) => {
               return prevHistory ? [...prevHistory, JSON.parse(message.body)] : null;
@@ -134,10 +139,10 @@ export function Chat({ ChatRoomId }: ChatProps) {
       senderId: senderId,
       opponentId: opponentId,
       content: inputValue,
-      timestamp: formattedTimeStamp,
+      timeStamp: formattedTimeStamp,
     };
 
-    setChatHistory((prevHistory) => (prevHistory ? [...prevHistory, newMessage] : [newMessage]));
+    // setChatHistory((prevHistory) => (prevHistory ? [...prevHistory, newMessage] : [newMessage]));
     setInputValue('');
 
     // client.current가 존재하고 연결되었다면 메시지 전송
@@ -185,7 +190,7 @@ export function Chat({ ChatRoomId }: ChatProps) {
           <Message
             key={index}
             content={msg.content}
-            timestamp={msg.timestamp}
+            timestamp={msg.timeStamp}
             opponentProfile={opponentProfile}
             senderId={msg.senderId}
             currentUserId={senderId}
@@ -194,10 +199,16 @@ export function Chat({ ChatRoomId }: ChatProps) {
         ))}
         <div ref={messagesEndRef}></div>
       </div>
-      <div className={cx('messageFooter')}>
+      <form
+        className={cx('messageFooter')}
+        onSubmit={(e) => {
+          e.preventDefault();
+          sendHandler(inputValue);
+        }}
+      >
         <input value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Type a message" />
-        <button onClick={() => sendHandler(inputValue)}>Send</button>
-      </div>
+        <button type="submit">Send</button>
+      </form>
     </div>
   );
 }

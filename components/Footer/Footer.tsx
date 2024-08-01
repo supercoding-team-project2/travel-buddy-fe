@@ -12,14 +12,18 @@ export function Footer() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const noLayout = noLayoutRoutes.includes(pathname);
+  const noLayout = noLayoutRoutes.some((route) =>
+    new RegExp(`^${route}(/|$)`).test(pathname)
+  );
   if (noLayout) return <></>;
 
   return (
     <>
       <div className={cx("Footer")}>
         <div className={cx("Footer-name-container")}>
-          <div className={cx("Footer-name")}>Travel Buddy</div>
+          <div className={cx("Footer-name")}>
+            <img src="/png/travelog-3.png" className={cx("travelog-logo")} />
+          </div>
           <div className={cx("Footer-github")}>
             <a
               href="https://github.com/supercoding-team-project2/travel-buddy-fe"
@@ -44,13 +48,22 @@ export function Footer() {
           <div className={cx("link-home")} onClick={() => router.push("/")}>
             Home
           </div>
-          <div className={cx("link-review")} onClick={()=> router.push("/post-view?category=REVIEW")}>
-            여행 후기 
+          <div
+            className={cx("link-review")}
+            onClick={() => router.push("/post-view?category=REVIEW")}
+          >
+            여행 후기
           </div>
-          <div className={cx("link-guide")} onClick={()=> router.push("/post-view?category=GUIDE")}>
+          <div
+            className={cx("link-guide")}
+            onClick={() => router.push("/post-view?category=GUIDE")}
+          >
             가이드 여행
           </div>
-          <div className={cx("link-companion")} onClick={()=>router.push("/post-view?category=COMPANION")}>
+          <div
+            className={cx("link-companion")}
+            onClick={() => router.push("/post-view?category=COMPANION")}
+          >
             동행자 여행
           </div>
         </div>

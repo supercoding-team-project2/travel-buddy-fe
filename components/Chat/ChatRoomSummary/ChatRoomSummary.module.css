@@ -1,6 +1,6 @@
 .ChatRoomSummary {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   background: #f9f9f9;
   border-radius: 10px;
   padding: 1.8vh 1.2vw;
@@ -13,11 +13,8 @@
   font-weight: 650;
 }
 
-.bottomWrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.lastTime {
-  color: darkgray;
+.online {
+  color: gray;
+  font-size: 1rem;
+  font-weight: 500;
 }

@@ -70,6 +70,7 @@ export function LogInClient() {
 
   return (
     <div className={cx('LogIn')}>
+      <img src="/png/travelog-2.png" className={cx("travelog-logo")} onClick={()=>router.push("/")}/>
       <div className={cx('leftWrapper')}>
         <img src="/svg/air-balloon.svg" alt="" className={cx('airBalloon')} />
       </div>
@@ -102,28 +103,24 @@ export function LogInClient() {
                 className={cx('showPasswordButton')}
               />
             </div>
-            <button className={cx("submitButton")}>로그인</button>
+            <button className={cx('submitButton')}>로그인</button>
           </form>
           <div className={cx('middleWrapper')}>
             <div className={cx('signup-forgot-container')}>
               <div className={cx('text-signup')}>
-                {' '}
                 <Link href={'/signup'}>이메일 회원가입</Link>
               </div>
               <div className={cx('middle-line')}></div>
               <div className={cx('text-password-container')}>
                 <div className={cx('forgot-password')} onClick={() => router.push('/change-password')}>
-                  Forgot Password?{' '}
+                  Forgot Password?
                 </div>
               </div>
             </div>
             {/* <hr className={cx("line")} /> */}
             <div className={cx('text')}>소셜 계정으로 로그인 하기</div>
           </div>
-          <div className={cx('socialWrapper')}>
-            <img src="/png/kakao-login.png" alt="" onClick={handleKakaoLogin} />
-            <img src="/png/naver-login.png" alt="" />
-          </div>
+          <img className={cx('social')} src="/png/kakao-login.png" alt="" onClick={handleKakaoLogin} />
         </div>
       </div>
     </div>

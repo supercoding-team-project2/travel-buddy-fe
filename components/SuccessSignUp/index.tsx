@@ -11,7 +11,7 @@ const SuccessSignUp = () => {
     <div className={cx("success-container")}>
       <div className={cx("success")}>
         <div className={cx("success-statement")}>
-          <span className={cx("success-name")}>Travel Buddy</span>의 회원이 되신 걸 환영합니다!
+          회원 가입이 완료되었습니다!
         </div>
         <div className={cx("success-introduction")}>
           어떤 여행들이 있는지 자세히 알아볼까요?

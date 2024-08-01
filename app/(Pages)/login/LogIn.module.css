@@ -3,7 +3,18 @@
   display: flex;
   width: 100%;
   height: 100vh;
-  padding: 10vh 15vw;
+  padding: 12vh 15vw;
+  position: relative;
+}
+
+.travelog-logo {
+  width: 177px;
+  height: 40px;
+  top: 25px;
+  left: 70px;
+  position: absolute;
+  z-index: 10;
+  cursor: pointer;
 }
 
 .leftWrapper {
@@ -114,7 +125,9 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 60%;
+  width: 80%;
+  position: relative;
+  left: 0.6vw;
 }
 
 .text-signup {
@@ -129,12 +142,19 @@
 .text a,
 .text-signup a {
   color: #71a9cc;
+  white-space: nowrap;
 }
 
 .middle-line {
   height: 70%;
   width: 1px;
   background-color: lightgrey;
+}
+
+.forgot-password {
+  color: #71a9cc;
+  white-space: nowrap;
+  font-weight: 600;
 }
 
 .forgot-password:hover {
@@ -151,16 +171,10 @@
   border: solid 0.5px lightgrey;
 } */
 
-.socialWrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.2vw;
-  width: 95%;
-}
-
-.socialWrapper img {
-  width: 100%;
-  height: 100%;
+.social {
+  position: relative;
+  top: -1vh;
+  width: 45%;
   cursor: pointer;
   filter: brightness(96%);
 }

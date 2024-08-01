@@ -17,7 +17,10 @@ interface Props {
   dateRange: DateRangePickerProps["ranges"];
   isDateConfirmed: {};
   isSaved: { [placeId: string]: boolean };
+  titleInvalid: boolean;
+  titleRef: React.RefObject<HTMLInputElement>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
+  setTitleInvalid: React.Dispatch<React.SetStateAction<boolean>>;
   setIsSaved: React.Dispatch<
     React.SetStateAction<{ [placeId: string]: boolean }>
   >;
@@ -29,7 +32,10 @@ const MapContainer = ({
   dateRange,
   isDateConfirmed,
   isSaved,
+  titleInvalid,
+  titleRef,
   setTitle,
+  setTitleInvalid,
   setIsSaved,
   setDateData,
 }: Props) => {
@@ -45,16 +51,26 @@ const MapContainer = ({
   const titleChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     setTitle(inputValue);
+
+    if (inputValue.trim().length >= 1) {
+      setTitleInvalid(false);
+    }
   };
 
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <div className={cx("entire-map-container")}>
+      {titleInvalid && (
+        <div className={cx("title-validation")}>
+          최소 1글자 이상의 제목을 작성해주세요.
+        </div>
+      )}
       <input
         className={cx("course-title")}
         placeholder="제목"
         value={title}
         onChange={titleChangeHandler}
+        ref={titleRef}
         required
       />
       <div className={cx("place-map-container")}>
