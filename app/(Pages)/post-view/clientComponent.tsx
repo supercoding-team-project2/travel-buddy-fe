@@ -252,77 +252,75 @@ export const ClientComponent = () => {
   };
 
   return (
-    <Suspense fallback={<Loading />}>
-      <div className={cx("post-container")}>
-        <div className={cx("post-top-container")}>
-          <div className={cx("button-container")}>
-            <div className={cx("category-button-group")}>
-              <ButtonOutline
-                text="전체"
-                isActive={filter === "전체"}
-                onClick={() => handleFilterChange("전체")}
-              />
-              <ButtonOutline
-                text="후기"
-                isActive={filter === "REVIEW"}
-                onClick={() => handleFilterChange("REVIEW")}
-              />
-              <ButtonOutline
-                text="동행"
-                isActive={filter === "COMPANION"}
-                onClick={() => handleFilterChange("COMPANION")}
-              />
-              <ButtonOutline
-                text="가이드"
-                isActive={filter === "GUIDE"}
-                onClick={() => handleFilterChange("GUIDE")}
-              />
-            </div>
-
-            <div className={cx("view-button-group")}>
-              <ButtonOutline
-                text="전체 게시물"
-                isActive={viewType === "ALL"}
-                onClick={() => handleButtonClick("ALL")}
-              />
-              <ButtonOutline
-                text="추천한 게시물"
-                isActive={viewType === "recommended"}
-                onClick={() => handleButtonClick("recommended")}
-              />
-              <ButtonOutline
-                text="참여한 여행"
-                isActive={viewType === "participated"}
-                onClick={() => handleButtonClick("participated")}
-              />
-            </div>
+    <div className={cx("post-container")}>
+      <div className={cx("post-top-container")}>
+        <div className={cx("button-container")}>
+          <div className={cx("category-button-group")}>
+            <ButtonOutline
+              text="전체"
+              isActive={filter === "전체"}
+              onClick={() => handleFilterChange("전체")}
+            />
+            <ButtonOutline
+              text="후기"
+              isActive={filter === "REVIEW"}
+              onClick={() => handleFilterChange("REVIEW")}
+            />
+            <ButtonOutline
+              text="동행"
+              isActive={filter === "COMPANION"}
+              onClick={() => handleFilterChange("COMPANION")}
+            />
+            <ButtonOutline
+              text="가이드"
+              isActive={filter === "GUIDE"}
+              onClick={() => handleFilterChange("GUIDE")}
+            />
           </div>
 
-          <div className={cx("select-write-group")}>
-            <div className={cx("select-container")}>
-              <SelectPost
-                sortOrder={sortOrder}
-                onSortChange={setSortOrder}
-                onOrderChange={setOrder}
-              />
-              <DatePickerWithRange
-                onDateChange={setSelectedDateRange}
-                dateRange={selectedDateRange}
-              />
-            </div>
-
-            <div className={cx("write-icon-container")}>
-              <WriteButton />
-            </div>
+          <div className={cx("view-button-group")}>
+            <ButtonOutline
+              text="전체 게시물"
+              isActive={viewType === "ALL"}
+              onClick={() => handleButtonClick("ALL")}
+            />
+            <ButtonOutline
+              text="추천한 게시물"
+              isActive={viewType === "recommended"}
+              onClick={() => handleButtonClick("recommended")}
+            />
+            <ButtonOutline
+              text="참여한 여행"
+              isActive={viewType === "participated"}
+              onClick={() => handleButtonClick("participated")}
+            />
           </div>
         </div>
-        {!responseMessage ? (
-          <PostCard posts={filteredPosts} onPostClick={handlePostClick} />
-        ) : (
-          <div>{responseMessage}</div>
-        )}
+
+        <div className={cx("select-write-group")}>
+          <div className={cx("select-container")}>
+            <SelectPost
+              sortOrder={sortOrder}
+              onSortChange={setSortOrder}
+              onOrderChange={setOrder}
+            />
+            <DatePickerWithRange
+              onDateChange={setSelectedDateRange}
+              dateRange={selectedDateRange}
+            />
+          </div>
+
+          <div className={cx("write-icon-container")}>
+            <WriteButton />
+          </div>
+        </div>
       </div>
-    </Suspense>
+      {!responseMessage ? (
+        <PostCard posts={filteredPosts} onPostClick={handlePostClick} />
+      ) : (
+        <div>{responseMessage}</div>
+      )}
+    </div>
   );
 };
 export default {
