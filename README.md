@@ -24,6 +24,10 @@ Travelog -  국내 여행자와 가이드를 위한 커뮤니티 사이트입니
   - axios
   - WebSocket - 실시간 통신
 
+오픈 API:
+  - Google Maps API
+  - Google Places API
+
 배포 플랫폼:
   - Vercel
   - 배포 주소: https://travelbuddy1.vercel.app/
