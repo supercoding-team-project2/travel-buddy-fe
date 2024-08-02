@@ -165,6 +165,7 @@ export const ClientComponent = () => {
       setFilteredPosts(response);
     } catch (err: any) {
       setError(err.message);
+      setResponseMessage("데이터가 없습니다.");
     } finally {
       setLoading(false);
     }
@@ -222,7 +223,9 @@ export const ClientComponent = () => {
       if (err.response?.status === 400) {
         setError(err.message);
         console.log("데이터없음");
+        setResponseMessage("데이터가 없습니다.");
       }
+      setResponseMessage("데이터가 없습니다.");
     } finally {
       setLoading(false);
     }
