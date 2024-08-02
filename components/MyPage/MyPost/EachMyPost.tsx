@@ -66,7 +66,7 @@ const EachMyPost = ({
       />
       <div className={cx("each-post-container")}>
         <div className={cx("post-picture-container")}>
-          <Image className={cx("post-picture")} src={photo} alt="picture" />
+          <Image className={cx("post-picture")} src={photo} alt="picture" width={100} height={100}/>
         </div>
         <div className={cx("each-post-inner")}>
           <div className={cx("post-buttons-container")}>
