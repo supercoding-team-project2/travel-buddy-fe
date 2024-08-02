@@ -105,7 +105,7 @@ export const MycommentSection: React.FC<MycommentSectionProps> = ({
         <input
           type="submit"
           className="px-2.5 py-1.5 rounded-md text-white text-sm"
-          style={{ backgroundColor: "rgb(195, 216, 230)" }}
+          style={{ backgroundColor: "rgb(195, 216, 230)", cursor: "pointer" }}
           value="댓글 작성"
         />
       </div>
