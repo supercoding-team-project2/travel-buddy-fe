@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Travelog -  국내 여행자와 가이드를 위한 커뮤니티 사이트입니다. 
 
-## Getting Started
+여행 경로 생성, 게시글(후기/동행/가이드) 등록, 채팅 등이 사이트의 주요 기능입니다. 
+상세 기능:
+  - 회원 가입/로그인/소셜 로그인
+  - 로그아웃/비밀번호 찾기
+  - 게시물(후기/동행/가이드/추천한 게시물/참여한 여행) 조회 및 상세 게시글 조회
+  - 게시글 등록/수정/삭제 & 여행 참여/취소 & 댓글/좋아요
+  - 여행 경로 생성
+  - 여행 경로 조회/수정/삭제
+  - 내 게시글 조회/삭제 및 내 정보 조회/프로필 사진 수정
+  - 유저 간 채팅 기능/채팅 목록 조회
 
-First, run the development server:
+기술 스택:
+  - Next.js
+  - Typescript
+  - React.js
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+스타일링 도구:
+  - Tailwind CSS
+  - CSS
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+데이터 통신:
+  - axios
+  - WebSocket - 실시간 통신
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+배포 플랫폼:
+  - Vercel
+  - 배포 주소: https://travelbuddy1.vercel.app/
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+CI/CD:
+  - Github Actions
