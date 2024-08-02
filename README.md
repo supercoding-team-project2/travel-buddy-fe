@@ -35,7 +35,7 @@ Travelog -  국내 여행자와 가이드를 위한 커뮤니티 사이트입니
 CI/CD:
   - Github Actions
 
-
+<img width="1419" alt="1" src="https://github.com/user-attachments/assets/60070490-3fa0-4231-81d9-3ec0ab6e5b84">
 <img width="1512" alt="1" src="https://github.com/user-attachments/assets/b098cf0a-0a74-4fd3-8f97-3f39df391453">
 <img width="1512" alt="2" src="https://github.com/user-attachments/assets/543be0d4-db49-407a-936f-448666d512b8">
 <img width="1512" alt="3" src="https://github.com/user-attachments/assets/5e95eb51-e95b-4002-a498-04b731210675">
